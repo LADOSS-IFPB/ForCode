@@ -1,0 +1,274 @@
+package br.edu.web.forcode.service;
+
+import java.util.List;
+
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Response;
+
+import br.edu.commons.forcode.contests.Clarification;
+import br.edu.commons.forcode.contests.Contest;
+import br.edu.commons.forcode.contests.Problem;
+import br.edu.commons.forcode.contests.Submission;
+import br.edu.commons.forcode.contests.UserContest;
+import br.edu.commons.forcode.entities.Admin;
+import br.edu.commons.forcode.entities.Contestant;
+import br.edu.commons.forcode.entities.Institution;
+import br.edu.commons.forcode.entities.Manager;
+import br.edu.commons.forcode.entities.User;
+
+public interface ForCodeService {
+
+	/**
+	 * User services
+	 * */
+
+	@POST
+	@RolesAllowed(value = { "Admin" })
+	@Path("/user/createadmin")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response insertAdmin(Admin admin);
+
+	@POST
+	@RolesAllowed(value = { "Admin" })
+	@Path("/user/updateadmin")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response updateAdmin(Admin admin);
+
+	@POST
+	@RolesAllowed(value = { "Admin" })
+	@Path("/user/createmanager")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response createManager(Manager manager);
+
+	@POST
+	@RolesAllowed(value = { "Manager" })
+	@Path("/user/updatemanager")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response updateManager(Manager manager);
+
+	@PermitAll
+	@POST
+	@Path("/user/createcontestant")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response createContestant(Contestant contestant);
+
+	@POST
+	@RolesAllowed(value = { "Contestant" })
+	@Path("/user/updatecontestant")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response updateContestant(Contestant contestant);
+
+	@PermitAll
+	@POST
+	@Path("/user/login")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response login(@QueryParam("user") String username, String password);
+
+	@PermitAll
+	@POST
+	@Path("/user/searchuser")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response searchUser(String username);
+
+	@POST
+	@RolesAllowed(value = { "Admin", "Manager", "Contestant" })
+	@Path("/user/logout")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response logout(User user);
+
+	@POST
+	@RolesAllowed(value = { "Manager" })
+	@Path("/user/invalidatecontestant")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response invalidateContestant(UserContest contestant);
+
+	@RolesAllowed(value = { "Admin" })
+	@POST
+	@Path("/user/createinstitute")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response createInstitution(Institution institution);
+
+	@PermitAll
+	@POST
+	@Path("/user/searchinstitution")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response searchInstitution(@QueryParam(value = "id") String value);
+
+	/**
+	 * Problem Services
+	 */
+
+	@RolesAllowed(value = { "Manager" })
+	@POST
+	@Path("/create")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response makeProblem(Problem problem);
+
+	@RolesAllowed(value = { "Manager" })
+	@POST
+	@Path("/update")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response updateProblem(Problem problem);
+
+	@RolesAllowed(value = { "Manager" })
+	@POST
+	@Path("/delete")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response deleteProblem(Problem problem);
+
+	@RolesAllowed(value = { "Manager" })
+	@POST
+	@Path("/deletetestcasedata")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response deleteTestCaseData(Problem problem);
+
+	/**
+	 * List Services
+	 */
+
+	@RolesAllowed(value = { "Manager", "Admin" })
+	@GET
+	@Path("/list/problems")
+	@Produces("application/json")
+	public List<Problem> listProblems();
+
+	@PermitAll
+	@GET
+	@Path("/list/contests")
+	@Produces("application/json")
+	public List<Contest> listContests();
+
+	@PermitAll
+	@POST
+	@Path("/list/clarificationbycontest")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public List<Clarification> listClarifications(Contest contest);
+
+	@PermitAll
+	@GET
+	@Path("/list/submission")
+	@Produces("application/json")
+	public List<Submission> listSubmissions();
+
+	@PermitAll
+	@POST
+	@Path("/list/submissionsbycontest")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public List<Submission> listSubmissions(Contest contest);
+
+	@PermitAll
+	@GET
+	@Path("/list/users")
+	@Produces("application/json")
+	public List<User> listUsers();
+
+	@PermitAll
+	@GET
+	@Path("/list/contestbyid")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response seachContestById(@QueryParam("q") Integer idContest);
+
+	@PermitAll
+	@GET
+	@Path("/list/contestbyname")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public List<Contest> seachContestByName(@QueryParam("q") String name);
+
+	@PermitAll
+	@GET
+	@Path("/list/institutions")
+	@Produces("application/json")
+	public List<Institution> listInstitutions();
+
+	/**
+	 * 
+	 * Contest Services
+	 */
+	
+	@POST
+	@Path("/contest/createcontest")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response makeContest(Contest contest);
+
+	@POST
+	@Path("/contest/update")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response updateContest(Contest contest);
+
+	@Path("/contest/delete")
+	@POST
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response deleteContest(Contest contest);
+
+	@RolesAllowed(value = { "Contestant" })
+	@POST
+	@Path("/contest/entercontest")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response enterContest(Contestant user, @QueryParam("id") Integer idContest);
+
+	@RolesAllowed(value = { "Contestant" })
+	@POST
+	@Path("/contest/leavecontest")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response leaveContest(UserContest userContest);
+
+	@RolesAllowed(value = { "Contestant" })
+	@POST
+	@Path("/contest/createsubmission")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response createSubmission(Submission submission);
+
+	@RolesAllowed(value = { "Contestant" })
+	@POST
+	@Path("/contest/clarification/create")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response makeClarification(Clarification clarification);
+
+	@RolesAllowed(value = { "Manager" })
+	@POST
+	@Path("/contest/clarification/reply")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response replyClarification(Clarification clarification);
+
+	@PermitAll
+	@POST
+	@Path("/contest/ranking")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public List<UserContest> getRanking(Contest contest);
+}

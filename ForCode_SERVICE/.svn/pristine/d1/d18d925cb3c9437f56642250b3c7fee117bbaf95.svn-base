@@ -1,0 +1,99 @@
+package br.edu.service.forcode.services;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import br.edu.commons.forcode.contests.Problem;
+import br.edu.commons.forcode.contests.Score;
+import br.edu.commons.forcode.entities.ForCodeError;
+import br.edu.service.forcode.database.dao.ProblemDAO;
+import br.edu.service.forcode.database.dao.ScoreDAO;
+import br.edu.service.forcode.util.ErrorFactory;
+
+/**
+ * This class contains the services related to the Contest Problems.
+ */
+
+@Path("problem")
+public class ProblemService {
+	
+	private static final Logger logger = LogManager.getLogger(ProblemService.class);
+	
+	@Path("/create")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response makeProblem(Problem problem) {
+		// TODO
+		return null;
+	}
+
+	@Path("/update")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response updateProblem(Problem problem) {
+		logger.info("Updating problem " + problem.getTitle());
+		ProblemDAO problemDao = new ProblemDAO();
+		
+		problemDao.update(problem);
+		
+		ResponseBuilder builder = Response.status(Response.Status.ACCEPTED);
+		logger.info("Problem " + problem.getTitle() + "updated");
+		return builder.build();
+	}
+
+	@Path("/delete")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response deleteProblem(Problem problem) {
+		ScoreDAO scoreDao = new ScoreDAO();
+		java.util.List<Score> listScore = scoreDao.getByProblem(problem);
+		ResponseBuilder builder;
+
+		logger.info("Deleting problem " + problem.getTitle());
+		if(listScore.isEmpty()){
+			ForCodeError error = ErrorFactory.getErrorFromIndex(ErrorFactory.PROBLEM_NOT_DELETABLE);
+			
+			ProblemDAO problemDao = new ProblemDAO();
+			problemDao.delete(problem);
+			
+			logger.info("Problem " + problem.getTitle() + " could not be deleted, " + error.getMessage());
+			builder = Response.status(Response.Status.NOT_ACCEPTABLE).entity(error);
+		}else{
+			
+			logger.info("Problem " + problem.getTitle() + " deleted");
+			builder = Response.status(Response.Status.ACCEPTED);
+		}
+		
+		return builder.build();
+	}
+
+	@Path("/testcase/create")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response makeTestCase(Problem problem) {
+		// TODO
+		return null;
+	}
+
+	@Path("/testcase/update")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response updateTestCase(Problem problem) {
+		// TODO
+		return null;
+	}
+
+	@Path("/testcase/delete")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response deleteTestCase(Problem problem) {
+		// TODO
+		return null;
+	}
+}

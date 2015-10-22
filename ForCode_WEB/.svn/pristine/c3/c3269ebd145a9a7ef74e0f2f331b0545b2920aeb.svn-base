@@ -1,0 +1,70 @@
+package br.edu.web.forcode.bean;
+
+import java.io.IOException;
+
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import br.edu.commons.forcode.entities.Contestant;
+import br.edu.commons.forcode.entities.User;
+import br.edu.commons.forcode.util.EncodingUtil;
+import br.edu.web.forcode.bean.util.BeanUtil;
+import br.edu.web.forcode.service.ForCodeService;
+import br.edu.web.forcode.service.ProviderServiceFactory;
+
+@ManagedBean(name="contestantBean")
+@SessionScoped
+public class ContestantBean {
+	private Contestant contestant = new Contestant();
+	
+	private static final Logger logger = LogManager.getLogger(ContestantBean.class.getName());
+	
+	public void createUser(){
+		ForCodeService service = ProviderServiceFactory.createServiceClient(ForCodeService.class);
+		
+		contestant.setPassword(EncodingUtil.encode(contestant.getPassword()));
+		logger.info("Requesting creation of a new contestant");
+		
+		service.createContestant(contestant);
+		logger.info("Request successfull");
+		
+	}
+	
+	public String login(){
+		ForCodeService service = ProviderServiceFactory.createServiceClient(ForCodeService.class);
+		
+		String username = EncodingUtil.encode(contestant.getUsername());
+		String password = EncodingUtil.encode(contestant.getPassword());
+		
+		User user = service.login(username, password).readEntity(User.class);
+		BeanUtil.setSessionValue("user", user);
+		
+		logger.info("Session opened for " + contestant.getUsername());
+		return user.getTypeUser().getTypeName().toLowerCase() + "/home.xhtml?faces-redirect=true";
+	}
+	
+	public void logout() throws IOException{
+		ForCodeService service = ProviderServiceFactory.createServiceClient(ForCodeService.class);
+		
+		User user = (User) BeanUtil.getSessionValue("user");
+		logger.info("Logging " + user.getUsername() + " out");
+		
+		service.logout(user);
+		BeanUtil.removeSessionValue("user");
+		
+		FacesContext.getCurrentInstance().getExternalContext().redirect("../index.xhtml");
+	}
+
+	public Contestant getContestant() {
+		return contestant;
+	}
+
+	public void setContestant(Contestant contestant) {
+		this.contestant = contestant;
+	}
+	
+}

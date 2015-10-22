@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="/resources/templates/admin/page.xhtml">
+
+	<ui:define name="content">
+
+		<div class="page content">
+			<div class="container">
+				<div class="center">
+					<h4>Create Institution</h4>
+				</div>
+					<h:form>
+						<div class="row">
+							<div class="input-field col s12">
+								<h:inputText id="name" type="text" class="validate"
+									value="#{institutionBean.institution.name}" required="true" />
+								<h:outputLabel for="name" value="Institution Name" />
+							</div>
+						</div>
+						<div class="row">
+							<div class="input-field col s6">
+								<h:inputText id="country" class="validate"
+									value="#{institutionBean.institution.country}" />
+								<h:outputLabel for="country" value="Country" />
+							</div>
+							<div class="input-field col s6">
+								<h:inputText id="city" class="validate"
+									value="#{institutionBean.institution.city}" required="true" />
+								<h:outputLabel for="city" value="City" />
+							</div>
+						</div>
+						<div class="center">
+							<h:commandLink
+								styleClass="waves-effect waves-light btn light-blue darken-1"
+								value="Register" actionListener="#{institutionBean.createInstitution}" />
+						</div>
+					</h:form>
+			</div>
+		</div>
+
+	</ui:define>
+
+</ui:composition>
+</html>

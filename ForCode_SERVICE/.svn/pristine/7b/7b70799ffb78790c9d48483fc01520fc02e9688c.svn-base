@@ -1,0 +1,120 @@
+package br.edu.service.forcode.services;
+
+import java.io.File;
+import java.io.IOException;
+
+import javax.annotation.security.RolesAllowed;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import br.edu.commons.forcode.contests.Problem;
+import br.edu.commons.forcode.contests.Score;
+import br.edu.commons.forcode.contests.TestCase;
+import br.edu.commons.forcode.entities.ForCodeError;
+import br.edu.service.forcode.database.dao.ProblemDAO;
+import br.edu.service.forcode.database.dao.ScoreDAO;
+import br.edu.service.forcode.util.ErrorFactory;
+
+/**
+ * This class contains the services related to the Contest Problems.
+ */
+
+@Path("problem")
+public class ProblemService {
+	
+	private static final Logger logger = LogManager.getLogger(ProblemService.class);
+	
+	@RolesAllowed(value = {"Manager"})
+	@POST
+	@Path("/create")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response makeProblem(Problem problem) {
+		ProblemDAO problemDao = new ProblemDAO();
+		problemDao.insert(problem);
+		
+		ResponseBuilder builder = Response.status(Response.Status.CREATED).entity(problem);
+		
+		return builder.build();
+	}
+
+	@RolesAllowed(value = {"Manager"})
+	@POST
+	@Path("/update")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response updateProblem(Problem problem) {
+		logger.info("Updating problem " + problem.getTitle());
+		ProblemDAO problemDao = new ProblemDAO();
+		
+		problemDao.update(problem);
+		
+		ResponseBuilder builder = Response.status(Response.Status.ACCEPTED);
+		logger.info("Problem " + problem.getTitle() + "updated");
+		return builder.build();
+	}
+	
+	@RolesAllowed(value = {"Manager"})
+	@POST
+	@Path("/delete")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response deleteProblem(Problem problem) {
+		ScoreDAO scoreDao = new ScoreDAO();
+		java.util.List<Score> listScore = scoreDao.getByProblem(problem);
+		ResponseBuilder builder;
+
+		logger.info("Deleting problem " + problem.getTitle());
+		if(!listScore.isEmpty()){
+			ForCodeError error = ErrorFactory.getErrorFromIndex(ErrorFactory.PROBLEM_NOT_DELETABLE);
+			
+			ProblemDAO problemDao = new ProblemDAO();
+			problemDao.delete(problem);
+			
+			logger.info("Problem " + problem.getTitle() + " could not be deleted, " + error.getMessage());
+			builder = Response.status(Response.Status.NOT_ACCEPTABLE).entity(error);
+		}else{
+			
+			logger.info("Problem " + problem.getTitle() + " deleted");
+			builder = Response.status(Response.Status.ACCEPTED);
+		}
+		
+		return builder.build();
+	}
+	
+	@RolesAllowed(value = {"Manager"})
+	@POST
+	@Path("/deletetestcasedata")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response deleteTestCaseData(Problem problem){
+		
+		ResponseBuilder builder = Response.status(Response.Status.ACCEPTED);
+		File file;
+		
+		for(TestCase testCase : problem.getTestcases()){
+			file = new File(testCase.getPath());
+			try{
+				FileUtils.deleteDirectory(file);
+				
+			}catch(IOException ioException){
+				
+				logger.warn("Error while trying to delete testCase data");
+				ForCodeError error = ErrorFactory.getErrorFromIndex(ErrorFactory.DATA_NOT_DELETABLE);
+				
+				builder = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(error);
+			}
+		}
+		
+		return builder.build();
+	}
+
+}

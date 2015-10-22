@@ -1,0 +1,107 @@
+package br.edu.service.forcode.services;
+
+import java.util.List;
+
+import javax.annotation.security.PermitAll;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import br.edu.commons.forcode.contests.Clarification;
+import br.edu.commons.forcode.contests.Contest;
+import br.edu.commons.forcode.contests.Problem;
+import br.edu.commons.forcode.contests.Submission;
+import br.edu.commons.forcode.entities.ForCodeError;
+import br.edu.commons.forcode.entities.User;
+import br.edu.service.forcode.database.dao.ContestDAO;
+import br.edu.service.forcode.util.ErrorFactory;
+
+@Path(value = "list")
+public class ListService {
+
+	private static final Logger logger = LogManager.getLogger(ListService.class);
+	
+	public List<Problem> listProblems() {
+
+		return null;
+	}
+
+	public List<Contest> listContests() {
+
+		return null;
+	}
+
+	public List<Clarification> listClarifications(Contest contest) {
+
+		return null;
+	}
+
+	public List<Submission> listSubmissions() {
+
+		return null;
+	}
+
+	public List<Submission> listSubmissions(Contest contest) {
+
+		return null;
+	}
+
+	public List<User> listUsers() {
+
+		return null;
+	}
+	
+	@PermitAll
+	@GET
+	@Path("/searchcontestbyid")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response seachContestById(@QueryParam("q")Integer idContest) {
+		ContestDAO contestDao = new ContestDAO();
+		ResponseBuilder builder;
+		
+		logger.info("Searching for contest " + idContest);
+		
+		Contest contest = contestDao.getById(idContest);
+		
+		if(contest == null){
+			ForCodeError error = ErrorFactory.getErrorFromIndex(ErrorFactory.CONTEST_NOT_EXISTENT);
+			builder = Response.status(Response.Status.NOT_FOUND).entity(error);
+		}else{
+			builder = Response.status(Response.Status.OK).entity(contest);
+		}
+		
+		return builder.build();
+	}
+	
+	@PermitAll
+	@GET
+	@Path("/searchcontestbyname")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response seachContestById(@QueryParam("q")String name) {
+		ContestDAO contestDao = new ContestDAO();
+		ResponseBuilder builder;
+		
+		logger.info("Searching for contest " + name);
+		
+		Contest contest = contestDao.getByName(name);
+		
+		if(contest == null){
+			ForCodeError error = ErrorFactory.getErrorFromIndex(ErrorFactory.CONTEST_NOT_EXISTENT);
+			builder = Response.status(Response.Status.NOT_FOUND).entity(error);
+		}else{
+			builder = Response.status(Response.Status.OK).entity(contest);
+		}
+		
+		return builder.build();
+	}
+
+}

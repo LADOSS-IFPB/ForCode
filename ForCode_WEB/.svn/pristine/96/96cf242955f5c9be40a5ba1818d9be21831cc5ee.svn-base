@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:body>
+	<ui:composition>
+	<div class="page">
+		<footer class="page-footer grey darken-3">
+			<div class="row">
+				<div class="col l6 s12">
+					<p class="grey-text text-lighten-4">
+						ForCode © 2015
+					</p>
+				</div>
+				<div class="col offset-s6 l6 s12">
+					<p class="grey-text text-lighten-4">
+						Choose your language: &nbsp;
+						<img src="#{request.contextPath}/resources/img/Brazil_flag.png" width="15px"/>&nbsp;&nbsp;  
+						<img src="#{request.contextPath}/resources/img/Usa_flag.png" width="15px"/>
+					</p>
+				</div>
+			</div>
+			<div class="footer-copyright">
+			</div>
+		</footer>
+		</div>
+	</ui:composition>
+</h:body>
+</html>
