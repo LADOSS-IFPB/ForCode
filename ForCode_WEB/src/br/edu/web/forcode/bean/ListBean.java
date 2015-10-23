@@ -15,9 +15,6 @@ import br.edu.web.forcode.service.ProviderServiceFactory;
 @ApplicationScoped
 public class ListBean {
 	
-	
-	
-	
 	public ListBean(){}
 	ForCodeService service = ProviderServiceFactory.createServiceClient(ForCodeService.class);
 	
