@@ -1,0 +1,114 @@
+package br.edu.web.forcode.bean;
+
+import javax.faces.bean.ManagedBean;
+import javax.ws.rs.core.Response;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import br.edu.commons.forcode.contests.Problem;
+import br.edu.commons.forcode.entities.Manager;
+import br.edu.web.forcode.bean.util.BeanUtil;
+import br.edu.web.forcode.service.ForCodeService;
+import br.edu.web.forcode.service.ProviderServiceFactory;
+
+@ManagedBean(name = "problemBean")
+public class ProblemBean {
+	Problem problem = new Problem(new Integer(1), "Lorem the ipsum", new Long(1000), 
+			"a beatiful problem lorem the ipsum"
+			+ "a beatiful problem lorem the ipsum"
+			+ "a beatiful problem lorem the ipsum"
+			+ "a beatiful problem lorem the ipsum"
+			+ "a beatiful problem lorem the ipsum"
+			+ "a beatiful problem lorem the ipsum"
+			+ "a beatiful problem lorem the ipsum"
+			+ "a beatiful problem lorem the ipsum"
+			+ "a beatiful problem lorem the ipsum"
+			+ "a beatiful problem lorem the ipsum"
+			+ "a beatiful problem lorem the ipsum", 
+			"aquilo que entrar, jamais deve sair, que fique "
+			+ "bem claro isso belezinha boidkasjdksjdnkajsdnkasjd"
+			+ "asdasjndkajsdaskd"
+			+ "asdasjndkasjdnkasjdnkasjdnkasjdnaksjdnksjd orem odfkjsfkdsf"
+			+ "sdfdskjfkjsdfnjkdsfnsdf"
+			+ "dsfkjsdnfkjsdnfkjsdnfksdnfkjdsfnkdsjfndskjfnskdjfndskjfnssfhweiojoeijewrver ihfpoeihf wef"
+			+ "erfierofj weorfj weoirhf werhfoiewurfhfieoruhf"
+			+ "fsdiufjsiufdiudsfhui",
+			 	"bem claro isso belezinha boidkasjdksjdnkajsdnkasjd"
+					+ "asdasjndkajsdaskd"
+					+ "asdasjndkasjdnkasjdnkasjdnkasjdnaksjdnksjd orem odfkjsfkdsf"
+					+ "sdfdskjfkjsdfnjkdsfnsdf"
+					+ "dsfkjsdnfkjsdnfkjsdnfksdnfkjdsfnkdsjfndskjfnskdjfndskjfnssfhweiojoeijewrver ihfpoeihf wef"
+					+ "erfierofj weorfj weoirhf werhfoiewurfhfieoruhf"
+					+ "fsdiufjsiufdiudsfhui",
+			  false,
+			  new Manager(null, null, "dovprak", null, null, null, null, null),
+			  null,
+			  null,
+			  new Integer(1));
+	
+	private static final Logger logger = LogManager.getLogger(AdminBean.class
+			.getName());
+	
+	private static ForCodeService service = ProviderServiceFactory
+			.createServiceClient(ForCodeService.class);
+
+	public String makeProblem() {
+		problem = (Problem) BeanUtil.getSessionValue("problemBean");
+
+		logger.info("Requesting creation of a new Problem");
+
+		if (service.makeProblem(problem).getStatusInfo() == Response.Status.ACCEPTED) {
+			logger.info("Problem creation successfull");
+		}
+
+		return "/home.xhtml?faces-redirect=true";
+	}
+
+	public String updateProblem() {
+		problem = (Problem) BeanUtil.getSessionValue("problemBean");
+
+		logger.info("Requesting update of a Problem");
+
+		if (service.updateProblem(problem).getStatusInfo() == Response.Status.ACCEPTED) {
+			logger.info("Problem update successfull");
+		}
+
+		return "/home.xhtml?faces-redirect=true";
+	}
+
+	public String deleteProblem() {
+		logger.info("Requesting deletion of a Problem");
+
+		if (service.deleteProblem(problem).getStatusInfo() == Response.Status.ACCEPTED) {
+			logger.info("Problem successfully deleted");
+		}
+
+		return "/home.xhtml?faces-redirect=true";
+	}
+
+	public String makeTestCase() {
+		// TODO
+		return null;
+	}
+
+	public String updateTestCase() {
+		// TODO
+		return null;
+	}
+
+	public String deleteTestCase() {
+		// TODO
+		return null;
+	}
+
+	public Problem getProblem() {
+		return problem;
+	}
+
+	public void setProblem(Problem problem) {
+		this.problem = problem;
+	}
+	
+	
+}

@@ -1,0 +1,56 @@
+package br.edu.web.forcode.bean.util;
+
+import java.util.Map;
+
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.convert.Converter;
+import javax.faces.convert.FacesConverter;
+
+import br.edu.commons.forcode.entities.Institution;
+import br.edu.web.forcode.service.ForCodeService;
+import br.edu.web.forcode.service.ProviderServiceFactory;
+
+@FacesConverter(value = "institutionConverter", forClass = Institution.class)
+public class InstitutionConverter implements Converter {
+
+	private static ForCodeService service = ProviderServiceFactory
+			.createServiceClient(ForCodeService.class);
+
+	@Override
+	public Object getAsObject(FacesContext facesContext, UIComponent component,
+			String value) {
+		if (value != null) {
+			Institution institution = (Institution) service.searchInstitution(
+					Integer.parseInt(value)).readEntity(Institution.class);
+			System.out.println(institution.toString());
+			return null;
+		}
+		return null;
+	}
+
+	@Override
+	public String getAsString(FacesContext facesContext, UIComponent component,
+			Object value) {
+		if (value != null && "".equals(value) == false) {
+			Institution institution = (Institution) value;
+			if (institution.getIdInstitution() != null) {
+				this.addAttribute(component, institution);
+				if (institution.getIdInstitution() != null) {
+					return String.valueOf(institution.getIdInstitution());
+				}
+			}
+			return (String) value;
+		}
+		return "";
+	}
+
+	private void addAttribute(UIComponent component, Institution institution) {
+		this.getAttributesFrom(component).put(
+				institution.getIdInstitution().toString(), institution);
+	}
+
+	private Map<String, Object> getAttributesFrom(UIComponent component) {
+		return component.getAttributes();
+	}
+}

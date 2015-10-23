@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE hibernate-configuration PUBLIC 
+          "-//Hibernate/Hibernate Configuration DTD 3.0//EN" 
+          "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/forcode?characterEncoding=UTF-8</property>
+		<property name="hibernate.connection.username">root</property>
+		<property name="hibernate.connection.password">ifpbinfo</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
+      
+        <!-- Print SQL to stdout. -->  
+        <!-- <property name="show_sql">true</property> -->  
+        <!-- <property name="format_sql">true</property> -->  
+      
+        <!-- Drop and then re-create schema on SessionFactory build, for testing. -->  
+        <property name="hbm2ddl.auto">update</property>
+      
+        <!-- Bind the getCurrentSession() method to the thread. -->  
+        <property name="current_session_context_class">thread</property>
+		
+		<mapping class="br.edu.commons.forcode.contests.Clarification"/>
+		<mapping class="br.edu.commons.forcode.contests.Contest"/>
+		<mapping class="br.edu.commons.forcode.contests.Language"/>
+		<mapping class="br.edu.commons.forcode.contests.Problem"/>
+		<mapping class="br.edu.commons.forcode.contests.Submission"/>
+		<mapping class="br.edu.commons.forcode.contests.TestCase"/>
+		<mapping class="br.edu.commons.forcode.contests.TestCaseSample"/>
+		<mapping class="br.edu.commons.forcode.contests.UserContest"/>
+		<mapping class="br.edu.commons.forcode.contests.Score"/>
+		<mapping class="br.edu.commons.forcode.entities.Institution"/>
+		<mapping class="br.edu.commons.forcode.entities.User"/>
+		<mapping class="br.edu.commons.forcode.entities.Admin"/>
+		<mapping class="br.edu.commons.forcode.entities.Contestant"/>
+		<mapping class="br.edu.commons.forcode.entities.Manager"/>
+		<mapping class="br.edu.commons.forcode.entities.UserKey"/>
+		
+	</session-factory>
+</hibernate-configuration>

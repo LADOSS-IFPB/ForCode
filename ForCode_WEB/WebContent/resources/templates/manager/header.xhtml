@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+		              "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:body>
+	<ui:composition template="/resources/templates/basic-header.xhtml">
+	
+		<ui:define name="header-icon">
+	    	<img src="#{request.contextPath}/resources/img/forcode.png" height="60vh"/>
+		</ui:define>
+		
+		<ui:define name="header-content">
+			<li><a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Profile" href="#"><i class="material-icons">person_pin</i></a></li>			
+			<li><a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Settings" href="#"><i class="material-icons">settings</i></a></li>
+			<li class="tooltipped" data-position="bottom" data-delay="10" data-tooltip="Logout">
+				<h:commandLink actionListener="#{loginBean.logout}">
+					<i class="material-icons">power_settings_new</i>
+				</h:commandLink>
+			</li>
+		</ui:define>
+		
+		<ui:define name="header-content-mobile">
+			<li><a class="" href="#"><b>Profile</b></a></li>
+		    <li><a href="#!"><b>Create contest</b></a></li>
+    		<li><a href="#!"><b>Create problems</b></a></li>
+			<li><a href="#!">All problems</a></li>
+			<li><a href="#!">My problems</a></li>
+			<li><a href="#!"><b>All contests</b></a></li>
+			<li><a href="#!"><b>My contests</b></a></li>
+			<li><a class="" href="#"><b>Settings</b></a></li>
+			<li><a href="#!"><b>Help</b></a></li>
+			<li>
+				<h:commandLink actionListener="#{loginBean.logout}">
+					<b>Logout</b>
+				</h:commandLink>
+			</li>
+		</ui:define>
+		
+	</ui:composition>
+</h:body>
+</html>

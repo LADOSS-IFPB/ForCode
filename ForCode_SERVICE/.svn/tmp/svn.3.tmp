@@ -1,0 +1,33 @@
+package br.edu.service.forcode.services;
+
+import java.util.List;
+
+import javax.annotation.security.PermitAll;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+
+import br.edu.commons.forcode.entities.Institution;
+import br.edu.service.forcode.database.dao.InstitutionDAO;
+
+/**
+ * This class contains the services related to the list things.
+ */
+
+@Path("list")
+public class ListService {
+	
+	@POST
+	@PermitAll
+	@Path("/institution")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public List<Institution> listInstitutions(){
+		InstitutionDAO institutionDAO = new InstitutionDAO();
+		List<Institution> list =  institutionDAO.getAll();
+		
+		return list;
+	}
+	
+}

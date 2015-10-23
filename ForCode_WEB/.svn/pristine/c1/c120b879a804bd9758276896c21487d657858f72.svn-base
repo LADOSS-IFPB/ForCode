@@ -1,0 +1,24 @@
+package br.edu.web.forcode.bean;
+
+import javax.faces.bean.ManagedBean;
+
+import br.edu.commons.forcode.entities.Manager;
+
+@ManagedBean(name="managerBean")
+public class ManagerBean {
+	
+	private Manager manager = new Manager();
+	
+	public void createManager(){
+		
+	}
+	
+	public Manager getAdmin() {
+		return manager;
+	}
+
+	public void setManager(Manager manager) {
+		this.manager = manager;
+	}
+	
+}

@@ -1,0 +1,20 @@
+package br.edu.web.forcode.bean;
+
+import javax.faces.bean.ManagedBean;
+
+import br.edu.commons.forcode.entities.Admin;
+
+@ManagedBean(name="adminBean")
+public class AdminBean {
+	
+	private Admin admin = new Admin();
+	
+	public Admin getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Admin admin) {
+		this.admin = admin;
+	}
+	
+}

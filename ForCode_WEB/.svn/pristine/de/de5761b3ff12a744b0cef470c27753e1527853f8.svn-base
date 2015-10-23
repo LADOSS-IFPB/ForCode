@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!-- Basic format to For{code} pages -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<h:head>
+		<title><ui:insert name="title">ForCode</ui:insert></title>
+		<link rel="shortcut icon" href="#{request.contextPath}/resources/img/icon.png"/>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<h:outputStylesheet library="css" name="materialize.css"/>
+		<h:outputScript library="js" name="jquery-2.1.1.min.js"/>
+		<h:outputScript library="js" name="materialize.js"/>
+		<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	</h:head>
+	
+	<h:body>
+		<main>
+			
+			<ui:insert name="script">
+			
+			</ui:insert>
+			
+			<!-- Header -->
+			<ui:insert name="header">
+			
+			</ui:insert>
+			
+			<!-- Side Navigation Bar -->
+			<ui:insert name="side-nav">
+			
+			</ui:insert>
+			
+			<!-- Side Navigation Bar on Mobile Devices -->
+			<ui:insert name="side-nav">
+			
+			</ui:insert>	
+			
+			<!-- Content -->
+			<ui:insert name="content">
+			
+			</ui:insert>
+			
+			<ui:insert name="others">
+			
+			</ui:insert>
+		
+		</main>
+		
+		<!-- Footer -->
+		<ui:insert name="footer">
+			
+		</ui:insert>
+		
+	</h:body>
+</html>
