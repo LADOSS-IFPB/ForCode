@@ -9,6 +9,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
@@ -163,7 +164,7 @@ public class ListService {
 	@GET
 	@Path("/problem/{idProblem}")
 	@Produces("application/json")
-	public Response listTestCaseSample(@QueryParam("idProblem") Integer idProblem){
+	public Response listTestCaseSample(@PathParam("idProblem") Integer idProblem){
 		TestCaseSampleDAO testCaseSampleDao = new TestCaseSampleDAO();
 		ResponseBuilder builder;
 		
