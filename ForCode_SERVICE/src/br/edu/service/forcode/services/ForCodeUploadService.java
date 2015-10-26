@@ -3,6 +3,8 @@ package br.edu.service.forcode.services;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -22,10 +24,13 @@ import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
 import br.edu.commons.forcode.contests.ForCodeUploadFile;
 import br.edu.commons.forcode.contests.Problem;
+import br.edu.commons.forcode.contests.Score;
 import br.edu.commons.forcode.contests.Submission;
 import br.edu.commons.forcode.contests.TestCase;
+import br.edu.commons.forcode.contests.UserContest;
 import br.edu.commons.forcode.entities.ForCodeError;
 import br.edu.commons.forcode.enumerations.FileType;
+import br.edu.commons.forcode.enumerations.Verdict;
 import br.edu.service.forcode.database.dao.ProblemDAO;
 import br.edu.service.forcode.database.dao.SubmissionDAO;
 import br.edu.service.forcode.judgeServices.JudgeService;
@@ -123,6 +128,29 @@ public class ForCodeUploadService {
 				submission.setFileSubmission(submissionFile);
 				submission.setVerdict(judgeService.judgeSubmission(submission).getTypeValue());
 
+				if(submission.getVerdict() == Verdict.ACCEPTED.getTypeValue()){
+					UserContest userContest = submission.getUser();
+					List<Score> newScore = new ArrayList<Score>();
+					for(Score score : userContest.getScore()){
+						if(score.getProblem().getIdProblem().equals(submission.getProblem().getIdProblem())){
+							score.setScore(1);
+						}
+						newScore.add(score);
+					}
+					userContest.setScore(newScore);
+				}else{
+					UserContest userContest = submission.getUser();
+					List<Score> newScore = new ArrayList<Score>();
+					for(Score score : userContest.getScore()){
+						if(score.getProblem().getIdProblem().equals(submission.getProblem().getIdProblem())){
+							if(score.getScore() <= 0)
+								score.setScore(score.getScore() - 1);
+						}
+						newScore.add(score);
+					}
+					userContest.setScore(newScore);
+				}
+				
 				submissionDao.update(submission);
 
 				builder = Response.status(Response.Status.ACCEPTED).entity(submission);
