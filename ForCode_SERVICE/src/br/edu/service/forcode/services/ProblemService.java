@@ -5,10 +5,13 @@ import java.io.IOException;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
@@ -149,4 +152,14 @@ public class ProblemService {
 		return error;
 	}
 	
+	
+	@PermitAll
+	@GET
+	@Path("/problem/{idProblem}")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Problem getById(@PathParam("idProblem")Integer idProblem){
+		ProblemDAO problemDao = new ProblemDAO();
+		return problemDao.getById(idProblem);
+	}
 }

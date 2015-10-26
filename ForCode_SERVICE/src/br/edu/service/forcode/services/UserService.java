@@ -139,10 +139,10 @@ public class UserService {
 	
 	@PermitAll
 	@POST
-	@Path("/user/searchinstitution")
+	@Path("/searchinstitution")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response searchInstitution(@QueryParam(value = "id")String institutionName) {
+	public Response searchInstitution(String institutionName) {
 		
 		logger.info("Searching for institution " + institutionName);
 		

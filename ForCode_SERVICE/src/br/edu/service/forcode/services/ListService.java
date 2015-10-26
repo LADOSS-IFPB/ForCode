@@ -45,7 +45,7 @@ public class ListService {
 	private static final Logger logger = LogManager
 			.getLogger(ListService.class);
 
-	@RolesAllowed(value = {"Manager", "Admin"})
+	@PermitAll
 	@GET
 	@Path("/problems")
 	@Produces("application/json")
