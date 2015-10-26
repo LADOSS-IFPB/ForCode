@@ -45,4 +45,27 @@ public class ProblemDAO extends GenericDAO<Problem>{
 		return problem;
 	}
 
+	public Problem getByTitle(String problemTitle){
+			Session session = JPAUtil.getSessionFactory().openSession();
+			session.beginTransaction();
+
+			Query query = session.createQuery("from Problem where title like :title");
+			query.setParameter("title", "%" + problemTitle + "%");
+
+			@SuppressWarnings("unchecked")
+			List<Problem> list = (List<Problem>)query.list();
+
+			Problem problem;
+			
+			if (list.isEmpty()) {
+				problem= null;
+			} else {
+				problem = list.get(0);
+			}
+			
+			session.getTransaction().commit();
+			session.close();
+			return problem;
+	}
+	
 }
