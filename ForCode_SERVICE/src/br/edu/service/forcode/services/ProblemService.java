@@ -11,8 +11,8 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
@@ -155,11 +155,21 @@ public class ProblemService {
 	
 	@PermitAll
 	@GET
-	@Path("/problem/{idProblem}")
+	@Path("/search/{idProblem}")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Problem getById(@PathParam("idProblem")Integer idProblem){
+	public Problem getById(@QueryParam("idProblem")Integer idProblem){
 		ProblemDAO problemDao = new ProblemDAO();
 		return problemDao.getById(idProblem);
+	}
+	
+	@PermitAll
+	@GET
+	@Path("/search/{title}")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Problem getByName(@QueryParam("title") String problemTitle){
+		ProblemDAO problemDao = new ProblemDAO();
+		return problemDao.getByTitle(problemTitle);
 	}
 }

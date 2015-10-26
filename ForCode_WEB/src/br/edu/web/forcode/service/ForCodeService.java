@@ -111,7 +111,7 @@ public interface ForCodeService {
 	@Path("/user/searchinstitution")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response searchInstitution(@QueryParam(value = "id") String value);
+	public Response searchInstitution(String value);
 
 	/**
 	 * Problem Services
@@ -149,7 +149,7 @@ public interface ForCodeService {
 	 * List Services
 	 */
 
-	@RolesAllowed(value = { "Manager", "Admin" })
+	@PermitAll
 	@GET
 	@Path("/list/problems")
 	@Produces("application/json")
@@ -271,4 +271,25 @@ public interface ForCodeService {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public List<UserContest> getRanking(Contest contest);
+	
+	@PermitAll
+	@POST
+	@Path("/problem/searchproblem")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Problem searchProblem(String problemTitle);
+	
+	@PermitAll
+	@GET
+	@Path("/{idProblem}")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Problem getById(@QueryParam("idProblem")Integer idProblem);
+	
+	@PermitAll
+	@GET
+	@Path("/{title}")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Problem getByName(@QueryParam("title") String problemTitle);
 }
