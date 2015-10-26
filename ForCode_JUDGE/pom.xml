@@ -3,8 +3,8 @@
 
 	
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>ForCode_SERVICE</groupId>
-	<artifactId>ForCode_SERVICE</artifactId>
+	<groupId>ForCode_JUDGE</groupId>
+	<artifactId>ForCode_JUDGE</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<build>
@@ -35,28 +35,6 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
 			<version>3.0-alpha-1</version>
-		</dependency>
-
-		<!-- MySQL -->
-
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.36</version>
-		</dependency>
-
-		<!-- Hibernate -->
-
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-entitymanager</artifactId>
-			<version>5.0.0.CR4</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
-			<version>5.0.0.CR4</version>
 		</dependency>
 
 		<!-- RESTEasy -->
