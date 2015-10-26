@@ -25,6 +25,7 @@ public class ContestBean {
 	public String enterContest(){
 		Contestant contestant = (Contestant)BeanUtil.getSessionValue("user");
 		service.enterContest(contestant, contest.getIdContest());
+		BeanUtil.setSessionValue("contest", contest);
 		return "problems.xhtml";
 	}
 	

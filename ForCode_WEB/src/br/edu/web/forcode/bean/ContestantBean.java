@@ -17,7 +17,7 @@ import br.edu.web.forcode.service.ProviderServiceFactory;
 @SessionScoped
 public class ContestantBean {
 	
-	private Contestant contestant = new Contestant();
+	private Contestant contestant = (Contestant)BeanUtil.getSessionValue("user");
 	private static final Logger logger = LogManager.getLogger(ContestantBean.class.getName());
 	private static ForCodeService service = ProviderServiceFactory.createServiceClient(ForCodeService.class);
 	
@@ -31,10 +31,11 @@ public class ContestantBean {
 	}
 	
 	public String updateContestant(){
-		contestant = (Contestant)BeanUtil.getSessionValue("user");
+				
 		logger.info("Requesting update of a contestant");
-		
-		service.updateContestant(contestant);
+
+		contestant = (Contestant)service.updateContestant(contestant).readEntity(Contestant.class);
+		BeanUtil.setSessionValue("user", contestant);
 		logger.info("Contestant update successfull");
 		
 		return "home.xhtml?faces-redirect=true";

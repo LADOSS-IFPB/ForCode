@@ -21,7 +21,7 @@ public class InstitutionConverter implements Converter {
 		if (value != null) {
 			Institution institution = (Institution) service.searchInstitution(
 					value).readEntity(Institution.class);
-			System.out.println(institution.toString());
+			return institution;
 		}
 		return null;
 	}
@@ -29,6 +29,6 @@ public class InstitutionConverter implements Converter {
 	@Override
 	public String getAsString(FacesContext facesContext, UIComponent component,
 			Object object) {
-		return null;
+		return ((Institution) object).getName();
 	}
 }
