@@ -77,13 +77,11 @@ public class ProblemBean {
 	}
 
 	public void setProblem(Problem problem) {
-		this.problem = problem;
+		this.setProblem(problem);
 	}
 	
 	public String showProblem(Problem problem){
 		this.setProblem(problem);
-		
 		return "/webapp/contest/problem.xhtml";
 	}
-	
 }

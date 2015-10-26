@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="/resources/templates/contest/page.xhtml">
+
+	<ui:define name="content">
+		<div class="page content">
+			<div class="container">
+				<div class="row">
+					<div class="column s12">
+						<h3 class="center-align">#{contestBean.contest.name}</h3>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="column s12">
+						<h:dataTable var = "problem" value = "#{contestBean.contest.problems}" class = "striped bordered">
+							<h:column>
+								<f:facet name="header">
+									<h5>
+										<b>Problems</b>
+									</h5>
+								</f:facet>
+								<h:form>
+										<h:commandLink
+											value="#{problem.title}" action="#{problemBean.showProblem(problem)}" />
+								</h:form>
+							</h:column>
+							
+							<h:column>
+								<f:facet name="header">
+									<h5>
+										<b>Time Limit</b>
+									</h5>
+								</f:facet>
+								<h6 class = "left-align">
+								#{problem.timeLimit}
+								</h6>
+							</h:column>
+						</h:dataTable>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</ui:define>
+
+</ui:composition>
+</html>

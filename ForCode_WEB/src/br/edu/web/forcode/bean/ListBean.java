@@ -5,6 +5,7 @@ import java.util.List;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
+import br.edu.commons.forcode.contests.Clarification;
 import br.edu.commons.forcode.contests.Contest;
 import br.edu.commons.forcode.contests.Problem;
 import br.edu.commons.forcode.entities.User;
@@ -29,5 +30,4 @@ public class ListBean {
 	public List<Problem> getProblems(){
 		return service.listProblems();
 	}
-	
 }

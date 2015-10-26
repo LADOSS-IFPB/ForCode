@@ -13,12 +13,16 @@
 			    <ui:include src="/resources/templates/contest/header.xhtml"/>
 			</ui:define>
 			
-			<ui:define name="content">
+			<ui:define name="side-nav">
+				<ui:include src="/resources/templates/contest/side-nav.xhtml" />	    
+			</ui:define>
 			
+			<ui:define name="content">
+				
 			</ui:define>
 			
 			<ui:define name="footer">
-				<ui:include src="/resources/templates/main/footer.xhtml" />
+				<ui:include src="/resources/templates/admin/footer.xhtml" />
 			</ui:define>
 	</ui:composition>
 </h:body>
