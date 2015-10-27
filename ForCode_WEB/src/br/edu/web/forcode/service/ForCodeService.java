@@ -8,6 +8,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
@@ -115,10 +116,10 @@ public interface ForCodeService {
 	
 	@PermitAll
 	@GET
-	@Path("/user/getusercontest/{idContest}/{idUSer}")
+	@Path("/user/getusercontest/{idContest}/{idUser}")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public UserContest getUserContest(@QueryParam("idContest") Integer idContest, @QueryParam("idUser") Integer idUser);
+	public UserContest getUserContest(@PathParam("idContest") Integer idContest, @PathParam("idUser") Integer idUser);
 
 	/**
 	 * Problem Services
@@ -219,7 +220,7 @@ public interface ForCodeService {
 	@Path("/clarification/{idProblem}")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public List<Clarification> listClarificationByProblem(@QueryParam("idProblem") Integer idProblem);
+	public List<Clarification> listClarificationByProblem(@PathParam("idProblem") Integer idProblem);
 
 	/**
 	 * 
@@ -298,12 +299,12 @@ public interface ForCodeService {
 	@Path("/problem/{idProblem}")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Problem getById(@QueryParam("idProblem")Integer idProblem);
+	public Problem getById(@PathParam("idProblem")Integer idProblem);
 	
 	@PermitAll
 	@GET
 	@Path("/problem/{title}")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Problem getByName(@QueryParam("title") String problemTitle);
+	public Problem getByName(@PathParam("title") String problemTitle);
 }
