@@ -44,4 +44,27 @@ public class LanguageDAO extends GenericDAO<Language>{
 		
 		return language;
 	}
+	
+	public Language getByName(String languageName){
+			Session session = JPAUtil.getSessionFactory().openSession();
+			session.beginTransaction();
+			
+			Query query = session.createQuery("from Language where name like :name");
+			query.setString("name", "%" + languageName + "%");
+			
+			@SuppressWarnings("unchecked")
+			List<Language> list = (List<Language>) query.list();
+			
+			
+			Language language = null;
+			
+			if(!list.isEmpty()){
+				language = list.get(0);
+			}
+			
+			session.getTransaction().commit();
+			session.close();
+			
+			return language;
+	}
 }

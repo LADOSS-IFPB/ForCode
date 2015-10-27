@@ -19,6 +19,7 @@ import org.apache.logging.log4j.Logger;
 
 import br.edu.commons.forcode.contests.Clarification;
 import br.edu.commons.forcode.contests.Contest;
+import br.edu.commons.forcode.contests.Language;
 import br.edu.commons.forcode.contests.Problem;
 import br.edu.commons.forcode.contests.Submission;
 import br.edu.commons.forcode.contests.TestCaseSample;
@@ -28,6 +29,7 @@ import br.edu.commons.forcode.entities.User;
 import br.edu.service.forcode.database.dao.ClarificationDAO;
 import br.edu.service.forcode.database.dao.ContestDAO;
 import br.edu.service.forcode.database.dao.InstitutionDAO;
+import br.edu.service.forcode.database.dao.LanguageDAO;
 import br.edu.service.forcode.database.dao.ProblemDAO;
 import br.edu.service.forcode.database.dao.SubmissionDAO;
 import br.edu.service.forcode.database.dao.TestCaseSampleDAO;
@@ -187,4 +189,23 @@ public class ListService {
 		return clarificationDao.getClarificationsByProblem(idProblem);
 	}
 	
+	@PermitAll
+	@GET
+	@Path("/search/{languageName}")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Language searchLanguage(@PathParam("languageName") String languageName){
+		LanguageDAO languageDao = new LanguageDAO();
+		return languageDao.getByName(languageName);
+	}
+	
+	@PermitAll
+	@GET
+	@Path("/search/listlanguages")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public List<Language> listLanguages(){
+		LanguageDAO languageDao = new LanguageDAO();
+		return languageDao.getAll();
+	}
 }
