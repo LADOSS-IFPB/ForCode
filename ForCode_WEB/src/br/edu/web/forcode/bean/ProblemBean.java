@@ -2,12 +2,15 @@ package br.edu.web.forcode.bean;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.servlet.http.Part;
 import javax.ws.rs.core.Response;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import br.edu.commons.forcode.contests.Language;
 import br.edu.commons.forcode.contests.Problem;
+import br.edu.commons.forcode.contests.Submission;
 import br.edu.web.forcode.bean.util.BeanUtil;
 import br.edu.web.forcode.service.ForCodeService;
 import br.edu.web.forcode.service.ProviderServiceFactory;
@@ -16,12 +19,22 @@ import br.edu.web.forcode.service.ProviderServiceFactory;
 @RequestScoped
 public class ProblemBean {
 	Problem problem = new Problem();
+	Language language;
+	Part uploadedFile;
 	
 	private static final Logger logger = LogManager.getLogger(AdminBean.class
 			.getName());
 	
 	private static final ForCodeService service = ProviderServiceFactory
 			.createServiceClient(ForCodeService.class);
+
+	public Part getUploadedFile() {
+		return uploadedFile;
+	}
+
+	public void setUploadedFile(Part uploadedFile) {
+		this.uploadedFile = uploadedFile;
+	}
 
 	public String makeProblem() {
 		problem = (Problem) BeanUtil.getSessionValue("problemBean");
@@ -71,7 +84,7 @@ public class ProblemBean {
 		// TODO
 		return null;
 	}
-
+	
 	public Problem getProblem() {
 		return problem;
 	}
@@ -80,8 +93,24 @@ public class ProblemBean {
 		this.setProblem(problem);
 	}
 	
+	public Language getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(Language language) {
+		this.language = language;
+	}
+
 	public String showProblem(Problem problem){
 		this.setProblem(problem);
 		return "/webapp/contest/problem.xhtml";
 	}
+	public String submit(String idContest, String idProblem, String idUser){
+		Submission submission = new Submission();
+		submission.setProblem(service.getById(Integer.parseInt(idProblem)));
+		submission.setUser(service.getUserContest(Integer.parseInt(idContest), Integer.parseInt(idUser)));
+		//submission.setLanguage();
+		return null;
+	}
+	
 }

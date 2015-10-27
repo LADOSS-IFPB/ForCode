@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="/resources/templates/contestant/page.xhtml">
+
+	<ui:define name="content">
+		<div class="page content">
+			<div class="container">
+				<h:form enctype="multipart/form-data">
+					<div class="row">
+						<div class="col s12">
+							<div class="file-field input-field">
+								<div class="btn">
+									<span>File</span>
+									<h:inputFile id="file" value="#{submissionBean.uploadedFile}" />
+								</div>
+								<div class="file-path-wrapper">
+									<h:inputText styleClass="file-path validate" />
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col s12">
+								<h:outputLabel value="Language" />
+
+								<h:selectOneMenu value="#{ProblemBean.language}"
+									converter="languageConverter" styleClass="browser-default">
+									<f:selectItems value="#{listBean.languages}" var="language"
+										itemValue="#{language}" itemLabel="#{language.name}" />
+								</h:selectOneMenu>
+
+							</div>
+						</div>
+						<div class="row">
+							<div class="col s12">
+								<h:commandLink
+									styleClass="col s4 offset-s4 waves-effect waves-light btn light-blue darken-1"
+									value="Submit"
+									action="#{problemBean.submit(param['idContest'], param['idProblem'], param['idUser'])}"/>
+							</div>
+						</div>
+					</div>
+				</h:form>
+			</div>
+		</div>
+	</ui:define>
+
+</ui:composition>
+</html>

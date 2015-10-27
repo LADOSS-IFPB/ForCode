@@ -15,6 +15,7 @@ import javax.ws.rs.core.Response;
 
 import br.edu.commons.forcode.contests.Clarification;
 import br.edu.commons.forcode.contests.Contest;
+import br.edu.commons.forcode.contests.Language;
 import br.edu.commons.forcode.contests.Problem;
 import br.edu.commons.forcode.contests.Submission;
 import br.edu.commons.forcode.contests.UserContest;
@@ -307,4 +308,18 @@ public interface ForCodeService {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Problem getByName(@PathParam("title") String problemTitle);
+	
+	@PermitAll
+	@GET
+	@Path("/list/search/{languageName}")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Language searchLanguage(@PathParam("languageName") String languageName);
+	
+	@PermitAll
+	@GET
+	@Path("/list/search/listlanguages")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public List<Language> listLanguages();
 }

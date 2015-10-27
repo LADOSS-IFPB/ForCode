@@ -19,24 +19,24 @@
 						<div class="row">
 							<div class="input-field col s6">
 								<h:inputText id="first_name" type="text" class="validate"
-									value="#{sessionScope.user.firstName}" />
+									value="#{contestantBean.contestant.firstName}" />
 								<h:outputLabel for="first_name" value="First Name" />
 							</div>
 							<div class="input-field col s6">
 								<h:inputText id="last_name" type="text" class="validate"
-									value="#{sessionScope.user.lastName}" />
+									value="#{contestantBean.contestant.lastName}" />
 								<h:outputLabel for="last_name" value="Last Name" />
 							</div>
 						</div>
 						<div class="row">
 							<div class="input-field col s6">
 								<h:inputText disabled="true" id="username" type="text"
-									class="validate" value="#{sessionScope.user.username}" />
+									class="validate" value="#{contestantBean.contestant.username}" />
 								<h:outputLabel for="username" value="Username" />
 							</div>
 							<div class="input-field col s6">
 								<h:inputText id="email" type="email" class="validate"
-									value="#{sessionScope.user.email}" />
+									value="#{contestantBean.contestant.email}" />
 								<h:outputLabel for="email" value="Email" />
 							</div>
 						</div>
@@ -61,16 +61,8 @@
 						<div class="row">
 							<div class="col s12">
 								<h:outputLabel value="Institution" />
-								<h:selectOneMenu
-									value="#{contestantBean.contestant.institution}"
-									converter="institutionConverter"
-									constyleClass="browser-default">
-									<f:selectItems value="#{institutionBean.allInstitutions}"
-										var="institution" itemValue="#{institution}"
-										itemLabel="#{institution.name}" />
-								</h:selectOneMenu>
 
-								<h:selectOneMenu value="#{managerBean.manager.institution}"
+								<h:selectOneMenu value="#{contestantBean.contestant.institution}"
 									converter="institutionConverter" styleClass="browser-default">
 									<f:selectItems value="#{institutionBean.allInstitutions}"
 										var="institution" itemValue="#{institution}"
