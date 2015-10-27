@@ -24,7 +24,7 @@
 								<a href="#tab3">Samples</a>
 							</li>
 							<li class="tab col s2">
-								<a href="#tab4">Testcases</a>
+								<a href="#tab4">Testcase</a>
 							</li>
 							<li class="tab col s2">
 								<a href="#tab5">Validation</a>
@@ -104,22 +104,67 @@
 				        </div>
 					</div>
 					
-					<br/><br/>
-					
 					<div id="tab3" class="col s12">
 						Test 3
 					</div>
 					
-					<br/><br/>
-					
 					<div id="tab4" class="col s12">
-						Test 4
+						<div class="section">
+							<h:form enctype="multipart/form-data">
+								<div class="file-field input-field">
+									<div class="btn">
+								        <span>File</span>
+								        <h:inputFile id="file"/>
+								    </div>
+									<div class="file-path-wrapper">
+								        <h:inputText styleClass="file-path validate" value="Insert a zip file with testcases"/>
+								    </div>
+								</div>
+								<div class="section center">
+								    <h:commandLink styleClass="waves-effect waves-light btn light-blue darken-1" actionListener="#{managerBean.createManager}" value="Next"/>
+								</div>
+							</h:form>
+						</div>
 					</div>
 					
-					<br/><br/>
-					
 					<div id="tab5" class="col s12">
-						Test 5
+						<div class="section">
+							<h:form enctype="multipart/form-data">
+								<div class="file-field input-field">
+									<div class="btn">
+								        <span>File</span>
+								        <h:inputFile id="file"/>
+								    </div>
+									<div class="file-path-wrapper">
+								        <h:inputText styleClass="file-path validate" value="Insert a code to receive Wrong Answer"/>
+								    </div>
+								</div>
+								
+								<div class="file-field input-field">
+									<div class="btn">
+								        <span>File</span>
+								        <h:inputFile id="file2"/>
+								    </div>
+									<div class="file-path-wrapper">
+								        <h:inputText styleClass="file-path validate" value="Insert a code to receive Time Limit Exceeded"/>
+								    </div>
+								</div>
+								
+								<div class="file-field input-field">
+									<div class="btn">
+								        <span>File</span>
+								        <h:inputFile id="file3"/>
+								    </div>
+									<div class="file-path-wrapper">
+								        <h:inputText styleClass="file-path validate" value="Insert a code to receive Accepted"/>
+								    </div>
+								</div>
+								
+								<div class="center">
+									<h:commandLink styleClass="waves-effect waves-light btn light-blue darken-1" actionListener="#{managerBean.createManager}" value="Finish"/>
+								</div>
+							</h:form>
+						</div>
 					</div>
 				</div>
 			</div>
