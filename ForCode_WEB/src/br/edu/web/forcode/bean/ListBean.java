@@ -9,6 +9,7 @@ import br.edu.commons.forcode.contests.Clarification;
 import br.edu.commons.forcode.contests.Contest;
 import br.edu.commons.forcode.contests.Problem;
 import br.edu.commons.forcode.entities.User;
+import br.edu.web.forcode.bean.util.BeanUtil;
 import br.edu.web.forcode.service.ForCodeService;
 import br.edu.web.forcode.service.ProviderServiceFactory;
 
@@ -29,5 +30,10 @@ public class ListBean {
 	
 	public List<Problem> getProblems(){
 		return service.listProblems();
+	}
+	
+	public List<Clarification> getClarifications(){
+		Contest contest = (Contest)BeanUtil.getSessionValue("contest");
+		return service.listClarifications(contest);
 	}
 }

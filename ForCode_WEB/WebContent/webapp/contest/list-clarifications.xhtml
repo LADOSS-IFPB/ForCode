@@ -13,40 +13,49 @@
 			<div class="container">
 				<div class="row">
 					<div class="column s12">
-						<h3 class="center-align">#{contestBean.contest.name}</h3>
-					</div>
-				</div>
-				
-				<div class="row">
-					<div class="column s12">
-						<h6 class="center-align">List of Clarifications</h6>
+						<h5 class="center-align">
+							List of <b>Clarifications</b>
+						</h5>
 					</div>
 				</div>
 
 				<div class="row">
 					<div class="column s12">
-						<h:dataTable var = "problem" value = "#{contestBean.contest.problems}" class = "striped bordered">
+						<h:dataTable var="clarification"
+							value="#{listBean.clarifications}"
+							class="striped bordered">
 							<h:column>
 								<f:facet name="header">
-									<h5>
-										<b>Problems</b>
-									</h5>
+									<h6>
+										<b>#ID</b>
+									</h6>
+								</f:facet>
+								#{clarification.idClarification}
+							</h:column>
+
+							<h:column>
+								<f:facet name="header">
+									<h6>
+										<b>Problem</b>
+									</h6>
+								</f:facet>
+								#{clarification.problem.title}
+							</h:column>
+
+							<h:column>
+								<f:facet name="header">
+									<h6>
+										<b>Action</b>
+									</h6>
 								</f:facet>
 								<h:form>
+									<li class="tooltipped" data-position="bottom" data-delay="10"
+										data-tooltip="Action">
 										<h:commandLink
-											value="#{problem.title}" action="#{problemBean.showProblem(problem)}" />
+											actionListener="#{clarificationBean.showClarification(clarification)}">
+											<i class="material-icons">input</i>
+										</h:commandLink></li>
 								</h:form>
-							</h:column>
-							
-							<h:column>
-								<f:facet name="header">
-									<h5>
-										<b>Time Limit</b>
-									</h5>
-								</f:facet>
-								<h6 class = "left-align">
-								#{problem.timeLimit}
-								</h6>
 							</h:column>
 						</h:dataTable>
 					</div>
