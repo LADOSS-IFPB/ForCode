@@ -6,6 +6,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
@@ -14,7 +15,6 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import br.edu.commons.forcode.contests.Contest;
 import br.edu.commons.forcode.contests.UserContest;
 import br.edu.commons.forcode.entities.Admin;
 import br.edu.commons.forcode.entities.Contestant;
@@ -371,10 +371,10 @@ public class UserService {
 	
 	@PermitAll
 	@GET
-	@Path("/user/getusercontest/{idContest}/{idUSer}")
+	@Path("/user/getusercontest/{idContest}/{idUser}")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public UserContest getUserContest(@QueryParam("idContest") Integer idContest, @QueryParam("idUser") Integer idUser){
+	public UserContest getUserContest(@PathParam("idContest") Integer idContest, @PathParam("idUser") Integer idUser){
 		UserContestDAO userContestDao = new UserContestDAO();
 		return userContestDao.getUserContestByContest(idContest, idUser);
 	}

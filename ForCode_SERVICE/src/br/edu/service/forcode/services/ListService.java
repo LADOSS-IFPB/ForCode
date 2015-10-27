@@ -182,7 +182,7 @@ public class ListService {
 	@Path("/clarification/{idProblem}")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public List<Clarification> listClarificationByProblem(@QueryParam("idProblem") Integer idProblem){
+	public List<Clarification> listClarificationByProblem(@PathParam("idProblem") Integer idProblem){
 		ClarificationDAO clarificationDao = new ClarificationDAO();
 		return clarificationDao.getClarificationsByProblem(idProblem);
 	}
