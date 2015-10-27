@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.security.PermitAll;
-import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -177,4 +176,15 @@ public class ListService {
 		
 		return builder.build();
 	}
+	
+	@PermitAll
+	@GET
+	@Path("/clarification/{idProblem}")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public List<Clarification> listClarificationByProblem(@QueryParam("idProblem") Integer idProblem){
+		ClarificationDAO clarificationDao = new ClarificationDAO();
+		return clarificationDao.getClarificationsByProblem(idProblem);
+	}
+	
 }

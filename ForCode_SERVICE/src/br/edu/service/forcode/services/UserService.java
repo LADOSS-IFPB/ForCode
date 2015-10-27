@@ -14,6 +14,7 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import br.edu.commons.forcode.contests.Contest;
 import br.edu.commons.forcode.contests.UserContest;
 import br.edu.commons.forcode.entities.Admin;
 import br.edu.commons.forcode.entities.Contestant;
@@ -366,5 +367,15 @@ public class UserService {
 			builder = Response.status(Response.Status.ACCEPTED).entity(contestant);
 		}
 		return builder.build();
+	}
+	
+	@PermitAll
+	@GET
+	@Path("/user/getusercontest/{idContest}/{idUSer}")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public UserContest getUserContest(@QueryParam("idContest") Integer idContest, @QueryParam("idUser") Integer idUser){
+		UserContestDAO userContestDao = new UserContestDAO();
+		return userContestDao.getUserContestByContest(idContest, idUser);
 	}
 }
