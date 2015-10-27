@@ -112,6 +112,13 @@ public interface ForCodeService {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response searchInstitution(String value);
+	
+	@PermitAll
+	@GET
+	@Path("/user/getusercontest/{idContest}/{idUSer}")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public UserContest getUserContest(@QueryParam("idContest") Integer idContest, @QueryParam("idUser") Integer idUser);
 
 	/**
 	 * Problem Services
@@ -206,6 +213,13 @@ public interface ForCodeService {
 	@Path("/list/institutions")
 	@Produces("application/json")
 	public List<Institution> listInstitutions();
+	
+	@PermitAll
+	@GET
+	@Path("/clarification/{idProblem}")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public List<Clarification> listClarificationByProblem(@QueryParam("idProblem") Integer idProblem);
 
 	/**
 	 * 
@@ -281,14 +295,14 @@ public interface ForCodeService {
 	
 	@PermitAll
 	@GET
-	@Path("/{idProblem}")
+	@Path("/problem/{idProblem}")
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Problem getById(@QueryParam("idProblem")Integer idProblem);
 	
 	@PermitAll
 	@GET
-	@Path("/{title}")
+	@Path("/problem/{title}")
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Problem getByName(@QueryParam("title") String problemTitle);
