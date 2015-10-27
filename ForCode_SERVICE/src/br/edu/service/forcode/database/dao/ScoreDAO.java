@@ -50,7 +50,7 @@ public class ScoreDAO extends GenericDAO<Score> {
 		Session session = JPAUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		
-		Query query = session.createQuery("from Score where problem = :idProblem");
+		Query query = session.createQuery("from Score where problem.id = :idProblem");
 		query.setInteger("idProblem", problem.getIdProblem());
 		
 		@SuppressWarnings("unchecked")

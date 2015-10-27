@@ -49,7 +49,7 @@ public class TestCaseSampleDAO extends GenericDAO<TestCaseSample>{
 		Session session = JPAUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 			
-		Query query = session.createQuery("from TestCaseSample where problem = :idProblem");
+		Query query = session.createQuery("from TestCaseSample where problem.id = :idProblem");
 		query.setInteger("idProblem", idProblem);
 		
 		@SuppressWarnings("unchecked")

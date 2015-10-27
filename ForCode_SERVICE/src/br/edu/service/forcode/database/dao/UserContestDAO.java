@@ -50,7 +50,7 @@ public class UserContestDAO extends GenericDAO<UserContest>{
 		Session session = JPAUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		
-		Query query = session.createQuery("from UserContest where fk_id_user = :idUser");
+		Query query = session.createQuery("from UserContest userContest where userContest.user.id = :idUser");
 		query.setInteger("idUser", user.getIdUser());
 		
 		@SuppressWarnings("unchecked")
@@ -61,5 +61,31 @@ public class UserContestDAO extends GenericDAO<UserContest>{
 		
 		return list;
 	}
+	
+	public UserContest getUserContestByContest(Integer idContestant, Integer idContest){
+		Session session = JPAUtil.getSessionFactory().openSession();
+		session.beginTransaction();
 
+		Query query = session.createQuery("from UserContest userContest where userContest.contestant.id = :idContestant and"
+				+ " userContest.contest.id = :idContest");
+		query.setInteger("idContestant", idContestant);
+		query.setInteger("idContest", idContest);
+
+		@SuppressWarnings("unchecked")
+		List<UserContest> list = (List<UserContest>)query.list();
+
+		UserContest userContest;
+		
+		if (list.isEmpty()) {
+			userContest = null;
+		} else {
+			userContest = list.get(0);
+		}
+		
+		session.getTransaction().commit();
+		session.close();
+
+		return userContest;
+	}
+	
 }

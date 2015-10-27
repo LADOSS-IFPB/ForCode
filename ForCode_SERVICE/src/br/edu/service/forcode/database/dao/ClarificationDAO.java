@@ -47,11 +47,28 @@ public class ClarificationDAO extends GenericDAO<Clarification>{
 	}
 	
 	public List<Clarification> getClarificationsByContest(Contest contest){
+		//TODO its broken
 		Session session = JPAUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		
-		Query query = session.createQuery("from Clarification where idContest = :idContest");
+		Query query = session.createQuery("from Clarification clarification where clarification.user.contest.id = :idContest");
 		query.setInteger("idContest", contest.getIdContest());
+		
+		@SuppressWarnings("unchecked")
+		List<Clarification> list = query.list();
+		
+		session.getTransaction().commit();
+		session.close();
+		
+		return list;
+	}
+	
+	public List<Clarification> getClarificationsByProblem(Integer idProblem){
+		Session session = JPAUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		
+		Query query = session.createQuery("from Clarification clarification where clarification.problem.id = :idProblem");
+		query.setInteger("idProblem", idProblem);
 		
 		@SuppressWarnings("unchecked")
 		List<Clarification> list = query.list();
