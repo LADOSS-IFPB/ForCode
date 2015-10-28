@@ -13,12 +13,12 @@
 			<div class="container">
 				<div class="row">
 					<div class="column s12">
-						<h3 class="center-align">All Problems</h3>
+						<h3 class="center-align">My Problems</h3>
 					</div>
 
 					<div class="row">
 						<div class="column s12">
-							<h:dataTable var="problem" value="#{listBean.problems}"
+							<h:dataTable var="problem" value="#{listBean.problemsByManager}"
 								styleClass="order-table" headerClass="order-table-header"
 								rowClasses="order-table-odd-row,order-table-even-row"
 								class="highlight bordered">
@@ -48,16 +48,6 @@
 										</h6>
 									</h:form>
 								</h:column>
-
-								<h:column>
-									<f:facet name="header">
-										<h5>
-											<b>Problemsetter</b>
-										</h5>
-									</f:facet>
-									<h6 class="center-align">#{problem.problemSetter.username}</h6>
-								</h:column>
-
 							</h:dataTable>
 						</div>
 					</div>

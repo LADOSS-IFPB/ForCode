@@ -160,7 +160,13 @@ public interface ForCodeService {
 	/**
 	 * List Services
 	 */
-
+	
+	@PermitAll
+	@GET
+	@Path("/problemsbymanager")
+	@Produces("application/json")
+	public List<Problem> listProblemsByProblemSetter(Manager problemSetter);
+	
 	@PermitAll
 	@GET
 	@Path("/list/problems")
