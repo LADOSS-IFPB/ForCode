@@ -13,8 +13,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
+import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
+
 import br.edu.commons.forcode.contests.Clarification;
 import br.edu.commons.forcode.contests.Contest;
+import br.edu.commons.forcode.contests.ForCodeUploadFile;
 import br.edu.commons.forcode.contests.Language;
 import br.edu.commons.forcode.contests.Problem;
 import br.edu.commons.forcode.contests.Submission;
@@ -304,21 +307,39 @@ public interface ForCodeService {
 	@PermitAll
 	@GET
 	@Path("/problem/{title}")
-	@Consumes("application/json")
 	@Produces("application/json")
 	public Problem getByName(@PathParam("title") String problemTitle);
 	
 	@PermitAll
 	@GET
 	@Path("/list/search/{languageName}")
-	@Consumes("application/json")
 	@Produces("application/json")
 	public Language searchLanguage(@PathParam("languageName") String languageName);
 	
 	@PermitAll
 	@GET
 	@Path("/list/search/listlanguages")
-	@Consumes("application/json")
 	@Produces("application/json")
 	public List<Language> listLanguages();
+	
+	/**
+	 * UploadFile services.
+	 * 
+	 */
+	
+	@POST
+	@Path("/upload/submission/{idSubmission}")
+	@Consumes("multipart/form-data; charset=UTF-8")
+	@Produces("application/json")
+	public Response judgeSubmissionFile(@PathParam("idSubmission") Integer idSubmission,
+			@MultipartForm ForCodeUploadFile form);
+	
+	@POST
+	@Path("/upload/testcase/{idProblem}")
+	@Consumes("multipart/form-data; charset=UTF-8")
+	@Produces("application/json")
+	public Response uploadTestCaseFile(@PathParam("idProblem") Integer idProblem,
+			@MultipartForm ForCodeUploadFile form);
+	
+	
 }
