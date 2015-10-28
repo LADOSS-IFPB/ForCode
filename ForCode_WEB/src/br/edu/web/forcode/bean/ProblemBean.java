@@ -20,33 +20,33 @@ import br.edu.web.forcode.service.ProviderServiceFactory;
 @ManagedBean(name = "problemBean")
 @RequestScoped
 public class ProblemBean {
-	Problem problem = new Problem();
-	Language language;
-	Part uploadedFile;
 
-	private static final Logger logger = LogManager.getLogger(AdminBean.class
-			.getName());
+	private Problem problem = new Problem();
+	private Language language;
+	private Part uploadedFile;
 
-	private static final ForCodeService service = ProviderServiceFactory
-			.createServiceClient(ForCodeService.class);
-
-	public Part getUploadedFile() {
-		return uploadedFile;
-	}
-
-	public void setUploadedFile(Part uploadedFile) {
-		this.uploadedFile = uploadedFile;
-	}
-
-	public String makeProblem() {
-		problem = (Problem) BeanUtil.getSessionValue("problemBean");
-
-		logger.info("Requesting creation of a new Problem");
-
-		if (service.makeProblem(problem).getStatusInfo() == Response.Status.ACCEPTED) {
-			logger.info("Problem creation successfull");
+	private static final Logger logger = LogManager.getLogger(ProblemBean.class.getName());
+	
+	private static final ForCodeService service = ProviderServiceFactory.createServiceClient(ForCodeService.class);
+	
+	public void next(){
+		if(problem.getCreationProgress() != null){
+			updateProblem();
+			problem.setCreationProgress(20);
+		} else {
+			makeProblem();
+			if(problem.getCreationProgress() < 100)
+				problem.setCreationProgress(problem.getCreationProgress() + 20);
 		}
-
+	}
+	
+	public String makeProblem() {
+		logger.info("Requesting creation of a new Problem");
+		
+		service.makeProblem(problem);
+		
+		logger.info("Problem creation successfull");
+		
 		return "/home.xhtml?faces-redirect=true";
 	}
 
@@ -71,7 +71,21 @@ public class ProblemBean {
 
 		return "/home.xhtml?faces-redirect=true";
 	}
-
+	
+	public void showProblem() {
+		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+		int id = Integer.parseInt(request.getParameter("id")); 
+		this.problem = service.getById(id);
+	}
+	
+	public String submit(String idContest, String idProblem, String idUser){
+		Submission submission = new Submission();
+		submission.setProblem(service.getById(Integer.parseInt(idProblem)));
+		submission.setUser(service.getUserContest(Integer.parseInt(idContest), Integer.parseInt(idUser)));
+		//submission.setLanguage();
+		return null;
+	}
+	
 	public String makeTestCase() {
 		// TODO
 		return null;
@@ -86,7 +100,15 @@ public class ProblemBean {
 		// TODO
 		return null;
 	}
+	
+	public Part getUploadedFile() {
+		return uploadedFile;
+	}
 
+	public void setUploadedFile(Part uploadedFile) {
+		this.uploadedFile = uploadedFile;
+	}
+	
 	public Problem getProblem() {
 		return problem;
 	}
@@ -102,21 +124,4 @@ public class ProblemBean {
 	public void setLanguage(Language language) {
 		this.language = language;
 	}
-
-	public void showProblem() {
-
-		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-		int id = Integer.parseInt(request.getParameter("id")); 
-		this.problem = service.getById(id);
-	}
-
-	public String submit(String idContest, String idProblem, String idUser) {
-		Submission submission = new Submission();
-		submission.setProblem(service.getById(Integer.parseInt(idProblem)));
-		submission.setUser(service.getUserContest(Integer.parseInt(idContest),
-				Integer.parseInt(idUser)));
-		// submission.setLanguage();
-		return null;
-	}
-
 }
