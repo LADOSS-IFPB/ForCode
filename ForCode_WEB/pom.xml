@@ -96,9 +96,10 @@
 		<!-- Servlet-api -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>3.0-alpha-1</version>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>4.0.0-b01</version>
 		</dependency>
+
 
 		<!-- Logging -->
 
@@ -123,7 +124,7 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.7.7</version>
+			<version>1.7.12</version>
 		</dependency>
 
 		<dependency>
