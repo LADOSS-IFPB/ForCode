@@ -28,7 +28,7 @@
 							<div class="col s12">
 								<h:outputLabel value="Language" />
 
-								<h:selectOneMenu value="#{ProblemBean.language}"
+								<h:selectOneMenu value="#{submissionBean.language}"
 									converter="languageConverter" styleClass="browser-default">
 									<f:selectItems value="#{listBean.languages}" var="language"
 										itemValue="#{language}" itemLabel="#{language.name}" />
@@ -41,7 +41,7 @@
 								<h:commandLink
 									styleClass="col s4 offset-s4 waves-effect waves-light btn light-blue darken-1"
 									value="Submit"
-									action="#{problemBean.submit(param['idContest'], param['idProblem'], param['idUser'])}"/>
+									action="#{submissionBean.submit(param['idContest'], param['idProblem'], param['idUser'])}"/>
 							</div>
 						</div>
 					</div>
