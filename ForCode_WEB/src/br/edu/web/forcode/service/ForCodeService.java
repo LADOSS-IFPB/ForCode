@@ -297,8 +297,7 @@ public interface ForCodeService {
 	
 	@PermitAll
 	@GET
-	@Path("/problem/{idProblem}")
-	@Consumes("application/json")
+	@Path("/problem/search/id/{idProblem}")
 	@Produces("application/json")
 	public Problem getById(@PathParam("idProblem")Integer idProblem);
 	

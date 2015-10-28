@@ -2,6 +2,8 @@ package br.edu.web.forcode.bean;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
 import javax.ws.rs.core.Response;
 
@@ -21,10 +23,10 @@ public class ProblemBean {
 	Problem problem = new Problem();
 	Language language;
 	Part uploadedFile;
-	
+
 	private static final Logger logger = LogManager.getLogger(AdminBean.class
 			.getName());
-	
+
 	private static final ForCodeService service = ProviderServiceFactory
 			.createServiceClient(ForCodeService.class);
 
@@ -84,7 +86,7 @@ public class ProblemBean {
 		// TODO
 		return null;
 	}
-	
+
 	public Problem getProblem() {
 		return problem;
 	}
@@ -92,7 +94,7 @@ public class ProblemBean {
 	public void setProblem(Problem problem) {
 		this.setProblem(problem);
 	}
-	
+
 	public Language getLanguage() {
 		return language;
 	}
@@ -101,16 +103,20 @@ public class ProblemBean {
 		this.language = language;
 	}
 
-	public String showProblem(Problem problem){
-		this.setProblem(problem);
-		return "/webapp/contest/problem.xhtml";
+	public void showProblem() {
+
+		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+		int id = Integer.parseInt(request.getParameter("id")); 
+		this.problem = service.getById(id);
 	}
-	public String submit(String idContest, String idProblem, String idUser){
+
+	public String submit(String idContest, String idProblem, String idUser) {
 		Submission submission = new Submission();
 		submission.setProblem(service.getById(Integer.parseInt(idProblem)));
-		submission.setUser(service.getUserContest(Integer.parseInt(idContest), Integer.parseInt(idUser)));
-		//submission.setLanguage();
+		submission.setUser(service.getUserContest(Integer.parseInt(idContest),
+				Integer.parseInt(idUser)));
+		// submission.setLanguage();
 		return null;
 	}
-	
+
 }

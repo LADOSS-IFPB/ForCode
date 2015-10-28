@@ -194,4 +194,13 @@ public class Problem {
 		this.creationProgress = creationProgress;
 	}
 
+	@Override
+	public String toString() {
+		return "Problem [idProblem=" + idProblem + ", title=" + title
+				+ ", creationProgress=" + creationProgress + ", timeLimit="
+				+ timeLimit + ", description=" + description + ", input="
+				+ input + ", output=" + output + ", isPrivate=" + isPrivate
+				+ ", problemSetter=" + problemSetter + ", testcases="
+				+ testcases + ", testcaseSamples=" + testcaseSamples + "]";
+	}
 }

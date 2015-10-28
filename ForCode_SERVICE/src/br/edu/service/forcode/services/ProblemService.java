@@ -155,12 +155,15 @@ public class ProblemService {
 	
 	@PermitAll
 	@GET
-	@Path("/search/{idProblem}")
-	@Consumes("application/json")
+	@Path("/search/id/{idProblem}")
 	@Produces("application/json")
 	public Problem getById(@PathParam("idProblem")Integer idProblem){
 		ProblemDAO problemDao = new ProblemDAO();
-		return problemDao.getById(idProblem);
+		
+		Problem problem = problemDao.getById(idProblem);
+		problem.getProblemSetter().setUserKey(null);
+		
+		return problem;
 	}
 	
 	@PermitAll

@@ -53,7 +53,13 @@ public class ListService {
 	public List<Problem> listProblems() {
 		ProblemDAO problemDao = new ProblemDAO();
 		
-		return problemDao.getAll();
+		List<Problem> list = problemDao.getAll();
+		
+		for(Problem problem : list){
+			problem.getProblemSetter().setUserKey(null);
+		}
+		
+		return list;
 	}
 
 	@PermitAll

@@ -49,7 +49,7 @@
 							</div>
 							<div class="input-field col s6">
 								<h:inputSecret id="retype_password" type="password"
-									class="validate" value="" />
+									class="validate"/>
 								<h:outputLabel for="retype_password" value="Re-type Password" />
 							</div>
 						</div>
@@ -61,7 +61,7 @@
 							</div>
 							<div class="col s6">
 								<h:outputLabel value="Institution" />
-								<h:selectOneMenu value="#{managerBean.manager.institution}" styleClass="browser-default">
+								<h:selectOneMenu value="#{managerBean.manager.institution}" styleClass="browser-default" converter="institutionConverter">
 								    <f:selectItems value="#{institutionBean.allInstitutions}" var="institution" itemValue="#{institution}" itemLabel="#{institution.name}" />
 								</h:selectOneMenu>
 							</div>

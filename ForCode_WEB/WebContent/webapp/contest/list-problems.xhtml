@@ -19,7 +19,8 @@
 
 				<div class="row">
 					<div class="column s12">
-						<h:dataTable var = "problem" value = "#{contestBean.contest.problems}" class = "striped bordered">
+						<h:dataTable var="problem" value="#{contestBean.contest.problems}"
+							class="striped bordered">
 							<h:column>
 								<f:facet name="header">
 									<h5>
@@ -27,20 +28,18 @@
 									</h5>
 								</f:facet>
 								<h:form>
-										<h:commandLink
-											value="#{problem.title}" action="#{problemBean.showProblem(problem)}" />
+									<h:commandLink value="#{problem.title}"
+										action="#{problemBean.showProblem(problem)}" />
 								</h:form>
 							</h:column>
-							
+
 							<h:column>
 								<f:facet name="header">
 									<h5>
 										<b>Time Limit</b>
 									</h5>
 								</f:facet>
-								<h6 class = "left-align">
-								#{problem.timeLimit}
-								</h6>
+								<h6 class="left-align">#{problem.timeLimit}</h6>
 							</h:column>
 						</h:dataTable>
 					</div>

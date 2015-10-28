@@ -44,7 +44,7 @@ public class ProblemDAO extends GenericDAO<Problem>{
 		
 		return problem;
 	}
-
+	
 	public Problem getByTitle(String problemTitle){
 			Session session = JPAUtil.getSessionFactory().openSession();
 			session.beginTransaction();
