@@ -17,7 +17,7 @@ import br.edu.web.forcode.service.ProviderServiceFactory;
 @SessionScoped
 public class ContestantBean {
 	
-	private Contestant contestant = (Contestant)BeanUtil.getSessionValue("user") == null ? new Contestant() : (Contestant)BeanUtil.getSessionValue("user");
+	private Contestant contestant = new Contestant();
 	private static final Logger logger = LogManager.getLogger(ContestantBean.class.getName());
 	private static ForCodeService service = ProviderServiceFactory.createServiceClient(ForCodeService.class);
 	
