@@ -14,20 +14,20 @@
 				<div class="row">
 					<div class="col s12">
 						<ul class="tabs">
-							<li class="tab col s2">
+							<li class="tab col s2 #{problemBean.problem.creationProgress eq null? active : null}">
 								<a href="#tab1">General</a>
 							</li>
-							<li class="tab col s2 active">
-								<a href="#tab2">Description</a>
+							<li class="tab col s2 #{problemBean.problem.creationProgress eq null? disabled : null}">
+								<a class="#{problemBean.problem.creationProgress ge 20  or problemBean.problem.creationProgress ne null? active : disabled}" href="#tab2">Description</a>
 							</li>
-							<li class="tab col s2">
-								<a href="#tab3">Samples</a>
+							<li class="tab col s2 #{problemBean.problem.creationProgress lt 40? disabled : null}">
+								<a class="#{problemBean.problem.creationProgress ge 40 or problemBean.problem.creationProgress ne null? active : disabled}" href="#tab3">amples</a>
 							</li>
-							<li class="tab col s2">
-								<a href="#tab4">Testcase</a>
+							<li class="tab col s2 #{problemBean.problem.creationProgress lt 60? disabled : null}">
+								<a class="#{problemBean.problem.creationProgress ge 60 or problemBean.problem.creationProgress ne null? active : disabled}" href="#tab4">Testcase</a>
 							</li>
-							<li class="tab col s2">
-								<a href="#tab5">Validation</a>
+							<li class="tab col s2 #{problemBean.problem.creationProgress lt 80? disabled : null}">
+								<a class="#{problemBean.problem.creationProgress ge 80 or problemBean.problem.creationProgress ne null? active : null}" href="#tab5">Validation</a>
 							</li>
 						</ul>
 					</div>
@@ -39,26 +39,26 @@
 							<h:form class="col s12">
 								<div class="row">
 									<div class="input-field col s9">
-										<h:inputText id="first_name" type="text" class="validate"
-											value="#{managerBean.manager.firstName}" required="true" />
-										<h:outputLabel for="first_name" value="Title" />
+										<h:inputText id="title" type="text" class="validate"
+											value="#{problemBean.problem.title}" required="true" />
+										<h:outputLabel for="title" value="Title" />
 									</div>
 									<div class="input-field col s3">
-										<h:inputText id="last_name" type="text" class="validate"
-											value="#{managerBean.manager.lastName}" required="true" />
-										<h:outputLabel for="last_name" value="Timelimit (ms)" />
+										<h:inputText id="timeLimit" type="text" class="validate"
+											value="#{problemBean.problem.timeLimit}" required="true" />
+										<h:outputLabel for="timeLimit" value="Timelimit (ms)" />
 									</div>
 								</div>
 								
 								<div class="row">
 									<div class="col s3 tooltipped" data-position="right" data-delay="50" data-tooltip="This problem will be public after being used in a contest">
-										<h:selectBooleanCheckbox id="filled-in-box" checked="checked" style="display:none;"/>
+										<h:selectBooleanCheckbox id="filled-in-box" checked="checked" style="display:none;" value="problemBean.problem.isPrivate"/>
 										<h:outputLabel for="filled-in-box" value="Private problem"/>
 									</div>
 								</div>
 								
 								<div class="center">
-									<h:commandLink styleClass="waves-effect waves-light btn light-blue darken-1" actionListener="#{managerBean.createManager}" value="Next"/>
+									<h:commandLink styleClass="waves-effect waves-light btn light-blue darken-1" actionListener="#{problemBean.next}" value="Next"/>
 								</div>
 							</h:form>
 						</div>

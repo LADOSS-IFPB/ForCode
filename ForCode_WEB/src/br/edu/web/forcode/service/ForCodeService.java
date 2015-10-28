@@ -128,28 +128,28 @@ public interface ForCodeService {
 
 	@RolesAllowed(value = { "Manager" })
 	@POST
-	@Path("/create")
+	@Path("/problem/create")
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response makeProblem(Problem problem);
 
 	@RolesAllowed(value = { "Manager" })
 	@POST
-	@Path("/update")
+	@Path("/problem/update")
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response updateProblem(Problem problem);
 
 	@RolesAllowed(value = { "Manager" })
 	@POST
-	@Path("/delete")
+	@Path("/problem/delete")
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response deleteProblem(Problem problem);
 
 	@RolesAllowed(value = { "Manager" })
 	@POST
-	@Path("/deletetestcasedata")
+	@Path("/problem/deletetestcasedata")
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response deleteTestCaseData(Problem problem);
