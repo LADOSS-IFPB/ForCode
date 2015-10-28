@@ -45,10 +45,15 @@ public class ProblemService {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response makeProblem(Problem problem) {
+		
+		logger.info("Inserting problem " + problem.getTitle());
+		
 		ProblemDAO problemDao = new ProblemDAO();
 		problemDao.insert(problem);
 		
 		ResponseBuilder builder = Response.status(Response.Status.CREATED).entity(problem);
+		
+		logger.info("Problem " + problem.getTitle() + " inserted");
 		
 		return builder.build();
 	}
