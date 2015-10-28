@@ -30,6 +30,9 @@ public class Language {
 	//Sample: ./%s < %s > %s/output.txt
 	@Column(name = "executiontion_command", nullable = false)
 	private String executionCommand;
+	
+	@Column(name = "file_extension", nullable = false)
+	private String fileExtension;
 
 	public Language() {
 	}
@@ -77,4 +80,14 @@ public class Language {
 	public void setExecutionCommand(String executionCommand) {
 		this.executionCommand = executionCommand;
 	}
+
+	@XmlElement
+	public String getFileExtension() {
+		return fileExtension;
+	}
+
+	public void setFileExtension(String fileExtension) {
+		this.fileExtension = fileExtension;
+	}
+	
 }
