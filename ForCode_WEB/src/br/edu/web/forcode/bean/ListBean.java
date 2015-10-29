@@ -38,7 +38,8 @@ public class ListBean {
 	}
 	
 	/*Get All Problems of a Manager/Problemsetter*/
-	public List<Problem> getProblemsByManager(Manager problemSetter){
+	public List<Problem> getProblemsByManager(){
+		Manager problemSetter = (Manager)BeanUtil.getSessionValue("user");
 		return service.listProblemsByProblemSetter(problemSetter);
 	}
 	

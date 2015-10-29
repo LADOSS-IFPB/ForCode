@@ -162,8 +162,9 @@ public interface ForCodeService {
 	 */
 	
 	@PermitAll
-	@GET
-	@Path("/problemsbymanager")
+	@POST
+	@Path("list/problemsbymanager")
+	@Consumes("application/json")
 	@Produces("application/json")
 	public List<Problem> listProblemsByProblemSetter(Manager problemSetter);
 	

@@ -48,8 +48,9 @@ public class ListService {
 			.getLogger(ListService.class);
 
 	@PermitAll
-	@GET
+	@POST
 	@Path("/problemsbymanager")
+	@Consumes("application/json")
 	@Produces("application/json")
 	public List<Problem> listProblemsByProblemSetter(Manager problemSetter) {
 		ProblemDAO problemDao = new ProblemDAO();
@@ -84,6 +85,7 @@ public class ListService {
 	@PermitAll
 	@GET
 	@Path("/contests")
+	@Consumes("application/json")
 	@Produces("application/json")
 	public List<Contest> listContests() {
 		ContestDAO contestDao = new ContestDAO();
