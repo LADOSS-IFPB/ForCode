@@ -6,7 +6,7 @@
 		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
 		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/forcode?characterEncoding=UTF-8</property>
 		<property name="hibernate.connection.username">root</property>
-		<property name="hibernate.connection.password">ifpbinfo</property>
+		<property name="hibernate.connection.password"></property>
 		<property name="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
       
         <!-- Print SQL to stdout. -->  

@@ -25,6 +25,7 @@ import br.edu.commons.forcode.contests.Submission;
 import br.edu.commons.forcode.contests.TestCaseSample;
 import br.edu.commons.forcode.entities.ForCodeError;
 import br.edu.commons.forcode.entities.Institution;
+import br.edu.commons.forcode.entities.Manager;
 import br.edu.commons.forcode.entities.User;
 import br.edu.service.forcode.database.dao.ClarificationDAO;
 import br.edu.service.forcode.database.dao.ContestDAO;
@@ -42,9 +43,26 @@ public class ListService {
 	/**
 	 * This class contains services related to listing things.
 	 * */
-	
+
 	private static final Logger logger = LogManager
 			.getLogger(ListService.class);
+
+	@PermitAll
+	@GET
+	@Path("/problemsbymanager")
+	@Produces("application/json")
+	public List<Problem> listProblemsByProblemSetter(Manager problemSetter) {
+		ProblemDAO problemDao = new ProblemDAO();
+
+		List<Problem> list = problemDao.getAllByProblemSetter(problemSetter);
+
+		// TODO Circular Reference Alternative Solution
+		for (Problem problem : list) {
+			problem.getProblemSetter().setUserKey(null);
+		}
+
+		return list;
+	}
 
 	@PermitAll
 	@GET
@@ -52,13 +70,14 @@ public class ListService {
 	@Produces("application/json")
 	public List<Problem> listProblems() {
 		ProblemDAO problemDao = new ProblemDAO();
-		
+
 		List<Problem> list = problemDao.getAll();
-		
-		for(Problem problem : list){
+
+		// TODO Circular Reference Alternative Solution
+		for (Problem problem : list) {
 			problem.getProblemSetter().setUserKey(null);
 		}
-		
+
 		return list;
 	}
 
@@ -78,9 +97,10 @@ public class ListService {
 	@Produces("application/json")
 	public List<Clarification> listClarifications(Contest contest) {
 		ClarificationDAO clarificationDao = new ClarificationDAO();
-		
-		if(contest == null)return new ArrayList<Clarification>();
-		
+
+		if (contest == null)
+			return new ArrayList<Clarification>();
+
 		return clarificationDao.getClarificationsByContest(contest);
 	}
 
@@ -90,7 +110,7 @@ public class ListService {
 	@Produces("application/json")
 	public List<Submission> listSubmissions() {
 		SubmissionDAO submissionDao = new SubmissionDAO();
-		
+
 		return submissionDao.getAll();
 	}
 
@@ -101,19 +121,20 @@ public class ListService {
 	@Produces("application/json")
 	public List<Submission> listSubmissions(Contest contest) {
 		SubmissionDAO submissionDao = new SubmissionDAO();
-		
-		if(contest == null)return new ArrayList<Submission>();
-		
+
+		if (contest == null)
+			return new ArrayList<Submission>();
+
 		return submissionDao.getSubmissionsByContest(contest);
 	}
-	
+
 	@PermitAll
 	@GET
 	@Path("/users")
 	@Produces("application/json")
 	public List<User> listUsers() {
 		UserDAO userDao = new UserDAO();
-		
+
 		return userDao.getAll();
 	}
 
@@ -166,51 +187,53 @@ public class ListService {
 
 		return list;
 	}
-	
+
 	@PermitAll
 	@GET
 	@Path("/problem/{idProblem}")
 	@Produces("application/json")
-	public Response listTestCaseSample(@PathParam("idProblem") Integer idProblem){
+	public Response listTestCaseSample(@PathParam("idProblem") Integer idProblem) {
 		TestCaseSampleDAO testCaseSampleDao = new TestCaseSampleDAO();
 		ResponseBuilder builder;
-		
+
 		List<TestCaseSample> list = testCaseSampleDao.getByProblem(idProblem);
-		
-		if(list.isEmpty())
+
+		if (list.isEmpty())
 			builder = Response.status(Response.Status.NOT_FOUND);
 		else
 			builder = Response.status(Response.Status.OK).entity(list);
-		
+
 		return builder.build();
 	}
-	
+
 	@PermitAll
 	@GET
 	@Path("/clarification/{idProblem}")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public List<Clarification> listClarificationByProblem(@PathParam("idProblem") Integer idProblem){
+	public List<Clarification> listClarificationByProblem(
+			@PathParam("idProblem") Integer idProblem) {
 		ClarificationDAO clarificationDao = new ClarificationDAO();
 		return clarificationDao.getClarificationsByProblem(idProblem);
 	}
-	
+
 	@PermitAll
 	@GET
 	@Path("/search/{languageName}")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Language searchLanguage(@PathParam("languageName") String languageName){
+	public Language searchLanguage(
+			@PathParam("languageName") String languageName) {
 		LanguageDAO languageDao = new LanguageDAO();
 		return languageDao.getByName(languageName);
 	}
-	
+
 	@PermitAll
 	@GET
 	@Path("/search/listlanguages")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public List<Language> listLanguages(){
+	public List<Language> listLanguages() {
 		LanguageDAO languageDao = new LanguageDAO();
 		return languageDao.getAll();
 	}
