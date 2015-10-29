@@ -1,16 +1,15 @@
 package br.edu.commons.forcode.entities;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -20,6 +19,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.codehaus.jackson.annotate.JsonSubTypes;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import br.edu.commons.forcode.enumerations.TypeUser;
 
@@ -55,8 +56,9 @@ public abstract class User {
 	@Column(name = "last_name", nullable = false)
 	private String lastName;
 
-	@Basic(fetch = FetchType.LAZY)
- 	@OneToOne(mappedBy = "user", targetEntity = UserKey.class)
+ 	@OneToOne
+ 	@Fetch(FetchMode.JOIN)
+ 	@JoinColumn(name = "fk_id_user_key")
 	private UserKey userKey;
 	
 	@Column(name = "username", nullable = false, unique = true)
@@ -82,13 +84,6 @@ public abstract class User {
 		this.password = password;
 	}
 
-	@Override
-	public String toString() {
-		return "User [idUser=" + idUser + ", typeUser=" + typeUser
-				+ ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", userKey=" + userKey + ", username=" + username
-				+ ", email=" + email + ", password=" + password + "]";
-	}
 
 	@XmlElement
 	public Integer getIdUser() {
@@ -156,5 +151,13 @@ public abstract class User {
 
 	public void setUserKey(UserKey userKey) {
 		this.userKey = userKey;
+	}
+	
+	@Override
+	public String toString() {
+		return "User [idUser=" + idUser + ", typeUser=" + typeUser
+				+ ", firstName=" + firstName + ", lastName=" + lastName
+				+ ", userKey=" + userKey + ", username=" + username
+				+ ", email=" + email + ", password=" + password + "]";
 	}
 }

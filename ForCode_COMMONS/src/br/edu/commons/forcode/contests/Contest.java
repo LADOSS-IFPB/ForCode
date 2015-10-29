@@ -3,7 +3,9 @@ package br.edu.commons.forcode.contests;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,13 +15,14 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -60,8 +63,11 @@ public class Contest {
 		inverseJoinColumns = { @JoinColumn(name = "fk_id_problem", nullable = false, updatable = false) })
 	private List<Problem> problems;
 
-	@OneToMany(mappedBy = "contest", targetEntity = UserContest.class)
+
+	@ElementCollection
 	@Fetch(FetchMode.JOIN)
+	@CollectionTable(name = "tb_user_contest", joinColumns = @JoinColumn(name = "fk_id_user_contest", nullable = false))
+	@Cascade({CascadeType.ALL})
 	private List<UserContest> contestants;
 
 	public Contest() {
@@ -149,7 +155,13 @@ public class Contest {
 	public void setProblems(List<Problem> problems) {
 		this.problems = problems;
 	}
-	
-	
 
+	@Override
+	public String toString() {
+		return "Contest [idContest=" + idContest + ", name=" + name + ", description="
+				+ description + ", startDate=" + startDate + ", endDate=" + endDate
+				+ ", contestManager=" + contestManager + ", problems=" + problems
+				+ ", contestants=" + contestants + "]";
+	}
+	
 }

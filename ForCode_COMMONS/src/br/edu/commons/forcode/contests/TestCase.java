@@ -7,8 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -33,21 +31,15 @@ public class TestCase {
 	@Transient
 	private File output;
 
-	@ManyToOne
-	@JoinColumn(name = "fk_id_problem")
-	private Problem problem;
-
 	public TestCase() {
 	}
 
-	public TestCase(Integer idTestCase, String path, File input, File output,
-			Problem problem) {
+	public TestCase(Integer idTestCase, String path, File input, File output) {
 		super();
 		this.idTestCase = idTestCase;
 		this.path = path;
 		this.input = input;
 		this.output = output;
-		this.problem = problem;
 	}
 
 	@XmlElement
@@ -70,7 +62,6 @@ public class TestCase {
 		this.setOutput(new File(path + path.substring(path.lastIndexOf('/')) + ".out"));
 	}
 
-	
 	@XmlElement
 	public File getInput() {
 		return input;
@@ -89,13 +80,10 @@ public class TestCase {
 		this.output = output;
 	}
 
-	@XmlElement
-	public Problem getProblem() {
-		return problem;
-	}
-
-	public void setProblem(Problem problem) {
-		this.problem = problem;
+	@Override
+	public String toString() {
+		return "TestCase [idTestCase=" + idTestCase + ", path=" + path + ", input=" + input
+				+ ", output=" + output + "]";
 	}
 
 }

@@ -7,8 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -28,10 +26,6 @@ public class UserKey {
 	
 	@Column(name="header_key", nullable=false)
 	private String key;
-	
-	@ManyToOne
-	@JoinColumn(name="fk_id_user")
-	private User user;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="creation_timestamp", columnDefinition = "TIMESTAMP default CURRENT_TIMESTAMP", insertable = false, updatable = false)
@@ -68,14 +62,6 @@ public class UserKey {
 
 	public void setCreationTimestamp(Calendar creationTimestamp) {
 		this.creationTimestamp = creationTimestamp;
-	}	
-
-	@XmlElement
-	public User getUser() {
-		return user;
 	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
+	
 }

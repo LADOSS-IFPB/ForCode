@@ -143,4 +143,11 @@ public class Submission {
 		this.language = language;
 	}
 
+	@Override
+	public String toString() {
+		return "Submission [idSubmission=" + idSubmission + ", path=" + path + ", verdict="
+				+ verdict + ", submissionFile=" + submissionFile + ", timestamp=" + timestamp
+				+ ", problem=" + problem + ", user=" + user + ", language=" + language + "]";
+	}
+
 }

@@ -24,20 +24,15 @@ public class Score {
 	private Integer idScore;
 	
 	@ManyToOne
-	@JoinColumn(name = "fk_id_user_contest")
-	private UserContest user;
-	
-	@ManyToOne
-	@JoinColumn(name = "fk_id_problem")
+	@JoinColumn(name = "fk_id_problem", nullable = false)
 	private Problem problem;
 	
 	@Column(name = "score")
 	private Integer score;
 	
-	public Score(UserContest user, Problem problem,
+	public Score(Problem problem,
 			Integer score) {
 		super();
-		this.user = user;
 		this.problem = problem;
 		this.score = score;
 	}
@@ -49,15 +44,6 @@ public class Score {
 
 	public void setIdScore(Integer idScore) {
 		this.idScore = idScore;
-	}
-	
-	@XmlElement
-	public UserContest getUser() {
-		return user;
-	}
-
-	public void setUser(UserContest user) {
-		this.user = user;
 	}
 	
 	@XmlElement

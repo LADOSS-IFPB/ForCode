@@ -5,15 +5,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -24,7 +20,7 @@ import org.hibernate.annotations.FetchMode;
 public class TestCaseSample {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column (name = "id_testcase_sample")
+	@Column(name = "id_testcase_sample")
 	private Integer idTestCaseSample;
 
 	@Lob
@@ -37,22 +33,15 @@ public class TestCaseSample {
 	@Column(name = "output")
 	private String output;
 
-	@ManyToOne
-	@JoinColumn(name = "fk_id_problem")
-	@Cascade({CascadeType.ALL})
-	private Problem problem;
-
 	public TestCaseSample() {
 
 	}
 
-	public TestCaseSample(Integer idTestCaseSample, String input,
-			String output, Problem problem) {
+	public TestCaseSample(Integer idTestCaseSample, String input, String output) {
 		super();
 		this.idTestCaseSample = idTestCaseSample;
 		this.input = input;
 		this.output = output;
-		this.problem = problem;
 	}
 
 	public Integer getIdTestCaseSample() {
@@ -79,12 +68,10 @@ public class TestCaseSample {
 		this.output = output;
 	}
 
-	public Problem getProblem() {
-		return problem;
+	@Override
+	public String toString() {
+		return "TestCaseSample [idTestCaseSample=" + idTestCaseSample + ", input=" + input
+				+ ", output=" + output + "]";
 	}
-
-	public void setProblem(Problem problem) {
-		this.problem = problem;
-	}
-
+	
 }
