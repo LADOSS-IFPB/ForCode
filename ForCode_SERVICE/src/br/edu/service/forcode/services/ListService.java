@@ -54,15 +54,7 @@ public class ListService {
 	@Produces("application/json")
 	public List<Problem> listProblemsByProblemSetter(Manager problemSetter) {
 		ProblemDAO problemDao = new ProblemDAO();
-
-		List<Problem> list = problemDao.getAllByProblemSetter(problemSetter);
-
-		// TODO Circular Reference Alternative Solution
-		for (Problem problem : list) {
-			problem.getProblemSetter().setUserKey(null);
-		}
-
-		return list;
+		return problemDao.getAllByProblemSetter(problemSetter);
 	}
 
 	@PermitAll
@@ -71,15 +63,7 @@ public class ListService {
 	@Produces("application/json")
 	public List<Problem> listProblems() {
 		ProblemDAO problemDao = new ProblemDAO();
-
-		List<Problem> list = problemDao.getAll();
-
-		// TODO Circular Reference Alternative Solution
-		for (Problem problem : list) {
-			problem.getProblemSetter().setUserKey(null);
-		}
-
-		return list;
+		return problemDao.getAll();
 	}
 
 	@PermitAll
