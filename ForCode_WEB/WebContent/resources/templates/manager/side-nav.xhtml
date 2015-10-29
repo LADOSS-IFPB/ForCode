@@ -16,12 +16,12 @@
 		
 		<ui:define name="side-nav-content">
 			<div class="container center">
-				<p>Welcome, #{sessionScope.user.username}!</p>
+				<p>Welcome, <b>#{sessionScope.user.username}!</b></p>
 			</div>
 			
 			<div class="divider"></div>
 			
-			<li><a href="#!"><b>Create contest</b></a></li>
+			<li><a href="create-contest.xhtml"><b>Create contest</b></a></li>
     		<li><a href="create-problem.xhtml"><b>Create problems</b></a></li>
     		<li class="no-padding">
 	      		<ul class="collapsible collapsible-accordion">
@@ -42,8 +42,8 @@
 			    		<a class="collapsible-header dropdown-button"><b><br/>Contests</b></a>
 			        	<div class="collapsible-body">
 				    	    <ul>
-				            	<li><a href="">All contests</a></li>
-				                <li><a href="#!">My contests</a></li>
+				            	<li><a href="all-contests.xhtml">All contests</a></li>
+				                <li><a href="my-contests.xhtml">My contests</a></li>
 				            </ul>
 						</div>
 					</li>

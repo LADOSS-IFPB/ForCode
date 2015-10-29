@@ -6,6 +6,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 
 import br.edu.commons.forcode.contests.Contest;
+import br.edu.commons.forcode.entities.Manager;
 import br.edu.service.forcode.util.JPAUtil;
 
 public class ContestDAO extends GenericDAO<Contest>{
@@ -59,5 +60,23 @@ public class ContestDAO extends GenericDAO<Contest>{
 		session.close();
 		
 		return list;
+	}
+
+	public List<Contest> getAllByProblemSetter(Manager problemSetter) {
+		Session session = JPAUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		
+		Query query = session.createQuery("from Contest where fk_id_contest_manager like :id_problem_setter");
+		query.setParameter("id_problem_setter", "%" + problemSetter.getIdUser()
+				+ "%");
+
+		@SuppressWarnings("unchecked")
+		List<Contest> list = (List<Contest>) query.list();
+		
+		session.getTransaction().commit();
+		session.close();
+		
+		return list;
+
 	}
 }

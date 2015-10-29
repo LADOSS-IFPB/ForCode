@@ -2,6 +2,8 @@ package br.edu.web.forcode.bean;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 
 import br.edu.commons.forcode.contests.Contest;
 import br.edu.commons.forcode.entities.Contestant;
@@ -29,10 +31,12 @@ public class ContestBean {
 		return "problems.xhtml";
 	}
 	
-	public String showContest(Contest contest){
-		setContest(contest);
-		return "contest-index.xhtml";
+	public void showContest() {
+		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+		int id = Integer.parseInt(request.getParameter("id")); 
+		this.contest = (Contest)service.seachContestById(id).readEntity(Contest.class);
 	}
+	
 	
 	public void setContest(Contest contest) {
 		this.contest = contest;

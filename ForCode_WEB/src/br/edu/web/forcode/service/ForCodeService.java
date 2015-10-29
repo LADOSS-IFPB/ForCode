@@ -89,7 +89,7 @@ public interface ForCodeService {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response searchUser(String username);
-
+	
 	@POST
 	@RolesAllowed(value = { "Admin", "Manager", "Contestant" })
 	@Path("/user/logout")
@@ -179,6 +179,13 @@ public interface ForCodeService {
 	@Path("/list/contests")
 	@Produces("application/json")
 	public List<Contest> listContests();
+	
+	@PermitAll
+	@POST
+	@Path("/list/contestsbymanager")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public List<Contest> listContestsByProblemSetter(Manager manager);
 
 	@PermitAll
 	@POST

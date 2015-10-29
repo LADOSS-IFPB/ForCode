@@ -6,19 +6,19 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core">
 
-<ui:composition template="/resources/templates/manager/page.xhtml">
+<ui:composition template="/resources/templates/admin/page.xhtml">
 
 	<ui:define name="content">
 		<div class="page content">
 			<div class="container">
 				<div class="row">
 					<div class="column s12">
-						<h3 class="center-align">My Problems</h3>
+						<h3 class="center-align">All Institutions</h3>
 					</div>
 
 					<div class="row">
 						<div class="column s12">
-							<h:dataTable var="problem" value="#{listBean.problemsByManager}"
+							<h:dataTable var="institution" value="#{listBean.institutions}"
 								styleClass="order-table" headerClass="order-table-header"
 								rowClasses="order-table-odd-row,order-table-even-row"
 								class="highlight bordered">
@@ -29,25 +29,40 @@
 											<b>#ID</b>
 										</h5>
 									</f:facet>
-									<h6 class="center-align">#{problem.idProblem}</h6>
+									<h6 class="center-align">#{institution.idInstitution}</h6>
 								</h:column>
 
 								<h:column>
 									<f:facet name="header">
 										<h5>
-											<b>Problem</b>
+											<b>Institution</b>
 										</h5>
 									</f:facet>
 									<h:form>
 										<h6 class="center-align">
-											<h:outputLink id="linkProblem"
-												value="#{request.contextPath}/webapp/manager/problem.xhtml">
-												<f:param name="id" value="#{problem.idProblem}" />
-												<h:outputText value="#{problem.title}" />
-											</h:outputLink>
+											#{institution.name}
 										</h6>
 									</h:form>
 								</h:column>
+
+								<h:column>
+									<f:facet name="header">
+										<h5>
+											<b>City</b>
+										</h5>
+									</f:facet>
+									<h6 class="center-align">#{institution.city}</h6>
+								</h:column>
+								
+								<h:column>
+									<f:facet name="header">
+										<h5>
+											<b>Country</b>
+										</h5>
+									</f:facet>
+									<h6 class="center-align">#{institution.country}</h6>
+								</h:column>
+
 							</h:dataTable>
 						</div>
 					</div>

@@ -78,6 +78,16 @@ public class ListService {
 
 	@PermitAll
 	@POST
+	@Path("/contestsbymanager")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public List<Contest> listContestsByProblemSetter(Manager manager) {
+		ContestDAO contestDao = new ContestDAO();
+		return contestDao.getAllByProblemSetter(manager);
+	}
+
+	@PermitAll
+	@POST
 	@Path("/clarificationbycontest")
 	@Consumes("application/json")
 	@Produces("application/json")

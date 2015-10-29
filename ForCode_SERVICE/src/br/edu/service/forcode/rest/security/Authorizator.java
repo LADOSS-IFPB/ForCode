@@ -41,7 +41,11 @@ public class Authorizator {
 
 	public void deleteKey(User user) {
 		UserKeyDAO userKeyDAO = new UserKeyDAO();
-		userKeyDAO.delete(userKeyDAO.getByUser(user));
+		userKeyDAO.delete(user.getUserKey());
+		
+		UserDAO userDAO = new UserDAO();
+		user.setUserKey(null);
+		userDAO.update(user);
 	}
 
 	protected boolean isAuthorized(String[] authorizedUsers, String key) {

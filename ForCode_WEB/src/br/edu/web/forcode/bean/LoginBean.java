@@ -33,7 +33,7 @@ public class LoginBean {
 		return user.getTypeUser().getTypeName().toLowerCase() + "/home.xhtml?faces-redirect=true";
 	}
 	
-	public void logout() throws IOException{
+	public void logout() throws IOException {
 		User user = (User) BeanUtil.getSessionValue("user");
 		logger.info("Logging " + user.getUsername() + " out");
 		

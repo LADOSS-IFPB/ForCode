@@ -340,7 +340,7 @@ public class UserService {
 			
 		auth.deleteKey(user);
 		
-		builder = Response.status(Response.Status.OK).entity(user);
+		builder = Response.status(Response.Status.OK);
 		return builder.build();
 	}
 	

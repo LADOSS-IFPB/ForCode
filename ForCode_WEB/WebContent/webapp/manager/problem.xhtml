@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="/resources/templates/manager/page.xhtml">
+
+	<ui:define name="content">
+		<div class="page content">
+			<div class="container">
+				
+				#{problemBean.showProblem()}
+				
+				<div>
+					<div class="row">
+						<div class="col s12">
+							<h3 class="center-align">
+								<span>#{problemBean.problem.title}</span>
+							</h3>
+							<h6 class="center-align">
+								<b>Problem-setter:</b>
+									#{problemBean.problem.problemSetter.username}
+							</h6>
+							<h6 class="center-align">
+									<span><b><i>time limit: </i></b>#{problemBean.problem.timeLimit}ms</span>
+							</h6>
+						</div>
+						<div class="row">
+							<div class="col s12">
+								<!-- Description -->
+								<p class = "justify-align">
+									#{problemBean.problem.description}
+								</p>
+								<!-- Input -->
+								<h5 class="center-align">
+									<b>Input</b>
+								</h5>
+								<p class ="justify-align">
+									#{problemBean.problem.input}
+								</p>
+								<!-- Output -->
+								<h5 class="center-align">
+									<b>Output</b>
+								</h5>
+								<p class="justify-align">
+									#{problemBean.problem.output}
+								</p>
+							</div>
+							<div class = "row">
+								<div class = "col s12">
+									<h:dataTable var = "testCase" value = "#{problemBean.problem.testcaseSamples}" class = "bordered highlight bordered-table">
+										<h:column>
+											<f:facet name="header">
+												<h5 class = "center-align">
+													<b>Input Sample</b>
+												</h5>
+											</f:facet>
+						    				#{testCase.input}
+						    			</h:column>
+						    			<h:column>
+						    				<f:facet name="header">
+						    					<h5 class = "center-align">
+													<b>Output Sample</b>
+												</h5>
+						    			</f:facet>
+						    				#{testCase.output}
+						    			</h:column>
+									</h:dataTable>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+
+</ui:composition>
+</html>
