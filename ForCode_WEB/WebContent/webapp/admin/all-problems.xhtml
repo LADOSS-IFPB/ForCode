@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="/resources/templates/admin/page.xhtml">
+
+	<ui:define name="content">
+		<div class="page content">
+			<div class="container">
+				<div class="row">
+					<div class="column s12">
+						<h3 class="center-align">All Problems</h3>
+					</div>
+
+					<div class="row">
+						<div class="column s12">
+							<h:dataTable var="problem" value="#{listBean.problems}"
+								styleClass="order-table" headerClass="order-table-header"
+								rowClasses="order-table-odd-row,order-table-even-row"
+								class="highlight bordered">
+
+								<h:column>
+									<f:facet name="header">
+										<h5>
+											<b>#ID</b>
+										</h5>
+									</f:facet>
+									<h6 class="center-align">#{problem.idProblem}</h6>
+								</h:column>
+
+								<h:column>
+									<f:facet name="header">
+										<h5>
+											<b>Problem</b>
+										</h5>
+									</f:facet>
+									<h:form>
+										<h6 class="center-align">
+											<h:outputLink id="linkProblem"
+												value="#{request.contextPath}/webapp/admin/problem.xhtml">
+												<f:param name="id" value="#{problem.idProblem}" />
+												<h:outputText value="#{problem.title}" />
+											</h:outputLink>
+										</h6>
+									</h:form>
+								</h:column>
+
+								<h:column>
+									<f:facet name="header">
+										<h5>
+											<b>Problemsetter</b>
+										</h5>
+									</f:facet>
+									<h6 class="center-align">#{problem.problemSetter.username}</h6>
+								</h:column>
+
+							</h:dataTable>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+
+</ui:composition>
+</html>

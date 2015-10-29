@@ -133,6 +133,16 @@ public class ListService {
 
 		return userDao.getAll();
 	}
+	
+	@PermitAll
+	@POST
+	@Path("/usersbytype")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public List<User> listAllByType(String type) {
+		UserDAO userDAO = new UserDAO();
+		return userDAO.getAllByTypeUser(type);
+	}
 
 	@PermitAll
 	@GET

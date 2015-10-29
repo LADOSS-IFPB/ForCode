@@ -212,6 +212,13 @@ public interface ForCodeService {
 	@Path("/list/users")
 	@Produces("application/json")
 	public List<User> listUsers();
+	
+	@PermitAll
+	@POST
+	@Path("/list/usersbytype")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public List<User> listAllByType(String type);
 
 	@PermitAll
 	@GET

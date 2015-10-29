@@ -54,7 +54,7 @@ public class UserDAO extends GenericDAO<User> {
 		query.setParameter("username", username);
 
 		@SuppressWarnings("unchecked")
-		List<User> list = (List<User>)query.list();
+		List<User> list = (List<User>) query.list();
 
 		User user;
 		if (list.isEmpty()) {
@@ -67,17 +67,16 @@ public class UserDAO extends GenericDAO<User> {
 
 		return user;
 	}
-	
+
 	public User getByEmail(String email) {
 		Session session = JPAUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 
-		Query query = session
-				.createQuery("from User where email = :email");
+		Query query = session.createQuery("from User where email = :email");
 		query.setParameter("email", email);
 
 		@SuppressWarnings("unchecked")
-		List<User> list = (List<User>)query.list();
+		List<User> list = (List<User>) query.list();
 
 		User user;
 		if (list.isEmpty()) {
@@ -85,10 +84,27 @@ public class UserDAO extends GenericDAO<User> {
 		} else {
 			user = list.get(0);
 		}
-		
+
 		session.getTransaction().commit();
 		session.close();
 
 		return user;
+	}
+	
+	public List<User> getAllByTypeUser(String type) {
+		Session session = JPAUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+
+		Query query = session
+				.createQuery("from User where type_user like :type");
+		query.setParameter("type", "%" + type + "%");
+
+		@SuppressWarnings("unchecked")
+		List<User> list = (List<User>) query.list();
+		
+		session.getTransaction().commit();
+		session.close();
+
+		return list;
 	}
 }

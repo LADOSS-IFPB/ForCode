@@ -27,6 +27,11 @@ public class ListBean {
 	public List<User> getUsers(){
 		return service.listUsers();
 	}
+	
+	/*Get All Managers*/
+	public List<User> getAllManagers(){
+		return service.listAllByType("MANAGER");
+	}
 		
 	/*Get All Institutions*/
 	public List<Institution> getInstitutions(){
