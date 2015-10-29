@@ -15,7 +15,8 @@ public class Authorizator {
 	public UserKey generateKey(User user){	
     	
     	UserKeyDAO userKeyDAO = new UserKeyDAO();
-
+    	UserDAO userDAO = new UserDAO();
+    	
     	UserKey userKey = userKeyDAO.getByUser(user);
     	
     	if(userKey == null){
@@ -25,15 +26,15 @@ public class Authorizator {
 	    	userKey = new UserKey();
 	    	
     		userKey.setKey(key);
-	    	userKey.setUser(user);
 	    	
 	    	userKey = userKeyDAO.getById(userKeyDAO.insert(userKey));
 	    	userKey.setKey(EncodingUtil.encode(userKey.getId() + ":" + user.getIdUser() + ":" + EncodingUtil.decode(userKey.getKey())));
 	    	
 	    	userKeyDAO.update(userKey);
 	    	
+	    	user.setUserKey(userKey);
+	    	userDAO.update(user);
     	}
-    	userKey.setUser(null);
     	
     	return userKey;
 	}

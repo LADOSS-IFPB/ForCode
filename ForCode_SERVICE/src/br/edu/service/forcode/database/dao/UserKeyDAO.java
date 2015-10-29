@@ -48,22 +48,23 @@ public class UserKeyDAO extends GenericDAO<UserKey>{
 	}
 	
 	public UserKey getByUser(User user){
-		Session session = JPAUtil.getSessionFactory().openSession();
-		session.beginTransaction();
-		
-		Query query = session.createQuery("from UserKey where user = :user"); 
-		query.setParameter("user", user); 
-		
-		@SuppressWarnings("unchecked")
-		List<UserKey> list = query.list();
-		
-		session.getTransaction().commit();
-		session.close();
-		
-		if(list.isEmpty())
-			return null;
-		
-		return list.get(0);
+		return null;//TODO
+//		Session session = JPAUtil.getSessionFactory().openSession();
+//		session.beginTransaction();
+//		
+//		Query query = session.createQuery("from UserKey where user = :user"); 
+//		query.setParameter("user", user); 
+//		
+//		@SuppressWarnings("unchecked")
+//		List<UserKey> list = query.list();
+//		
+//		session.getTransaction().commit();
+//		session.close();
+//		
+//		if(list.isEmpty())
+//			return null;
+//		
+//		return list.get(0);
 	}
 
 }

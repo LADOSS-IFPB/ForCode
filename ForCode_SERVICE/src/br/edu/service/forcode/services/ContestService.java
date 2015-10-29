@@ -122,11 +122,10 @@ public class ContestService {
 			
 		}else{
 			userContest.setUser(user);
-			userContest.setContest(contest);
 			userContest.setValid(true);
 
 			for (Problem problem : contest.getProblems()) {
-				userContest.getScore().add(new Score(userContest, problem, 0));
+				userContest.getScore().add(new Score(problem, 0));
 			}
 
 			userContestDao.insert(userContest);

@@ -241,7 +241,6 @@ public class ForCodeUploadService {
 						testCase.setPath(aux.getAbsolutePath());
 						testCase.setInput(new File(aux.list()[0]));
 						testCase.setOutput(new File(aux.list()[1]));
-						testCase.setProblem(problem);
 
 						problem.getTestcases().add(testCase);
 					}
