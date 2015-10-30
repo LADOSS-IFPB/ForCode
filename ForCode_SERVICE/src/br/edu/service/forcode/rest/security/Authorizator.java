@@ -57,7 +57,7 @@ public class Authorizator {
 		
 		if (!StringUtil.isNum(keyId) || !StringUtil.isNum(userId))
 			return false;
-
+		
 		boolean roleAccepted = false;
 		User user = new UserDAO().getById(Integer.parseInt(userId));
 
@@ -67,7 +67,7 @@ public class Authorizator {
 				break;
 			}
 		}
-
+		
 		UserKey userKey = new UserKeyDAO().getById(Integer.parseInt(keyId));
 		
 		if (userKey != null && userKey.getKey().equals(EncodingUtil.encode(key))

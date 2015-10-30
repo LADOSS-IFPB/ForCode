@@ -64,7 +64,7 @@
 
 								<h:selectOneMenu value="#{contestantBean.contestant.institution}"
 									converter="institutionConverter" styleClass="browser-default">
-									<f:selectItems value="#{institutionBean.allInstitutions}"
+									<f:selectItems value="#{listBean.institutions}"
 										var="institution" itemValue="#{institution}"
 										itemLabel="#{institution.name}" />
 								</h:selectOneMenu>

@@ -14,13 +14,14 @@ public class InstitutionConverter implements Converter {
 
 	private static ForCodeService service = ProviderServiceFactory
 			.createServiceClient(ForCodeService.class);
-
+	
 	@Override
 	public Object getAsObject(FacesContext facesContext, UIComponent component,
 			String value) {
 		if (value != null) {
 			Institution institution = (Institution) service.searchInstitution(
 					value).readEntity(Institution.class);
+			System.out.println(institution.toString());
 			return institution;
 		}
 		return null;
