@@ -86,9 +86,13 @@
 								</div>
 							</div>
 							<div class="row">
-								<div class="input-field col s12">
+								<div class="input-field col s6">
 									<h:inputSecret id="register_password" type="password" class="validate" value="#{contestantBean.contestant.password}"/> 
 									<h:outputLabel for="register_password" value="Password"/>
+								</div>
+								<div class="input-field col s6">
+									<h:inputSecret id="retype_register_password" type="password" class="validate" value="#{contestantBean.contestant.password}"/> 
+									<h:outputLabel for="retype_register_password" value="Retype Password"/>
 								</div>
 							</div>
 							<h:commandLink styleClass="col s6 offset-s6 waves-effect waves-light btn light-blue darken-1" value="Register" actionListener="#{contestantBean.createUser}"/>	
