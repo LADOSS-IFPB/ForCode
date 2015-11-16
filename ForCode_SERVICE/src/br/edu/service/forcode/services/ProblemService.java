@@ -64,6 +64,9 @@ public class ProblemService {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response updateProblem(Problem problem) {
+		System.out.println(problem.toString());
+		
+		
 		logger.info("Updating problem " + problem.getTitle());
 		ProblemDAO problemDao = new ProblemDAO();
 		

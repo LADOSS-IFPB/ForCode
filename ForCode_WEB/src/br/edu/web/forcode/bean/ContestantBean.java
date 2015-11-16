@@ -13,8 +13,8 @@ import br.edu.web.forcode.bean.util.BeanUtil;
 import br.edu.web.forcode.service.ForCodeService;
 import br.edu.web.forcode.service.ProviderServiceFactory;
 
-@ManagedBean(name="contestantBean")
 @SessionScoped
+@ManagedBean(name="contestantBean")
 public class ContestantBean {
 	
 	private Contestant contestant = new Contestant();
@@ -27,6 +27,8 @@ public class ContestantBean {
 		
 		if(service.createContestant(contestant).getStatus() == Response.Status.OK.getStatusCode()){
 			logger.info("Contestant creation successfull");
+		}else{
+			logger.info("Problem to create a new contestant");
 		}
 	}
 	
@@ -34,7 +36,7 @@ public class ContestantBean {
 				
 		logger.info("Requesting update of a contestant");
 
-		contestant = (Contestant)service.updateContestant(contestant).readEntity(Contestant.class);
+		contestant = (Contestant) service.updateContestant(contestant).readEntity(Contestant.class);
 		BeanUtil.setSessionValue("user", contestant);
 		logger.info("Contestant update successfull");
 		
@@ -48,5 +50,4 @@ public class ContestantBean {
 	public void setContestant(Contestant contestant) {
 		this.contestant = contestant;
 	}
-	
 }

@@ -1,6 +1,7 @@
 package br.edu.web.forcode.bean;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,6 +13,7 @@ import br.edu.web.forcode.bean.util.BeanUtil;
 import br.edu.web.forcode.service.ForCodeService;
 import br.edu.web.forcode.service.ProviderServiceFactory;
 
+@SessionScoped
 @ManagedBean(name="managerBean")
 public class ManagerBean {
 	
