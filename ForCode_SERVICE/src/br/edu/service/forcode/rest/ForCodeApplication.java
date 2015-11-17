@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.ws.rs.core.Application;
 
 import br.edu.service.forcode.services.ContestService;
+import br.edu.service.forcode.services.ForCodeUploadService;
 import br.edu.service.forcode.services.ListService;
 import br.edu.service.forcode.services.ProblemService;
 import br.edu.service.forcode.services.UserService;
@@ -19,6 +20,7 @@ public class ForCodeApplication extends Application {
 		this.singletons.add(new ContestService());
 		this.singletons.add(new ListService());
 		this.singletons.add(new UserService());
+		this.singletons.add(new ForCodeUploadService());
 	}
 
 	public Set<Class<?>> setSingletons() {

@@ -8,7 +8,7 @@ import org.jboss.resteasy.annotations.providers.multipart.PartType;
 
 import br.edu.commons.forcode.enumerations.FileType;
 
-@XmlRootElement(name = "forcode-file")
+@XmlRootElement(name = "forcodefile")
 public class ForCodeUploadFile {
 	@FormParam("fileName")
 	@PartType("text/plain")

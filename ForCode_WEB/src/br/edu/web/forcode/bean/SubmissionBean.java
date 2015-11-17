@@ -56,7 +56,9 @@ public class SubmissionBean {
 		submission = (Submission) service.createSubmission(submission).readEntity(Submission.class);
 		
 		ForCodeUploadFile form = new ForCodeUploadFile();
+		
 		try{
+			
 			form.setFile(IOUtils.toByteArray(uploadedFile.getInputStream()));	
 			form.setFileType(FileType.SUBMISSION_FILE);
 			form.setFileExtension(language.getFileExtension());

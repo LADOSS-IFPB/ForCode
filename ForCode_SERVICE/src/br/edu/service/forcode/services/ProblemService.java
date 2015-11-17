@@ -64,8 +64,6 @@ public class ProblemService {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response updateProblem(Problem problem) {
-		System.out.println(problem.toString());
-		
 		
 		logger.info("Updating problem " + problem.getTitle());
 		ProblemDAO problemDao = new ProblemDAO();
@@ -73,7 +71,8 @@ public class ProblemService {
 		problemDao.update(problem);
 		
 		ResponseBuilder builder = Response.status(Response.Status.ACCEPTED);
-		logger.info("Problem " + problem.getTitle() + "updated");
+		logger.info("Problem " + problem.getTitle() + " updated");
+		
 		return builder.build();
 	}
 	
@@ -120,6 +119,7 @@ public class ProblemService {
 		ResponseBuilder builder;
 
 		ForCodeError error = this.deleteTestCaseDataImpl(problem);
+		
 		if(error == null)
 			builder = Response.status(Response.Status.ACCEPTED);
 		else
@@ -129,6 +129,7 @@ public class ProblemService {
 	}
 	
 	private ForCodeError deleteTestCaseDataImpl(Problem problem){
+		
 		TestCaseDAO testCaseDao = new TestCaseDAO();
 		ForCodeError error = null;
 		StringTokenizer tokenizer;

@@ -40,13 +40,6 @@
 			<version>2.3.0-m03</version>
 		</dependency>
 
-		<!-- CDI -->
-		<dependency>
-			<groupId>javax.enterprise</groupId>
-			<artifactId>cdi-api</artifactId>
-			<version>1.2</version>
-		</dependency>
-
 		<!-- Hibernate -->
 
 		<dependency>

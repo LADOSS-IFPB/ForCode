@@ -130,17 +130,23 @@ public class ForCodeUploadService {
 
 				if(submission.getVerdict() == Verdict.ACCEPTED.getTypeValue()){
 					UserContest userContest = submission.getUser();
+					
 					List<Score> newScore = new ArrayList<Score>();
+					
 					for(Score score : userContest.getScore()){
+						
 						if(score.getProblem().getIdProblem().equals(submission.getProblem().getIdProblem())){
 							score.setScore(1);
 						}
+						
 						newScore.add(score);
 					}
+					
 					userContest.setScore(newScore);
 				}else{
 					UserContest userContest = submission.getUser();
 					List<Score> newScore = new ArrayList<Score>();
+					
 					for(Score score : userContest.getScore()){
 						if(score.getProblem().getIdProblem().equals(submission.getProblem().getIdProblem())){
 							if(score.getScore() <= 0)
@@ -148,6 +154,7 @@ public class ForCodeUploadService {
 						}
 						newScore.add(score);
 					}
+					
 					userContest.setScore(newScore);
 				}
 				
@@ -176,12 +183,12 @@ public class ForCodeUploadService {
 	 */
 	
 	@POST
-	@Path("testcase/{idProblem}")
+	@Path("/testcase/{idProblem}")
 	@Produces("application/json")
 	@Consumes("multipart/form-data; charset=UTF-8")
 	public Response uploadTestCaseFile(@PathParam("idProblem") Integer idProblem,
 			@MultipartForm ForCodeUploadFile form) {
-
+		
 		ProblemDAO problemDao = new ProblemDAO();
 		Problem problem = problemDao.getById(idProblem);
 
@@ -204,6 +211,7 @@ public class ForCodeUploadService {
 				tempZip.createNewFile();
 
 				FileOutputStream fos = new FileOutputStream(tempZip);
+				
 				fos.write(form.getFile());
 				fos.flush();
 				fos.close();
@@ -220,7 +228,7 @@ public class ForCodeUploadService {
 			logger.info("Zip file created.");
 
 			try {
-				File finalTestCasePath;
+				final File finalTestCasePath;
 				ZipFile zipFile = new ZipFile(tempZip);
 
 				finalTestCasePath = new File(TESTCASE_PATH + problem.getIdProblem() + "/testcases/");
@@ -235,8 +243,9 @@ public class ForCodeUploadService {
 				
 				for (String file : finalTestCasePath.list()) {
 					aux = new File(finalTestCasePath + "/" + file);
-					System.out.println(aux.getAbsolutePath());
+					
 					if (aux.isDirectory()) {
+						
 						testCase = new TestCase();
 						testCase.setPath(aux.getAbsolutePath());
 						testCase.setInput(new File(aux.list()[0]));

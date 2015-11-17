@@ -21,10 +21,10 @@
 								<a class="#{problemBean.problem.creationProgress ge 20  or problemBean.problem.creationProgress ne null? active : disabled}" href="#tab2">Description</a>
 							</li>
 							<li class="tab col s2 #{problemBean.problem.creationProgress lt 40? disabled : null}">
-								<a class="#{problemBean.problem.creationProgress ge 40 or problemBean.problem.creationProgress ne null? active : disabled}" href="#tab3">amples</a>
+								<a class="#{problemBean.problem.creationProgress ge 40 or problemBean.problem.creationProgress ne null? active : disabled}" href="#tab3">Samples</a>
 							</li>
 							<li class="tab col s2 #{problemBean.problem.creationProgress lt 60? disabled : null}">
-								<a class="#{problemBean.problem.creationProgress ge 60 or problemBean.problem.creationProgress ne null? active : disabled}" href="#tab4">Testcase</a>
+								<a class="#{problemBean.problem.creationProgress ge 60 or problemBean.problem.creationProgress ne null? active : disabled}" href="#tab4">Test Cases</a>
 							</li>
 							<li class="tab col s2 #{problemBean.problem.creationProgress lt 80? disabled : null}">
 								<a class="#{problemBean.problem.creationProgress ge 80 or problemBean.problem.creationProgress ne null? active : null}" href="#tab5">Validation</a>
@@ -114,14 +114,14 @@
 								<div class="file-field input-field">
 									<div class="btn">
 								        <span>File</span>
-								        <h:inputFile id="file"/>
+								        <h:inputFile id="file" value = "#{problemBean.testCasesFile}"/>
 								    </div>
 									<div class="file-path-wrapper">
 								        <h:inputText styleClass="file-path validate" value="Insert a zip file with testcases"/>
 								    </div>
 								</div>
 								<div class="section center">
-								    <h:commandLink styleClass="waves-effect waves-light btn light-blue darken-1" actionListener="#{managerBean.createManager}" value="Next"/>
+								    <h:commandLink styleClass="waves-effect waves-light btn light-blue darken-1" actionListener="#{problemBean.next()}" value="Next"/>
 								</div>
 							</h:form>
 						</div>
