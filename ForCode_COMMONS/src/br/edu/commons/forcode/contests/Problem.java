@@ -67,13 +67,13 @@ public class Problem {
  
 	@ElementCollection
 	@Fetch(FetchMode.JOIN)
-	@CollectionTable(name = "tb_test_case", joinColumns = @JoinColumn(name = "fk_id_problem", nullable = false))
+	@CollectionTable(name = "tb_testcase", joinColumns = {@JoinColumn(name = "fk_id_problem", nullable = false)})
 	@Cascade({CascadeType.ALL})
  	private List<TestCase> testcases;
  
 	@ElementCollection
 	@Fetch(FetchMode.JOIN)
-	@CollectionTable(name = "tb_test_case_sample", joinColumns = @JoinColumn(name = "fk_id_problem", nullable = false))
+	@CollectionTable(name = "tb_testcase_sample", joinColumns = @JoinColumn(name = "fk_id_problem", nullable = false))
 	@Cascade({CascadeType.ALL})
  	private List<TestCaseSample> testcaseSamples;
 	
