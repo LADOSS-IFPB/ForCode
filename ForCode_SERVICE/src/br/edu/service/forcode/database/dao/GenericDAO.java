@@ -25,7 +25,7 @@ public abstract class GenericDAO<T> {
 
 		session.beginTransaction();
 
-		session.update(entity);
+		session.merge(entity);
 
 		session.getTransaction().commit();
 		session.close();

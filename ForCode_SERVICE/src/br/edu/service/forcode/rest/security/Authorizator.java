@@ -27,7 +27,8 @@ public class Authorizator {
 	    	
     		userKey.setKey(key);
 	    	
-	    	userKey = userKeyDAO.getById(userKeyDAO.insert(userKey));
+	    	userKeyDAO.insert(userKey);
+	    	
 	    	userKey.setKey(EncodingUtil.encode(userKey.getId() + ":" + user.getIdUser() + ":" + EncodingUtil.decode(userKey.getKey())));
 	    	
 	    	userKeyDAO.update(userKey);

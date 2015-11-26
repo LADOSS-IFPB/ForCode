@@ -79,6 +79,8 @@ public class TestCase {
 	public void setOutput(File output) {
 		this.output = output;
 	}
+	
+	
 
 	@Override
 	public String toString() {

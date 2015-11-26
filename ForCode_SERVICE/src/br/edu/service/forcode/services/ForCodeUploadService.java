@@ -191,7 +191,7 @@ public class ForCodeUploadService {
 		
 		ProblemDAO problemDao = new ProblemDAO();
 		Problem problem = problemDao.getById(idProblem);
-
+		
 		File tempZip = new File(TEMP_FOLDER + "/temptestcase.zip");
 
 		ResponseBuilder builder;
@@ -204,7 +204,7 @@ public class ForCodeUploadService {
 			return builder.build();
 		} else {
 
-			logger.info("Creating new temporary zip file containing testCases in"
+			logger.info("Creating new temporary zip file containing testCases in "
 					+ tempZip.getAbsolutePath());
 
 			try {
@@ -247,6 +247,8 @@ public class ForCodeUploadService {
 					if (aux.isDirectory()) {
 						
 						testCase = new TestCase();
+						
+						testCase.setIdTestCase(0);
 						testCase.setPath(aux.getAbsolutePath());
 						testCase.setInput(new File(aux.list()[0]));
 						testCase.setOutput(new File(aux.list()[1]));
@@ -256,7 +258,7 @@ public class ForCodeUploadService {
 				}
 
 				logger.info("Updating problem data");
-
+				
 				problemDao.update(problem);
 
 				builder = Response.status(Response.Status.ACCEPTED);

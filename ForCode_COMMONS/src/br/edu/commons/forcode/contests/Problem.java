@@ -2,9 +2,7 @@ package br.edu.commons.forcode.contests;
 
 import java.util.List;
 
-import javax.persistence.CollectionTable;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -65,15 +64,15 @@ public class Problem {
 	@JoinColumn(name = "fk_id_problem_setter")
 	private Manager problemSetter;
  
-	@ElementCollection
+	@OneToMany
 	@Fetch(FetchMode.JOIN)
-	@CollectionTable(name = "tb_testcase", joinColumns = {@JoinColumn(name = "fk_id_problem", nullable = false)})
+	@JoinColumn(name = "fk_id_problem", nullable = false)
 	@Cascade({CascadeType.ALL})
  	private List<TestCase> testcases;
  
-	@ElementCollection
+	@OneToMany
 	@Fetch(FetchMode.JOIN)
-	@CollectionTable(name = "tb_testcase_sample", joinColumns = @JoinColumn(name = "fk_id_problem", nullable = false))
+	@JoinColumn(name = "fk_id_problem", nullable = false)
 	@Cascade({CascadeType.ALL})
  	private List<TestCaseSample> testcaseSamples;
 	
