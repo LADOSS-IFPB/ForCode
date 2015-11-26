@@ -2,9 +2,7 @@ package br.edu.commons.forcode.contests;
 
 import java.util.List;
 
-import javax.persistence.CollectionTable;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -41,9 +40,9 @@ public class UserContest {
 	@JoinColumn(name = "fk_id_user")
 	private Contestant user;
 
-	@ElementCollection
+	@OneToMany
 	@Fetch(FetchMode.JOIN)
-	@CollectionTable(name = "tb_score", joinColumns = @JoinColumn(name = "fk_id_user_contest", nullable = false))
+	@JoinColumn(name = "fk_id_user_contest", nullable = false)
 	@Cascade({CascadeType.ALL})
 	private List<Score> score;
 
