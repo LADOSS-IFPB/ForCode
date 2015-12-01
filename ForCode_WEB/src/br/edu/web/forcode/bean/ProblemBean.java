@@ -24,7 +24,7 @@ import br.edu.web.forcode.service.ProviderServiceFactory;
 
 @ViewScoped
 @ManagedBean(name = "problemBean")
-public class ProblemBean implements Serializable{
+public class ProblemBean implements Serializable {
 
 	private static final long serialVersionUID = 697596035039862344L;
 
@@ -39,21 +39,21 @@ public class ProblemBean implements Serializable{
 			.createServiceClient(ForCodeService.class);
 
 	public void next() {
-		
+
 		if (problem.getCreationProgress() != null) {
 			problem.setCreationProgress(problem.getCreationProgress() + 20);
 
 			updateProblem();
-			
+
 		} else {
 			problem.setProblemSetter((Manager) BeanUtil.getSessionValue("user"));
 			problem.setCreationProgress(20);
 
 			this.makeProblem();
-			
+
 		}
-		
-		if(this.testCasesUpFile != null){
+
+		if (this.testCasesUpFile != null) {
 			this.makeTestCase();
 		}
 	}
@@ -62,10 +62,10 @@ public class ProblemBean implements Serializable{
 		logger.info("Requesting creation of a new Problem");
 
 		Response response = service.makeProblem(problem);
-		
+
 		this.problem = response.readEntity(Problem.class);
 		response.close();
-		
+
 		logger.info("Problem creation successfull");
 
 		return "/home.xhtml?faces-redirect=true";
@@ -75,13 +75,13 @@ public class ProblemBean implements Serializable{
 		logger.info("Requesting update of a Problem");
 
 		Response response = service.updateProblem(problem);
-		
+
 		if (response.getStatusInfo() == Response.Status.ACCEPTED) {
 			logger.info("Problem update successfull");
 		} else {
 			logger.info("Problem update unsuccessfull");
 		}
-		
+
 		response.close();
 
 		return "/home.xhtml?faces-redirect=true";
@@ -100,28 +100,29 @@ public class ProblemBean implements Serializable{
 	public void showProblem() {
 		HttpServletRequest request = (HttpServletRequest) FacesContext
 				.getCurrentInstance().getExternalContext().getRequest();
-		
+
 		int id = Integer.parseInt(request.getParameter("id"));
-		
+
 		this.problem = service.getById(id);
 	}
 
 	public void makeTestCase() {
-		
+
 		ForCodeUploadFile forCodeUpFile = new ForCodeUploadFile();
 		forCodeUpFile.setFileType(FileType.PROBLEM_TEST_CASE_ZIP);
 
 		try {
-			forCodeUpFile.setFile(IOUtils.toByteArray(testCasesUpFile.getInputStream()));
-			
+			forCodeUpFile.setFile(IOUtils.toByteArray(testCasesUpFile
+					.getInputStream()));
+
 		} catch (IOException ioexcep) {
 
 			logger.warn("Could not convert inputStream from uploaded file to byte array, there's something wrong.");
 			// TODO add a message to the view.
 		}
-		
+
 		service.uploadTestCaseFile(problem.getIdProblem(), forCodeUpFile);
-		
+
 	}
 
 	public String updateTestCase() {
