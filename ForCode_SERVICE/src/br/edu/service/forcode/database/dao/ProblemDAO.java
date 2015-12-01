@@ -2,89 +2,139 @@ package br.edu.service.forcode.database.dao;
 
 import java.util.List;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
 import br.edu.commons.forcode.contests.Problem;
 import br.edu.commons.forcode.entities.Manager;
+import br.edu.commons.forcode.exceptions.ForCodeDataException;
 import br.edu.service.forcode.util.JPAUtil;
 
 public class ProblemDAO extends GenericDAO<Problem> {
 
 	@Override
-	public int insert(Problem entity) {
+	public int insert(Problem entity) throws ForCodeDataException {
 		super.insert(entity);
 		return entity.getIdProblem();
 	}
 
 	@Override
-	public List<Problem> getAll() {
+	@SuppressWarnings("unchecked")
+	public List<Problem> getAll() throws ForCodeDataException {
+
 		Session session = JPAUtil.getSessionFactory().openSession();
-		session.beginTransaction();
+		Query query;
+		List<Problem> problems;
 
-		Query query = session.getNamedQuery("Problem.getAll");
+		try {
+			session.beginTransaction();
 
-		@SuppressWarnings("unchecked")
-		List<Problem> problems = query.list();
+			query = session.getNamedQuery("Problem.getAll");
+			problems = query.list();
 
-		session.getTransaction().commit();
-		session.close();
+			session.getTransaction().commit();
+
+		} catch (HibernateException hexp) {
+			session.getTransaction().rollback();
+			throw new ForCodeDataException(
+					"There was a problem while trying to get entities from class: " + Problem.class
+							+ "Hibernate says: " + hexp.getMessage());
+
+		} finally {
+			session.close();
+		}
+		return problems;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Problem> getAllByProblemSetter(Manager problemSetter) throws ForCodeDataException {
+
+		Session session = JPAUtil.getSessionFactory().openSession();
+		Query query;
+		List<Problem> problems;
+
+		try {
+			session.beginTransaction();
+
+			query = session
+					.createQuery("from Problem where fk_id_problem_setter like :id_problem_setter");
+			query.setParameter("id_problem_setter", "%" + problemSetter.getIdUser() + "%");
+
+			problems = (List<Problem>) query.list();
+
+			session.getTransaction().commit();
+
+		} catch (HibernateException hexp) {
+			session.getTransaction().rollback();
+			throw new ForCodeDataException(
+					"There was a problem while trying to get entities from class: " + Problem.class
+							+ "Hibernate says: " + hexp.getMessage());
+
+		} finally {
+			session.close();
+		}
 
 		return problems;
 	}
 
-	public List<Problem> getAllByProblemSetter(Manager problemSetter) {
-		Session session = JPAUtil.getSessionFactory().openSession();
-		session.beginTransaction();
-
-		Query query = session
-				.createQuery("from Problem where fk_id_problem_setter like :id_problem_setter");
-		query.setParameter("id_problem_setter", "%" + problemSetter.getIdUser()
-				+ "%");
-
-		@SuppressWarnings("unchecked")
-		List<Problem> list = (List<Problem>) query.list();
-
-		session.getTransaction().commit();
-		session.close();
-
-		return list;
-	}
-
 	@Override
-	public Problem getById(Integer pk) {
+	public Problem getById(Integer pk) throws ForCodeDataException {
+
 		Session session = JPAUtil.getSessionFactory().openSession();
-		session.beginTransaction();
+		Problem problem;
 
-		Problem problem = (Problem) session.get(Problem.class, pk);
+		try {
+			session.beginTransaction();
+			problem = (Problem) session.get(Problem.class, pk);
+			session.getTransaction().commit();
 
-		session.getTransaction().commit();
-		session.close();
+		} catch (HibernateException hexp) {
+			session.getTransaction().rollback();
+			throw new ForCodeDataException(
+					"There was a problem while trying to get entity from class: " + Problem.class
+							+ "Hibernate says: " + hexp.getMessage());
+
+		} finally {
+			session.close();
+		}
 
 		return problem;
 	}
 
-	public Problem getByTitle(String problemTitle) {
+	@SuppressWarnings("unchecked")
+	public Problem getByTitle(String problemTitle) throws ForCodeDataException {
+
 		Session session = JPAUtil.getSessionFactory().openSession();
-		session.beginTransaction();
-
-		Query query = session
-				.createQuery("from Problem where title like :title");
-		query.setParameter("title", "%" + problemTitle + "%");
-
-		@SuppressWarnings("unchecked")
-		List<Problem> list = (List<Problem>) query.list();
-
+		List<Problem> problems;
 		Problem problem;
 
-		if (list.isEmpty()) {
-			problem = null;
-		} else {
-			problem = list.get(0);
+		try {
+			session.beginTransaction();
+
+			Query query = session.createQuery("from Problem where title like :title");
+			query.setParameter("title", "%" + problemTitle + "%");
+
+			problems = (List<Problem>) query.list();
+
+			if (problems.isEmpty()) {
+				problem = null;
+			} else {
+				problem = problems.get(0);
+			}
+
+			session.getTransaction().commit();
+
+		} catch (HibernateException hexp) {
+			session.getTransaction().rollback();
+			throw new ForCodeDataException(
+					"There was a problem while trying to get entity from class: " + Problem.class
+							+ "Hibernate says: " + hexp.getMessage());
+
+		} finally {
+			session.close();
 		}
 
-		session.getTransaction().commit();
-		session.close();
 		return problem;
 	}
 

@@ -2,69 +2,99 @@ package br.edu.service.forcode.database.dao;
 
 import java.util.List;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
 import br.edu.commons.forcode.contests.Language;
+import br.edu.commons.forcode.exceptions.ForCodeDataException;
 import br.edu.service.forcode.util.JPAUtil;
 
-public class LanguageDAO extends GenericDAO<Language>{
-	
+public class LanguageDAO extends GenericDAO<Language> {
+
 	@Override
-	public int insert(Language entity) {
+	public int insert(Language entity) throws ForCodeDataException {
 		super.insert(entity);
 		return entity.getIdLanguage();
 	}
-	
+
 	@Override
-	public List<Language> getAll() {
+	@SuppressWarnings("unchecked")
+	public List<Language> getAll() throws ForCodeDataException {
+		
 		Session session = JPAUtil.getSessionFactory().openSession();
-		session.beginTransaction();
+		List<Language> languages;
+		Query query;
 		
-		Query query = session.getNamedQuery("Language.getAll");
+		try{
+			session.beginTransaction();	
+			query = session.getNamedQuery("Language.getAll");
+			languages = query.list();
+			session.getTransaction().commit();
+			
+		}catch(HibernateException hexp){
+			session.getTransaction().rollback();
+			throw new ForCodeDataException("There was a problem while trying to get entities from class: " + Language.class + "Hibernate says: " + hexp.getMessage());
 		
-		@SuppressWarnings("unchecked")
-		List<Language> languages = query.list();
-		
-		session.getTransaction().commit();
-		session.close();
-		
+		}finally{
+			session.close();
+		}
+
 		return languages;
 	}
 
 	@Override
-	public Language getById(Integer pk) {
+	public Language getById(Integer pk) throws ForCodeDataException {
+		
 		Session session = JPAUtil.getSessionFactory().openSession();
-		session.beginTransaction();
+		Language language;
 		
-		Language language = (Language) session.get(Language.class, pk);
+		try{
+			session.beginTransaction();	
+			language = (Language) session.get(Language.class, pk);
+			session.getTransaction().commit();
+			
+		}catch(HibernateException hexp){
+			session.getTransaction().rollback();
+			throw new ForCodeDataException("There was a problem while trying to get entity from class: " + Language.class + "Hibernate says: " + hexp.getMessage());
 		
-		session.getTransaction().commit();
-		session.close();
-		
+		}finally{
+			session.close();
+		}
+
 		return language;
 	}
-	
-	public Language getByName(String languageName){
-			Session session = JPAUtil.getSessionFactory().openSession();
-			session.beginTransaction();
-			
-			Query query = session.createQuery("from Language where name like :name");
+
+	@SuppressWarnings("unchecked")
+	public Language getByName(String languageName) throws ForCodeDataException {
+		
+		Session session = JPAUtil.getSessionFactory().openSession();
+		List<Language> languages;
+		Query query;
+		Language language;
+		
+		try{
+			session.beginTransaction();	
+			query = session.createQuery("from Language where name like :name");
 			query.setString("name", "%" + languageName + "%");
-			
-			@SuppressWarnings("unchecked")
-			List<Language> list = (List<Language>) query.list();
-			
-			
-			Language language = null;
-			
-			if(!list.isEmpty()){
-				language = list.get(0);
+	
+			languages = (List<Language>) query.list();
+			language = null;
+	
+			if (!languages.isEmpty()) {
+				language = languages.get(0);
 			}
-			
+	
 			session.getTransaction().commit();
-			session.close();
 			
-			return language;
+		}catch(HibernateException hexp){
+			session.getTransaction().rollback();
+			throw new ForCodeDataException("There was a problem while trying to get entity from class: " + Language.class + "Hibernate says: " + hexp.getMessage());
+		
+		}finally{
+			session.close();
+		}
+
+		return language;
 	}
 }

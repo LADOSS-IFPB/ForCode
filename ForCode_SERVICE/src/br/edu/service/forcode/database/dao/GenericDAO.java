@@ -2,47 +2,73 @@ package br.edu.service.forcode.database.dao;
 
 import java.util.List;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
+import br.edu.commons.forcode.exceptions.ForCodeDataException;
 import br.edu.service.forcode.util.JPAUtil;
 
 public abstract class GenericDAO<T> {
 
-	public int insert(T entity) {
+	public int insert(T entity) throws ForCodeDataException {
 		Session session = JPAUtil.getSessionFactory().openSession();
 
-		session.beginTransaction();
+		try {
+			session.beginTransaction();
+			session.save(entity);
+			session.getTransaction().commit();
 
-		session.save(entity);
+		} catch (HibernateException hexp) {
+			session.getTransaction().rollback();
+			throw new ForCodeDataException(
+					"There was a problem while trying to save entity from class: "
+							+ entity.getClass() + "Hibernate says: " + hexp.getMessage());
 
-		session.getTransaction().commit();
-		session.close();
+		} finally {
+			session.close();
+		}
 		return 0;
 	}
 
-	public void update(T entity) {
+	public void update(T entity) throws ForCodeDataException {
 		Session session = JPAUtil.getSessionFactory().openSession();
 
-		session.beginTransaction();
+		try {
+			session.beginTransaction();
+			session.merge(entity);
+			session.getTransaction().commit();
 
-		session.merge(entity);
+		} catch (HibernateException hexp) {
+			session.getTransaction().rollback();
+			throw new ForCodeDataException(
+					"There was a problem while trying to merge entity from class: "
+							+ entity.getClass() + "Hibernate says: " + hexp.getMessage());
 
-		session.getTransaction().commit();
-		session.close();
+		} finally {
+			session.close();
+		}
 	}
 
-	public void delete(T entity) {
+	public void delete(T entity) throws ForCodeDataException {
 		Session session = JPAUtil.getSessionFactory().openSession();
 
-		session.beginTransaction();
+		try {
+			session.beginTransaction();
+			session.delete(entity);
+			session.getTransaction().commit();
 
-		session.delete(entity);
+		} catch (HibernateException hexp) {
+			session.getTransaction().rollback();
+			throw new ForCodeDataException(
+					"There was a problem while trying to delete entity from class: "
+							+ entity.getClass() + "Hibernate says: " + hexp.getMessage());
 
-		session.getTransaction().commit();
-		session.close();
+		} finally {
+			session.close();
+		}
 	}
 
-	public abstract List<T> getAll();
+	public abstract List<T> getAll() throws ForCodeDataException;
 
-	public abstract T getById(Integer pk);
+	public abstract T getById(Integer pk) throws ForCodeDataException;
 }
