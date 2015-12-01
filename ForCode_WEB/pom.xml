@@ -92,7 +92,7 @@
 			<artifactId>javax.servlet-api</artifactId>
 			<version>4.0.0-b01</version>
 		</dependency>
-		
+
 		<!-- Logging -->
 
 		<dependency>
@@ -125,6 +125,12 @@
 			<version>1.2</version>
 		</dependency>
 
+		<!-- CDI -->
+		<dependency>
+			<groupId>javax.enterprise</groupId>
+			<artifactId>cdi-api</artifactId>
+			<version>1.0-SP1</version>
+		</dependency>
 
 	</dependencies>
 
