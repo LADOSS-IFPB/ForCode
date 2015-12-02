@@ -3,38 +3,58 @@ package br.edu.service.forcode.rest.security;
 import java.util.Random;
 import java.util.StringTokenizer;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import br.edu.commons.forcode.entities.User;
 import br.edu.commons.forcode.entities.UserKey;
+import br.edu.commons.forcode.exceptions.ForCodeDataException;
 import br.edu.commons.forcode.util.EncodingUtil;
 import br.edu.commons.forcode.util.StringUtil;
 import br.edu.service.forcode.database.dao.UserDAO;
 import br.edu.service.forcode.database.dao.UserKeyDAO;
+import br.edu.service.forcode.services.UserService;
 
 public class Authorizator {
 
+	private static final Logger logger = LogManager
+			.getLogger(UserService.class.getName());
+	
 	public UserKey generateKey(User user){	
     	
     	UserKeyDAO userKeyDAO = new UserKeyDAO();
     	UserDAO userDAO = new UserDAO();
+    	UserKey userKey;
     	
-    	UserKey userKey = userKeyDAO.getByUser(user);
+    	try{
+    		userKey = userKeyDAO.getByUser(user);
+    	}catch(ForCodeDataException fde){
+			//TODO add an error to this.
+			return null;
+		}
     	
     	if(userKey == null){
     		Random rand = new Random();
+    		userKey = new UserKey();
+    		
     		String key = EncodingUtil.encode("" + rand.nextInt((999999999 - 0) + 1));
     		
-	    	userKey = new UserKey();
-	    	
-    		userKey.setKey(key);
-	    	
-	    	userKeyDAO.insert(userKey);
-	    	
-	    	userKey.setKey(EncodingUtil.encode(userKey.getId() + ":" + user.getIdUser() + ":" + EncodingUtil.decode(userKey.getKey())));
-	    	
-	    	userKeyDAO.update(userKey);
-	    	
-	    	user.setUserKey(userKey);
-	    	userDAO.update(user);
+    		try{
+	    		
+	    		userKey.setKey(key);
+		    	
+		    	userKeyDAO.insert(userKey);
+		    	
+		    	userKey.setKey(EncodingUtil.encode(userKey.getId() + ":" + user.getIdUser() + ":" + EncodingUtil.decode(userKey.getKey())));
+		    	
+		    	userKeyDAO.update(userKey);
+		    	
+		    	user.setUserKey(userKey);
+		    	userDAO.update(user);
+    		}catch(ForCodeDataException fde){
+    			//TODO add an error to this.
+    			return null;
+    		}
     	}
     	
     	return userKey;
@@ -42,11 +62,16 @@ public class Authorizator {
 
 	public void deleteKey(User user) {
 		UserKeyDAO userKeyDAO = new UserKeyDAO();
-		userKeyDAO.delete(user.getUserKey());
-		
-		UserDAO userDAO = new UserDAO();
-		user.setUserKey(null);
-		userDAO.update(user);
+		try{
+			userKeyDAO.delete(user.getUserKey());
+			
+			UserDAO userDAO = new UserDAO();
+			user.setUserKey(null);
+			userDAO.update(user);
+		}catch(ForCodeDataException fde){
+			//TODO add an error to this.
+			logger.warn(fde.getMessage());
+		}
 	}
 
 	protected boolean isAuthorized(String[] authorizedUsers, String key) {
@@ -58,24 +83,28 @@ public class Authorizator {
 		
 		if (!StringUtil.isNum(keyId) || !StringUtil.isNum(userId))
 			return false;
-		
-		boolean roleAccepted = false;
-		User user = new UserDAO().getById(Integer.parseInt(userId));
-
-		for (String s : authorizedUsers) {
-			if (s.equalsIgnoreCase(user.getTypeUser().getTypeName())) {
-				roleAccepted = true;
-				break;
+		try{
+			boolean roleAccepted = false;
+			User user = new UserDAO().getById(Integer.parseInt(userId));
+	
+			for (String s : authorizedUsers) {
+				if (s.equalsIgnoreCase(user.getTypeUser().getTypeName())) {
+					roleAccepted = true;
+					break;
+				}
 			}
-		}
-		
-		UserKey userKey = new UserKeyDAO().getById(Integer.parseInt(keyId));
-		
-		if (userKey != null && userKey.getKey().equals(EncodingUtil.encode(key))
-				&& roleAccepted)
-			return true;
-		else
+			
+			UserKey userKey = new UserKeyDAO().getById(Integer.parseInt(keyId));
+			
+			if (userKey != null && userKey.getKey().equals(EncodingUtil.encode(key))
+					&& roleAccepted)
+				return true;
+			else
+				return false;
+		}catch(ForCodeDataException fde){
+			logger.warn(fde.getMessage());
 			return false;
+		}
 		
 	}
 }

@@ -22,6 +22,7 @@ import br.edu.commons.forcode.entities.ForCodeError;
 import br.edu.commons.forcode.entities.Institution;
 import br.edu.commons.forcode.entities.Manager;
 import br.edu.commons.forcode.entities.User;
+import br.edu.commons.forcode.exceptions.ForCodeDataException;
 import br.edu.commons.forcode.util.EncodingUtil;
 import br.edu.service.forcode.database.dao.InstitutionDAO;
 import br.edu.service.forcode.database.dao.UserContestDAO;
@@ -52,15 +53,19 @@ public class UserService {
 		ResponseBuilder builder;
 
 		ForCodeError error = ForCodeValidator.validateInsertion(admin);
-
-		if (error == null) {
-			userDAO.insert(admin);
-			builder = Response.status(Response.Status.OK).entity(admin);
-			logger.info("New Admin registered.");
-		} else {
-			logger.info(error.getMessage());
-			builder = Response.status(Response.Status.CONFLICT).entity(error);
-			logger.info("Conflict while trying to register new admin.");
+		try{
+			if (error == null) {
+				userDAO.insert(admin);
+				builder = Response.status(Response.Status.OK).entity(admin);
+				logger.info("New Admin registered.");
+			} else {
+				logger.info(error.getMessage());
+				builder = Response.status(Response.Status.CONFLICT).entity(error);
+				logger.info("Conflict while trying to register new admin.");
+			}
+		}catch(ForCodeDataException fde){
+			logger.warn(fde.getMessage());
+			builder = Response.status(Response.Status.BAD_REQUEST).entity(fde);
 		}
 
 		return builder.build();
@@ -76,15 +81,19 @@ public class UserService {
 		ResponseBuilder builder;
 
 		ForCodeError error = ForCodeValidator.validateUpdate(admin);
-
-		if (error == null) {
-			userDAO.update(admin);
-			builder = Response.status(Response.Status.OK).entity(admin);
-			logger.info("Admin updated.");
-		} else {
-			System.out.println(error.getMessage());
-			builder = Response.status(Response.Status.CONFLICT).entity(error);
-			logger.info("Conflict while trying to update Admin.");
+		try{
+			if (error == null) {
+				userDAO.update(admin);
+				builder = Response.status(Response.Status.OK).entity(admin);
+				logger.info("Admin updated.");
+			} else {
+				System.out.println(error.getMessage());
+				builder = Response.status(Response.Status.CONFLICT).entity(error);
+				logger.info("Conflict while trying to update Admin.");
+			}
+		}catch(ForCodeDataException fde){
+			logger.warn(fde.getMessage());
+			builder = Response.status(Response.Status.BAD_REQUEST).entity(fde);
 		}
 
 		return builder.build();
@@ -100,15 +109,19 @@ public class UserService {
 		ResponseBuilder builder;
 
 		ForCodeError error = ForCodeValidator.validateInsertion(manager);
-
-		if (error == null) {
-			userDAO.insert(manager);
-			builder = Response.status(Response.Status.OK).entity(manager);
-			logger.info("New Manager registered.");
-		} else {
-			logger.info(error.getMessage());
-			builder = Response.status(Response.Status.CONFLICT).entity(error);
-			logger.info("Conflict while trying to register new Manager.");
+		try{
+			if (error == null) {
+				userDAO.insert(manager);
+				builder = Response.status(Response.Status.OK).entity(manager);
+				logger.info("New Manager registered.");
+			} else {
+				logger.info(error.getMessage());
+				builder = Response.status(Response.Status.CONFLICT).entity(error);
+				logger.info("Conflict while trying to register new Manager.");
+			}
+		}catch(ForCodeDataException fde){
+			logger.warn(fde.getMessage());
+			builder = Response.status(Response.Status.BAD_REQUEST).entity(fde);
 		}
 
 		return builder.build();
@@ -125,14 +138,19 @@ public class UserService {
 
 		ForCodeError error = ForCodeValidator.validate(institution);
 		
-		if (error == null) {
-			userDAO.insert(institution);
-			builder = Response.status(Response.Status.OK).entity(institution);
-			logger.info("New institution registered.");
-		} else {
-			System.out.println(error.getMessage());
-			builder = Response.status(Response.Status.CONFLICT).entity(error);
-			logger.info("Conflict while trying to register new institute.");
+		try{
+			if (error == null) {
+				userDAO.insert(institution);
+				builder = Response.status(Response.Status.OK).entity(institution);
+				logger.info("New institution registered.");
+			} else {
+				System.out.println(error.getMessage());
+				builder = Response.status(Response.Status.CONFLICT).entity(error);
+				logger.info("Conflict while trying to register new institute.");
+			}
+		}catch(ForCodeDataException fde){
+			logger.warn(fde.getMessage());
+			builder = Response.status(Response.Status.BAD_REQUEST).entity(fde);
 		}
 
 		return builder.build();
@@ -167,8 +185,13 @@ public class UserService {
 	
 	private Institution findInstitution(String institutionName) {	
 		InstitutionDAO institutionDAO = new InstitutionDAO();
-		Institution institution = institutionDAO.getByName(institutionName);
-		return institution;
+		try{
+			Institution institution = institutionDAO.getByName(institutionName);
+			return institution;
+		}catch(ForCodeDataException fde){
+			logger.warn(fde.getMessage());
+			return null;
+		}
 	}
 	
 	@RolesAllowed(value = {"Manager"})
@@ -182,16 +205,20 @@ public class UserService {
 
 		ForCodeError error = ForCodeValidator.validateUpdate(manager);
 
-		if (error == null) {
-			userDAO.update(manager);
-			builder = Response.status(Response.Status.OK).entity(manager);
-			logger.info("Manager updated.");
-		} else {
-			System.out.println(error.getMessage());
-			builder = Response.status(Response.Status.CONFLICT).entity(error);
-			logger.info("Conflict while trying to update Manager.");
+		try{
+			if (error == null) {
+				userDAO.update(manager);
+				builder = Response.status(Response.Status.OK).entity(manager);
+				logger.info("Manager updated.");
+			} else {
+				System.out.println(error.getMessage());
+				builder = Response.status(Response.Status.CONFLICT).entity(error);
+				logger.info("Conflict while trying to update Manager.");
+			}
+		}catch(ForCodeDataException fde){
+			logger.warn(fde.getMessage());
+			builder = Response.status(Response.Status.BAD_REQUEST).entity(fde);
 		}
-
 		return builder.build();
 	}
 
@@ -205,15 +232,19 @@ public class UserService {
 		ResponseBuilder builder;
 
 		ForCodeError error = ForCodeValidator.validateInsertion(contestant);
-
-		if (error == null) {
-			userDAO.insert(contestant);
-			builder = Response.status(Response.Status.OK).entity(contestant);
-			logger.info("New Contestant registered.");
-		} else {
-			System.out.println(error.getMessage());
-			builder = Response.status(Response.Status.CONFLICT).entity(error);
-			logger.info("Conflict while trying to register new contestant.");
+		try{
+			if (error == null) {
+				userDAO.insert(contestant);
+				builder = Response.status(Response.Status.OK).entity(contestant);
+				logger.info("New Contestant registered.");
+			} else {
+				System.out.println(error.getMessage());
+				builder = Response.status(Response.Status.CONFLICT).entity(error);
+				logger.info("Conflict while trying to register new contestant.");
+			}
+		}catch(ForCodeDataException fde){
+			logger.warn(fde.getMessage());
+			builder = Response.status(Response.Status.BAD_REQUEST).entity(fde);
 		}
 
 		return builder.build();
@@ -229,15 +260,19 @@ public class UserService {
 		ResponseBuilder builder;
 
 		ForCodeError error = ForCodeValidator.validateUpdate(contestant);
-
-		if (error == null ) {
-			userDAO.update(contestant);
-			builder = Response.status(Response.Status.OK).entity(contestant);
-			logger.info("Contestant updated.");
-		} else {
-			System.out.println(error.getMessage());
-			builder = Response.status(Response.Status.CONFLICT).entity(error);
-			logger.info("Conflict while trying to update contestant.");
+		try{
+			if (error == null ) {
+				userDAO.update(contestant);
+				builder = Response.status(Response.Status.OK).entity(contestant);
+				logger.info("Contestant updated.");
+			} else {
+				System.out.println(error.getMessage());
+				builder = Response.status(Response.Status.CONFLICT).entity(error);
+				logger.info("Conflict while trying to update contestant.");
+			}
+		}catch(ForCodeDataException fde){
+			logger.warn(fde.getMessage());
+			builder = Response.status(Response.Status.BAD_REQUEST).entity(fde);
 		}
 
 		return builder.build();
@@ -317,8 +352,13 @@ public class UserService {
 	
 	private User findUser(String username) {	
 		UserDAO userDao = new UserDAO();
-		User user  = userDao.getByUsername(username);
-		return user;
+		try{
+			User user  = userDao.getByUsername(username);
+			return user;
+		}catch(ForCodeDataException fde){
+			logger.warn(fde.getMessage());
+			return null;
+		}
 	}
 	
 	@RolesAllowed(value = {"Admin","Manager","Contestant"})
@@ -351,20 +391,27 @@ public class UserService {
 	@Produces("application/json")
 	public Response invalidateContestant(UserContest contestant) {
 		UserContestDAO userContestDao = new UserContestDAO();
-		contestant = userContestDao.getById(contestant.getIdUserContest());
 		ResponseBuilder builder;
-		logger.info("Invalidating contestant");
-		if(contestant == null){
-			logger.info("Contestant not found");
-			ForCodeError error = ErrorFactory.getErrorFromIndex(ErrorFactory.USER_CONTEST_NOT_FOUND);
-			builder = Response.status(Response.Status.NOT_FOUND).entity(error);
+		
+		try{
+			contestant = userContestDao.getById(contestant.getIdUserContest());
+			logger.info("Invalidating contestant");
 			
-		}else{
-			contestant.setValid(false);
-			userContestDao.update(contestant);
-			
-			logger.info("Contestant invalidated " + contestant.getUser().getUsername());
-			builder = Response.status(Response.Status.ACCEPTED).entity(contestant);
+			if(contestant == null){
+				logger.info("Contestant not found");
+				ForCodeError error = ErrorFactory.getErrorFromIndex(ErrorFactory.USER_CONTEST_NOT_FOUND);
+				builder = Response.status(Response.Status.NOT_FOUND).entity(error);
+				
+			}else{
+				contestant.setValid(false);
+				userContestDao.update(contestant);
+				
+				logger.info("Contestant invalidated " + contestant.getUser().getUsername());
+				builder = Response.status(Response.Status.ACCEPTED).entity(contestant);
+			}
+		}catch(ForCodeDataException fde){
+			logger.warn(fde.getMessage());
+			builder = Response.status(Response.Status.BAD_REQUEST).entity(fde);
 		}
 		return builder.build();
 	}
@@ -376,6 +423,10 @@ public class UserService {
 	@Produces("application/json")
 	public UserContest getUserContest(@PathParam("idContest") Integer idContest, @PathParam("idUser") Integer idUser){
 		UserContestDAO userContestDao = new UserContestDAO();
-		return userContestDao.getUserContestByContest(idContest, idUser);
+		try{
+			return userContestDao.getUserContestByContest(idContest, idUser);
+		}catch(ForCodeDataException fde){
+			return null;
+		}
 	}
 }

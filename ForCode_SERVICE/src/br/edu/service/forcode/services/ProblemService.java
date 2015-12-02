@@ -24,6 +24,7 @@ import br.edu.commons.forcode.contests.Problem;
 import br.edu.commons.forcode.contests.Score;
 import br.edu.commons.forcode.contests.TestCase;
 import br.edu.commons.forcode.entities.ForCodeError;
+import br.edu.commons.forcode.exceptions.ForCodeDataException;
 import br.edu.service.forcode.database.dao.ProblemDAO;
 import br.edu.service.forcode.database.dao.ScoreDAO;
 import br.edu.service.forcode.database.dao.TestCaseDAO;
@@ -45,15 +46,20 @@ public class ProblemService {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response makeProblem(Problem problem) {
+		ResponseBuilder builder;
 		
 		logger.info("Inserting problem " + problem.getTitle());
-		
-		ProblemDAO problemDao = new ProblemDAO();
-		problemDao.insert(problem);
-		
-		ResponseBuilder builder = Response.status(Response.Status.CREATED).entity(problem);
-		
-		logger.info("Problem " + problem.getTitle() + " inserted");
+		try{
+			ProblemDAO problemDao = new ProblemDAO();
+			problemDao.insert(problem);
+			
+			builder = Response.status(Response.Status.CREATED).entity(problem);
+			
+			logger.info("Problem " + problem.getTitle() + " inserted");
+			
+		}catch(ForCodeDataException fde){
+			builder = Response.status(Response.Status.BAD_REQUEST).entity(fde);
+		}
 		
 		return builder.build();
 	}
@@ -64,15 +70,21 @@ public class ProblemService {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response updateProblem(Problem problem) {
+		ResponseBuilder builder;
 		
-		logger.info("Updating problem " + problem.getTitle());
-		ProblemDAO problemDao = new ProblemDAO();
-		
-		problemDao.update(problem);
-		
-		ResponseBuilder builder = Response.status(Response.Status.ACCEPTED);
-		logger.info("Problem " + problem.getTitle() + " updated");
-		
+		try{
+			logger.info("Updating problem " + problem.getTitle());
+			ProblemDAO problemDao = new ProblemDAO();
+			
+			problemDao.update(problem);
+			
+			builder = Response.status(Response.Status.ACCEPTED);
+			logger.info("Problem " + problem.getTitle() + " updated");
+			
+		}catch(ForCodeDataException fde){
+			builder = Response.status(Response.Status.BAD_REQUEST).entity(fde);
+		}
+
 		return builder.build();
 	}
 	
@@ -83,27 +95,34 @@ public class ProblemService {
 	@Produces("application/json")
 	public Response deleteProblem(Problem problem) {
 		ScoreDAO scoreDao = new ScoreDAO();
-		List<Score> listScore = scoreDao.getByProblem(problem);
-		
-		ProblemDAO problemDao = new ProblemDAO();
 		ResponseBuilder builder;
 		
-		ForCodeError error = this.deleteTestCaseDataImpl(problem);
-
-		logger.info("Deleting problem " + problem.getTitle());
+		try{
+			
+			List<Score> listScore = scoreDao.getByProblem(problem);
+			
+			ProblemDAO problemDao = new ProblemDAO();
 		
-		if(!listScore.isEmpty()){
+			ForCodeError error = this.deleteTestCaseDataImpl(problem);
+	
+			logger.info("Deleting problem " + problem.getTitle());
 			
-			error = ErrorFactory.getErrorFromIndex(ErrorFactory.PROBLEM_NOT_DELETABLE);
-			logger.info("Problem " + problem.getTitle() + " could not be deleted, " + error.getMessage());
+			if(!listScore.isEmpty()){
+				
+				error = ErrorFactory.getErrorFromIndex(ErrorFactory.PROBLEM_NOT_DELETABLE);
+				logger.info("Problem " + problem.getTitle() + " could not be deleted, " + error.getMessage());
+				
+				builder = Response.status(Response.Status.NOT_ACCEPTABLE).entity(error);
+				
+			}else{
+				
+				problemDao.delete(problem);
+				logger.info("Problem " + problem.getTitle() + " deleted");
+				builder = Response.status(Response.Status.ACCEPTED);
+			}
 			
-			builder = Response.status(Response.Status.NOT_ACCEPTABLE).entity(error);
-			
-		}else{
-			
-			problemDao.delete(problem);
-			logger.info("Problem " + problem.getTitle() + " deleted");
-			builder = Response.status(Response.Status.ACCEPTED);
+		}catch(ForCodeDataException fde){
+			builder = Response.status(Response.Status.BAD_REQUEST).entity(fde);
 		}
 		
 		return builder.build();
@@ -117,7 +136,7 @@ public class ProblemService {
 	public Response deleteTestCaseData(Problem problem){
 		
 		ResponseBuilder builder;
-
+		
 		ForCodeError error = this.deleteTestCaseDataImpl(problem);
 		
 		if(error == null)
@@ -136,27 +155,31 @@ public class ProblemService {
 		List<TestCase> testCases;
 
 		testCases = problem.getTestcases();
-
-		if(!testCases.isEmpty()){
-			try{
-				tokenizer = new StringTokenizer(testCases.get(0).getPath(), "/");
-				String str, aux = "";
-				while(!(str = tokenizer.nextToken()).equals(String.format("%d", problem.getIdProblem()))){
+		try{
+			if(!testCases.isEmpty()){
+				try{
+					tokenizer = new StringTokenizer(testCases.get(0).getPath(), "/");
+					String str, aux = "";
+					while(!(str = tokenizer.nextToken()).equals(String.format("%d", problem.getIdProblem()))){
+						aux += "/"+str;
+					}
 					aux += "/"+str;
+					FileUtils.deleteDirectory(new File(aux));
+					
+					for(TestCase testCase : problem.getTestcases()){
+						testCaseDao.delete(testCase);
+					}
+					
+					logger.info("TestCase data deleted");
+				}catch (IOException ioex) {
+					
+					logger.warn("Error while trying to delete testCase data");
+					error = ErrorFactory.getErrorFromIndex(ErrorFactory.DATA_NOT_DELETABLE);
 				}
-				aux += "/"+str;
-				FileUtils.deleteDirectory(new File(aux));
-				
-				for(TestCase testCase : problem.getTestcases()){
-					testCaseDao.delete(testCase);
-				}
-				
-				logger.info("TestCase data deleted");
-			}catch (IOException ioex) {
-				
-				logger.warn("Error while trying to delete testCase data");
-				error = ErrorFactory.getErrorFromIndex(ErrorFactory.DATA_NOT_DELETABLE);
 			}
+			
+		}catch(ForCodeDataException fde){
+			//TODO adicionar um erro para exceptions do BD.
 		}
 		return error;
 	}
@@ -168,9 +191,13 @@ public class ProblemService {
 	@Produces("application/json")
 	public Problem getById(@PathParam("idProblem")Integer idProblem){
 		ProblemDAO problemDao = new ProblemDAO();
-		
-		Problem problem = problemDao.getById(idProblem);
-		problem.getProblemSetter().setUserKey(null);
+		Problem problem = null;
+		try{
+			problem = problemDao.getById(idProblem);
+			problem.getProblemSetter().setUserKey(null);
+		}catch(ForCodeDataException fde){
+			//TODO adicionar um erro para exceptions do BD.
+		}
 		
 		return problem;
 	}
@@ -182,6 +209,11 @@ public class ProblemService {
 	@Produces("application/json")
 	public Problem getByName(@PathParam("title") String problemTitle){
 		ProblemDAO problemDao = new ProblemDAO();
-		return problemDao.getByTitle(problemTitle);
+		try{
+			return problemDao.getByTitle(problemTitle);
+		}catch(ForCodeDataException fde){
+			//TODO adicionar um erro para exceptions do BD.
+			return null;
+		}
 	}
 }

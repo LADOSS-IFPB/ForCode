@@ -27,6 +27,7 @@ import br.edu.commons.forcode.entities.ForCodeError;
 import br.edu.commons.forcode.entities.Institution;
 import br.edu.commons.forcode.entities.Manager;
 import br.edu.commons.forcode.entities.User;
+import br.edu.commons.forcode.exceptions.ForCodeDataException;
 import br.edu.service.forcode.database.dao.ClarificationDAO;
 import br.edu.service.forcode.database.dao.ContestDAO;
 import br.edu.service.forcode.database.dao.InstitutionDAO;
@@ -54,7 +55,12 @@ public class ListService {
 	@Produces("application/json")
 	public List<Problem> listProblemsByProblemSetter(Manager problemSetter) {
 		ProblemDAO problemDao = new ProblemDAO();
-		return problemDao.getAllByProblemSetter(problemSetter);
+		try{
+			return problemDao.getAllByProblemSetter(problemSetter);
+		}catch(ForCodeDataException fde){
+			logger.warn(fde.getMessage());
+			return null;
+		}
 	}
 
 	@PermitAll
@@ -63,7 +69,12 @@ public class ListService {
 	@Produces("application/json")
 	public List<Problem> listProblems() {
 		ProblemDAO problemDao = new ProblemDAO();
-		return problemDao.getAll();
+		try{
+			return problemDao.getAll();
+		}catch(ForCodeDataException fde){
+			logger.warn(fde.getMessage());
+			return null;
+		}
 	}
 
 	@PermitAll
@@ -73,7 +84,12 @@ public class ListService {
 	@Produces("application/json")
 	public List<Contest> listContests() {
 		ContestDAO contestDao = new ContestDAO();
-		return contestDao.getAll();
+		try{
+			return contestDao.getAll();
+		}catch(ForCodeDataException fde){
+			logger.warn(fde.getMessage());
+			return null;
+		}
 	}
 
 	@PermitAll
@@ -83,7 +99,12 @@ public class ListService {
 	@Produces("application/json")
 	public List<Contest> listContestsByProblemSetter(Manager manager) {
 		ContestDAO contestDao = new ContestDAO();
-		return contestDao.getAllByProblemSetter(manager);
+		try{
+			return contestDao.getAllByProblemSetter(manager);
+		}catch(ForCodeDataException fde){
+			logger.warn(fde.getMessage());
+			return null;
+		}
 	}
 
 	@PermitAll
@@ -91,6 +112,8 @@ public class ListService {
 	@Path("/clarificationbycontest")
 	@Consumes("application/json")
 	@Produces("application/json")
+	/**@see clarificationDao.getClarificationsByContest(contest);
+	 * */
 	public List<Clarification> listClarifications(Contest contest) {
 		ClarificationDAO clarificationDao = new ClarificationDAO();
 
@@ -106,8 +129,12 @@ public class ListService {
 	@Produces("application/json")
 	public List<Submission> listSubmissions() {
 		SubmissionDAO submissionDao = new SubmissionDAO();
-
-		return submissionDao.getAll();
+		try{
+			return submissionDao.getAll();
+		}catch(ForCodeDataException fde){
+			logger.warn(fde.getMessage());
+			return null;
+		}
 	}
 
 	@PermitAll
@@ -120,8 +147,12 @@ public class ListService {
 
 		if (contest == null)
 			return new ArrayList<Submission>();
-
-		return submissionDao.getSubmissionsByContest(contest);
+		try{
+			return submissionDao.getSubmissionsByContest(contest);
+		}catch(ForCodeDataException fde){
+			logger.warn(fde.getMessage());
+			return new ArrayList<Submission>();
+		}
 	}
 
 	@PermitAll
@@ -130,8 +161,12 @@ public class ListService {
 	@Produces("application/json")
 	public List<User> listUsers() {
 		UserDAO userDao = new UserDAO();
-
-		return userDao.getAll();
+		try{
+			return userDao.getAll();
+		}catch(ForCodeDataException fde){
+			logger.warn(fde.getMessage());
+			return null;
+		}
 	}
 	
 	@PermitAll
@@ -141,7 +176,12 @@ public class ListService {
 	@Produces("application/json")
 	public List<User> listAllByType(String type) {
 		UserDAO userDAO = new UserDAO();
-		return userDAO.getAllByTypeUser(type);
+		try{
+			return userDAO.getAllByTypeUser(type);
+		}catch(ForCodeDataException fde){
+			logger.warn(fde.getMessage());
+			return null;
+		}
 	}
 
 	@PermitAll
@@ -154,15 +194,19 @@ public class ListService {
 		ResponseBuilder builder;
 
 		logger.info("Searching for contest " + idContest);
-
-		Contest contest = contestDao.getById(idContest);
-
-		if (contest == null) {
-			ForCodeError error = ErrorFactory
-					.getErrorFromIndex(ErrorFactory.CONTEST_NOT_EXISTENT);
-			builder = Response.status(Response.Status.NOT_FOUND).entity(error);
-		} else {
-			builder = Response.status(Response.Status.OK).entity(contest);
+		try{
+			Contest contest = contestDao.getById(idContest);
+	
+			if (contest == null) {
+				ForCodeError error = ErrorFactory
+						.getErrorFromIndex(ErrorFactory.CONTEST_NOT_EXISTENT);
+				builder = Response.status(Response.Status.NOT_FOUND).entity(error);
+			} else {
+				builder = Response.status(Response.Status.OK).entity(contest);
+			}
+		}catch(ForCodeDataException fde){
+			logger.warn(fde.getMessage());
+			builder = Response.status(Response.Status.BAD_REQUEST).entity(fde);
 		}
 
 		return builder.build();
@@ -177,10 +221,14 @@ public class ListService {
 		ContestDAO contestDao = new ContestDAO();
 
 		logger.info("Searching for contest " + name);
+		try{
+			List<Contest> contests = contestDao.getByName(name);
 
-		List<Contest> contests = contestDao.getByName(name);
-
-		return contests;
+			return contests;
+		}catch(ForCodeDataException fde){
+			logger.warn(fde.getMessage());
+			return null;
+		}
 	}
 
 	@PermitAll
@@ -189,9 +237,14 @@ public class ListService {
 	@Produces("application/json")
 	public List<Institution> listInstitutions() {
 		InstitutionDAO institutionDAO = new InstitutionDAO();
-		List<Institution> list = institutionDAO.getAll();
-
-		return list;
+		try{
+			List<Institution> list = institutionDAO.getAll();
+	
+			return list;
+		}catch(ForCodeDataException fed){
+			logger.warn(fed);
+			return null;
+		}
 	}
 
 	@PermitAll
@@ -201,14 +254,16 @@ public class ListService {
 	public Response listTestCaseSample(@PathParam("idProblem") Integer idProblem) {
 		TestCaseSampleDAO testCaseSampleDao = new TestCaseSampleDAO();
 		ResponseBuilder builder;
-
-		List<TestCaseSample> list = testCaseSampleDao.getByProblem(idProblem);
-
-		if (list.isEmpty())
-			builder = Response.status(Response.Status.NOT_FOUND);
-		else
-			builder = Response.status(Response.Status.OK).entity(list);
-
+		try{
+			List<TestCaseSample> list = testCaseSampleDao.getByProblem(idProblem);
+	
+			if (list.isEmpty())
+				builder = Response.status(Response.Status.NOT_FOUND);
+			else
+				builder = Response.status(Response.Status.OK).entity(list);
+		}catch(ForCodeDataException fde){
+			builder = Response.status(Response.Status.BAD_REQUEST).entity(fde);
+		}
 		return builder.build();
 	}
 
@@ -220,7 +275,12 @@ public class ListService {
 	public List<Clarification> listClarificationByProblem(
 			@PathParam("idProblem") Integer idProblem) {
 		ClarificationDAO clarificationDao = new ClarificationDAO();
-		return clarificationDao.getClarificationsByProblem(idProblem);
+		try{			
+			return clarificationDao.getClarificationsByProblem(idProblem);
+		}catch(ForCodeDataException fed){
+			logger.warn(fed);
+			return null;
+		}
 	}
 
 	@PermitAll
@@ -231,7 +291,12 @@ public class ListService {
 	public Language searchLanguage(
 			@PathParam("languageName") String languageName) {
 		LanguageDAO languageDao = new LanguageDAO();
-		return languageDao.getByName(languageName);
+		try{
+			return languageDao.getByName(languageName);
+		}catch(ForCodeDataException fed){
+			logger.warn(fed);
+			return null;
+		}
 	}
 
 	@PermitAll
@@ -241,6 +306,11 @@ public class ListService {
 	@Produces("application/json")
 	public List<Language> listLanguages() {
 		LanguageDAO languageDao = new LanguageDAO();
-		return languageDao.getAll();
+		try{
+			return languageDao.getAll();
+		}catch(ForCodeDataException fed){
+			logger.warn(fed);
+			return null;
+		}
 	}
 }

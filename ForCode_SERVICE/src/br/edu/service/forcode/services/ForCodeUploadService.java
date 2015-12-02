@@ -31,6 +31,7 @@ import br.edu.commons.forcode.contests.UserContest;
 import br.edu.commons.forcode.entities.ForCodeError;
 import br.edu.commons.forcode.enumerations.FileType;
 import br.edu.commons.forcode.enumerations.Verdict;
+import br.edu.commons.forcode.exceptions.ForCodeDataException;
 import br.edu.service.forcode.database.dao.ProblemDAO;
 import br.edu.service.forcode.database.dao.SubmissionDAO;
 import br.edu.service.forcode.judgeServices.JudgeService;
@@ -112,17 +113,17 @@ public class ForCodeUploadService {
 			builder = Response.status(Response.Status.NOT_ACCEPTABLE).entity(error);
 
 		} else {
-			SubmissionDAO submissionDao = new SubmissionDAO();
-			Submission submission = submissionDao.getById(idSubmission);
-
-			JudgeService judgeService = ProviderServiceFactory
-					.createServiceClient(JudgeService.class);
-
-			File submissionFile = new File(SUBMISSION_PATH
-					+ submission.getUser().getIdUserContest() + submission.getIdSubmission()
-					+ form.getFileName() + "." + form.getFileExtension());
-
 			try {
+				SubmissionDAO submissionDao = new SubmissionDAO();
+				Submission submission = submissionDao.getById(idSubmission);
+	
+				JudgeService judgeService = ProviderServiceFactory
+						.createServiceClient(JudgeService.class);
+	
+				File submissionFile = new File(SUBMISSION_PATH
+						+ submission.getUser().getIdUserContest() + submission.getIdSubmission()
+						+ form.getFileName() + "." + form.getFileExtension());
+
 				FileUtils.writeByteArrayToFile(submissionFile, form.getFile());
 
 				submission.setFileSubmission(submissionFile);
@@ -165,6 +166,9 @@ public class ForCodeUploadService {
 			} catch (IOException ioException) {
 
 				builder = Response.status(Response.Status.INTERNAL_SERVER_ERROR);
+			} catch (ForCodeDataException fde) {
+				logger.warn(fde.getMessage());
+				builder = Response.status(Response.Status.BAD_REQUEST).entity(fde);
 			}
 		}
 
@@ -189,90 +193,96 @@ public class ForCodeUploadService {
 	public Response uploadTestCaseFile(@PathParam("idProblem") Integer idProblem,
 			@MultipartForm ForCodeUploadFile form) {
 		
-		ProblemDAO problemDao = new ProblemDAO();
-		Problem problem = problemDao.getById(idProblem);
-		
-		File tempZip = new File(TEMP_FOLDER + "/temptestcase.zip");
-
 		ResponseBuilder builder;
-
-		if (form.getFile().length >= MAX_TESTCASE_FILE_SIZE_IN_BYTES) {
-
-			ForCodeError error = ErrorFactory.getErrorFromIndex(ErrorFactory.FILE_TOO_LARGE);
-			builder = Response.status(Response.Status.NOT_ACCEPTABLE).entity(error);
-
-			return builder.build();
-		} else {
-
-			logger.info("Creating new temporary zip file containing testCases in "
-					+ tempZip.getAbsolutePath());
-
-			try {
-				tempZip.createNewFile();
-
-				FileOutputStream fos = new FileOutputStream(tempZip);
-				
-				fos.write(form.getFile());
-				fos.flush();
-				fos.close();
-
-			} catch (IOException ioex) {
-				logger.fatal("Error while trying to create new file");
-				logger.fatal(ioex.getMessage());
-
-				builder = Response.status(Response.Status.INTERNAL_SERVER_ERROR);
-
+		
+		try{
+			ProblemDAO problemDao = new ProblemDAO();
+			Problem problem = problemDao.getById(idProblem);
+			
+			File tempZip = new File(TEMP_FOLDER + "/temptestcase.zip");
+	
+	
+			if (form.getFile().length >= MAX_TESTCASE_FILE_SIZE_IN_BYTES) {
+	
+				ForCodeError error = ErrorFactory.getErrorFromIndex(ErrorFactory.FILE_TOO_LARGE);
+				builder = Response.status(Response.Status.NOT_ACCEPTABLE).entity(error);
+	
 				return builder.build();
-			}
-
-			logger.info("Zip file created.");
-
-			try {
-				final File finalTestCasePath;
-				ZipFile zipFile = new ZipFile(tempZip);
-
-				finalTestCasePath = new File(TESTCASE_PATH + problem.getIdProblem() + "/testcases/");
-
-				logger.info("Extracting Testcases into " + finalTestCasePath.getAbsolutePath());
-
-				zipFile.extractAll(finalTestCasePath.getAbsolutePath());
-				tempZip.delete();
-
-				File aux;
-				TestCase testCase;
-				
-				for (String file : finalTestCasePath.list()) {
-					aux = new File(finalTestCasePath + "/" + file);
+			} else {
+	
+				logger.info("Creating new temporary zip file containing testCases in "
+						+ tempZip.getAbsolutePath());
+	
+				try {
+					tempZip.createNewFile();
+	
+					FileOutputStream fos = new FileOutputStream(tempZip);
 					
-					if (aux.isDirectory()) {
-						
-						testCase = new TestCase();
-						
-						testCase.setIdTestCase(0);
-						testCase.setPath(aux.getAbsolutePath());
-						testCase.setInput(new File(aux.list()[0]));
-						testCase.setOutput(new File(aux.list()[1]));
-
-						problem.getTestcases().add(testCase);
-					}
+					fos.write(form.getFile());
+					fos.flush();
+					fos.close();
+	
+				} catch (IOException ioex) {
+					logger.fatal("Error while trying to create new file");
+					logger.fatal(ioex.getMessage());
+	
+					builder = Response.status(Response.Status.INTERNAL_SERVER_ERROR);
+	
+					return builder.build();
 				}
-
-				logger.info("Updating problem data");
-				
-				problemDao.update(problem);
-
-				builder = Response.status(Response.Status.ACCEPTED);
-
-			} catch (ZipException zipEx) {
-
-				logger.fatal("Error while trying to unzip the testcases file");
-				logger.fatal(zipEx.getMessage());
-
-				ForCodeError error = ErrorFactory.getErrorFromIndex(ErrorFactory.UNZIP_ERROR);
-				builder = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(error);
-
+	
+				logger.info("Zip file created.");
+	
+				try {
+					final File finalTestCasePath;
+					ZipFile zipFile = new ZipFile(tempZip);
+	
+					finalTestCasePath = new File(TESTCASE_PATH + problem.getIdProblem() + "/testcases/");
+	
+					logger.info("Extracting Testcases into " + finalTestCasePath.getAbsolutePath());
+	
+					zipFile.extractAll(finalTestCasePath.getAbsolutePath());
+					tempZip.delete();
+	
+					File aux;
+					TestCase testCase;
+					
+					for (String file : finalTestCasePath.list()) {
+						aux = new File(finalTestCasePath + "/" + file);
+						
+						if (aux.isDirectory()) {
+							
+							testCase = new TestCase();
+							
+							testCase.setIdTestCase(0);
+							testCase.setPath(aux.getAbsolutePath());
+							testCase.setInput(new File(aux.list()[0]));
+							testCase.setOutput(new File(aux.list()[1]));
+	
+							problem.getTestcases().add(testCase);
+						}
+					}
+	
+					logger.info("Updating problem data");
+					
+					problemDao.update(problem);
+	
+					builder = Response.status(Response.Status.ACCEPTED);
+	
+				} catch (ZipException zipEx) {
+	
+					logger.fatal("Error while trying to unzip the testcases file");
+					logger.fatal(zipEx.getMessage());
+	
+					ForCodeError error = ErrorFactory.getErrorFromIndex(ErrorFactory.UNZIP_ERROR);
+					builder = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(error);
+	
+				}
+	
 			}
-
+		}catch(ForCodeDataException fde){
+			logger.warn(fde.getMessage());
+			builder = Response.status(Response.Status.BAD_REQUEST).entity(fde);
 		}
 		return builder.build();
 	}

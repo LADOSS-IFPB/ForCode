@@ -24,6 +24,7 @@ import br.edu.commons.forcode.contests.UserContest;
 import br.edu.commons.forcode.entities.Contestant;
 import br.edu.commons.forcode.entities.ForCodeError;
 import br.edu.commons.forcode.enumerations.Verdict;
+import br.edu.commons.forcode.exceptions.ForCodeDataException;
 import br.edu.service.forcode.database.dao.ClarificationDAO;
 import br.edu.service.forcode.database.dao.ContestDAO;
 import br.edu.service.forcode.database.dao.SubmissionDAO;
@@ -50,9 +51,14 @@ public class ContestService {
 		ResponseBuilder builder;
 
 		ContestDAO contestDao = new ContestDAO();
-		contestDao.insert(contest);
+		try{
+			contestDao.insert(contest);
+			builder = Response.status(Response.Status.CREATED).entity(contest);
+		}catch(ForCodeDataException fde){
+			logger.warn(fde.getMessage());
+			builder = Response.status(Response.Status.BAD_REQUEST).entity(fde);
+		}
 
-		builder = Response.status(Response.Status.CREATED).entity(contest);
 
 		return builder.build();
 	}
@@ -65,10 +71,15 @@ public class ContestService {
 		ResponseBuilder builder;
 
 		ContestDAO contestDao = new ContestDAO();
-		contestDao.update(contest);
-
-		builder = Response.status(Response.Status.ACCEPTED).entity(contest);
-
+		
+		try{
+			contestDao.update(contest);
+			builder = Response.status(Response.Status.ACCEPTED).entity(contest);
+		
+		}catch(ForCodeDataException fde){
+			logger.warn(fde.getMessage());
+			builder = Response.status(Response.Status.BAD_REQUEST).entity(fde);
+		}
 		return builder.build();
 	}
 
@@ -78,7 +89,7 @@ public class ContestService {
 	@Produces("application/json")
 	public Response deleteContest(Contest contest) {
 		//TODO ?
-		return null;
+		return Response.status(Response.Status.NOT_IMPLEMENTED).build();
 	}
 
 	@RolesAllowed(value = { "Contestant" })
@@ -95,46 +106,52 @@ public class ContestService {
 		// TODO: test this.
 		ContestDAO contestDao = new ContestDAO();
 		UserContestDAO userContestDao = new UserContestDAO();
-
-		Contest contest = contestDao.getById(idContest);
-		List<UserContest> list = userContestDao.getByUser(user);
-		UserContest userContest = new UserContest();
-
 		ResponseBuilder builder;
+		
+		
+		try{
+			Contest contest = contestDao.getById(idContest);
+			List<UserContest> list = userContestDao.getByUser(user);
+			UserContest userContest = new UserContest();
 
-		if (contest == null) {
-			ForCodeError error = ErrorFactory
-					.getErrorFromIndex(ErrorFactory.CONTEST_NOT_EXISTENT);
-
-			builder = Response.status(Response.Status.NOT_FOUND).entity(error);
-
-			logger.info("Contestant " + user.getUsername()
-					+ " tried to enter in a contest that doesn't exist");
-			
-		} else if (!list.isEmpty()) {
-			ForCodeError error = ErrorFactory
-					.getErrorFromIndex(ErrorFactory.USER_CONTEST_ALREADY_REGISTERED);
-
-			builder = Response.status(Response.Status.CONFLICT).entity(error);
-
-			logger.info("Contestant " + user.getUsername()
-					+ " already entered in this contest ");
-			
-		}else{
-			userContest.setUser(user);
-			userContest.setValid(true);
-
-			for (Problem problem : contest.getProblems()) {
-				userContest.getScore().add(new Score(problem, 0));
+			if (contest == null) {
+				ForCodeError error = ErrorFactory
+						.getErrorFromIndex(ErrorFactory.CONTEST_NOT_EXISTENT);
+	
+				builder = Response.status(Response.Status.NOT_FOUND).entity(error);
+	
+				logger.info("Contestant " + user.getUsername()
+						+ " tried to enter in a contest that doesn't exist");
+				
+			} else if (!list.isEmpty()) {
+				ForCodeError error = ErrorFactory
+						.getErrorFromIndex(ErrorFactory.USER_CONTEST_ALREADY_REGISTERED);
+	
+				builder = Response.status(Response.Status.CONFLICT).entity(error);
+	
+				logger.info("Contestant " + user.getUsername()
+						+ " already entered in this contest ");
+				
+			}else{
+				userContest.setUser(user);
+				userContest.setValid(true);
+	
+				for (Problem problem : contest.getProblems()) {
+					userContest.getScore().add(new Score(problem, 0));
+				}
+	
+				userContestDao.insert(userContest);
+	
+				builder = Response.status(Response.Status.CREATED).entity(
+						userContest);
+				
+				logger.info("Contestant " + user.getUsername()
+						+ " entered in Contest " + contest.getName());
 			}
-
-			userContestDao.insert(userContest);
-
-			builder = Response.status(Response.Status.CREATED).entity(
-					userContest);
 			
-			logger.info("Contestant " + user.getUsername()
-					+ " entered in Contest " + contest.getName());
+		}catch(ForCodeDataException fde){
+			logger.warn(fde.getMessage());
+			builder = Response.status(Response.Status.BAD_REQUEST).entity(fde);
 		}
 
 		return builder.build();
@@ -147,10 +164,16 @@ public class ContestService {
 	@Produces("application/json")
 	public Response leaveContest(UserContest userContest) {
 		UserContestDAO userContestDao = new UserContestDAO();
-
-		userContestDao.delete(userContest);
+		ResponseBuilder builder;
 		
-		ResponseBuilder builder = Response.status(Response.Status.ACCEPTED).entity(userContest);
+		try{
+			userContestDao.delete(userContest);
+			builder = Response.status(Response.Status.ACCEPTED).entity(userContest);
+			
+		}catch(ForCodeDataException fde){
+			logger.warn(fde.getMessage());
+			builder = Response.status(Response.Status.BAD_REQUEST).entity(fde);
+		}
 		
 		return builder.build();
 	}
@@ -162,11 +185,17 @@ public class ContestService {
 	@Produces("application/json")
 	public Response createSubmission(Submission submission) {
 		SubmissionDAO submissionDao = new SubmissionDAO();
-		
-		submission.setVerdict(Verdict.IN_QUEUE.getTypeValue());
-		submissionDao.insert(submission);
-		
-		ResponseBuilder builder = Response.status(Response.Status.CREATED).entity(submission);
+		ResponseBuilder builder;
+		try{
+			submission.setVerdict(Verdict.IN_QUEUE.getTypeValue());
+			submissionDao.insert(submission);
+			
+			builder = Response.status(Response.Status.CREATED).entity(submission);
+			
+		}catch(ForCodeDataException fde){
+			logger.warn(fde.getMessage());
+			builder = Response.status(Response.Status.BAD_REQUEST).entity(fde);
+		}
 		
 		return builder.build();
 	}
@@ -178,10 +207,16 @@ public class ContestService {
 	@Produces("application/json")
 	public Response makeClarification(Clarification clarification) {
 		ClarificationDAO clarificationDao = new ClarificationDAO();
-
-		clarificationDao.insert(clarification);
+		ResponseBuilder builder;
 		
-		ResponseBuilder builder = Response.status(Response.Status.CREATED).entity(clarification);
+		try{
+			clarificationDao.insert(clarification);
+			builder = Response.status(Response.Status.CREATED).entity(clarification);
+			
+		}catch(ForCodeDataException fde){
+			logger.warn(fde.getMessage());
+			builder = Response.status(Response.Status.BAD_REQUEST).entity(fde);
+		}
 		
 		return builder.build();
 	}
@@ -193,11 +228,16 @@ public class ContestService {
 	@Produces("application/json")
 	public Response replyClarification(Clarification clarification) {
 		ClarificationDAO clarificationDao = new ClarificationDAO();
-
-		clarificationDao.update(clarification);
+		ResponseBuilder builder;
 		
-		ResponseBuilder builder = Response.status(Response.Status.ACCEPTED).entity(clarification);
-		
+		try{
+			clarificationDao.update(clarification);
+			builder = Response.status(Response.Status.ACCEPTED).entity(clarification);
+			
+		}catch(ForCodeDataException fde){
+			logger.warn(fde.getMessage());
+			builder = Response.status(Response.Status.BAD_REQUEST).entity(fde);
+		}
 		return builder.build();
 	}
 
