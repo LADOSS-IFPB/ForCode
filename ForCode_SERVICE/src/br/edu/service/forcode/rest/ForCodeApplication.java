@@ -5,6 +5,8 @@ import java.util.Set;
 
 import javax.ws.rs.core.Application;
 
+import org.jboss.resteasy.plugins.interceptors.CorsFilter;
+
 import br.edu.service.forcode.services.ContestService;
 import br.edu.service.forcode.services.ForCodeUploadService;
 import br.edu.service.forcode.services.ListService;
@@ -16,6 +18,13 @@ public class ForCodeApplication extends Application {
 	private Set<Class<?>> empty = new HashSet<Class<?>>();
 
 	public ForCodeApplication() {
+		
+		CorsFilter filter = new CorsFilter();
+		filter.getAllowedOrigins().add("*");
+		filter.setAllowedMethods("POST, GET, DELETE, PUT, OPTIONS");
+		filter.setAllowedHeaders("Content-Type");
+		
+		this.singletons.add(filter);
 		this.singletons.add(new ProblemService());
 		this.singletons.add(new ContestService());
 		this.singletons.add(new ListService());

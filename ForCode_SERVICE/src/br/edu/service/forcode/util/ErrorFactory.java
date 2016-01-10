@@ -44,6 +44,7 @@ public class ErrorFactory {
 		hashMap.put(DUPLICATE_USERNAME, "Duplicate entry for username");
 		hashMap.put(DUPLICATE_EMAIL, "Duplicate entry for email");
 		hashMap.put(USER_NOT_FOUND, "User not registered");
+		hashMap.put(INSTITUTION_NOT_FOUND, "Institution not registered");
 		hashMap.put(INCORRECT_PASSWORD, "Incorrect password");
 		hashMap.put(USER_CONTEST_NOT_FOUND, "User Contest not found");
 		hashMap.put(CONTEST_NOT_EXISTENT, "There is no such contest");
@@ -51,6 +52,7 @@ public class ErrorFactory {
 		hashMap.put(DUPLICATE_INSTITUTION_NAME, "Institution already registered");
 		hashMap.put(PROBLEM_NOT_DELETABLE, "Problem was used for one or more contests");
 		hashMap.put(FILE_TOO_LARGE, "The file is too large for the requested operation");
+		hashMap.put(UNZIP_ERROR, "THe unzip operation failed");
 		hashMap.put(DATA_NOT_DELETABLE, "Error while trying to delete data, contact the server admins.");
 		
 		return hashMap;
