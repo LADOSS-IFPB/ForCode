@@ -1,0 +1,24 @@
+body {
+	background-image: url(img/homepage-logo.png);
+	background-repeat: no-repeat;
+ 	background-position: 3% bottom;
+ 	background-size: 55%;
+}
+
+@media (orientation: portrait) {
+
+	body {
+		background-position: center bottom;
+		background-size: 75%;
+	}
+
+}
+
+@media (max-width: 992px) and (orientation: landscape){
+
+	body {
+		background-position: center bottom;
+		background-size: 100%;
+	}
+	
+}

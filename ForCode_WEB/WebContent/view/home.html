@@ -1,0 +1,56 @@
+<link type="text/css" rel="stylesheet" href="style/homepage.css"  media="screen,projection"/>
+
+<main>
+	<div class="row" ng-controller="loginCtrl">	
+		<div class="col s12 m8 offset-m2 l6 offset-l6 center-align horizontal-center">
+			<div class="card-panel white col s12 m12 l8 offset-l3">
+				<span class="black-text">
+					<div class="section">
+						<h3 class="condensed light">Entrar</h3>
+						<form name="loginForm" ng-submit="doLogin(user)">
+							<div class="row center-align">
+								<div class="input-field col s10 offset-s1">
+									<i class="material-icons prefix">account_circle</i>
+									<input id="intput-login" type="text" name="login"
+									ng-model="user.login" ng-class="{'invalid': loginForm.login.$invalid  && 
+									loginForm.login.$dirty &&
+									!loginForm.login.$error.required,
+									'valid': loginForm.login.$valid}"
+									ng-required="true" ng-minlength="6" ng-maxlength="15"/>
+									<label for="intput-login" data-success="Ok" data-error="Inválido">Nome de usuário</label>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s10 offset-s1">
+									<i class="material-icons prefix">vpn_key</i>
+									<input id="input-password" type="password"  name="password"
+									ng-model="user.password" ng-class="{'invalid': loginForm.password.$invalid  && 
+									loginForm.password.$dirty &&
+									!loginForm.password.$error.required,
+									'valid': loginForm.password.$valid}"
+									ng-required="true" ng-minlength="6" ng-maxlength="15"/>
+									<label for="input-password" data-success="Ok" data-error="Inválido">Senha</label>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col s10 offset-s1">
+									<a href="#/forgot">Esqueci meus dados</a>
+								</div>
+							</div>
+							<div class="row col s12">
+								<a class="btn waves-effect waves-light indigo darken-3 col s5" href="#/register">Cadastrar</a>
+								<h6 class="black-text col s2">ou</h6>
+								<button class="btn waves-effect waves-light indigo darken-3 col s5" type="submit" ng-disabled="loginForm.$invalid">
+									Entrar
+									<i class="material-icons right">input</i>
+								</button>								
+							</div>
+						</form>	 
+					</div>
+
+				</span>
+			</div>
+		</div>
+	</div>
+</main>

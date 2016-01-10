@@ -1,0 +1,1 @@
+angular.module("forCode", ['angular-loading-bar', 'ngRoute']);

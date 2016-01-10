@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="/resources/templates/manager/page.xhtml">
+
+	<ui:define name="content">
+		<div class="page content">
+			<div class="container">
+				<div class="row">
+					<div class="col s12">
+						<ul class="tabs">
+							<li class="tab col s2"><a href="#tab1">General</a></li>
+
+							<li class="tab col s2"><a href="#tab2">Problems</a></li>
+						</ul>
+
+					</div>
+
+					<br /> <br />
+
+					<div id="tab1" class="col s12">
+						<div class="section">
+							<h:form class="col s12">
+								<div class="row">
+									<div class="input-field col s12">
+										<h:inputText id="title" type="text" class="validate"
+											value="#{problemBean.problem.title}" required="true" />
+										<h:outputLabel for="title" value="Title" />
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="input-field col s12">
+										<h:inputTextarea id="description" type="text"
+											class="validate materialize-textarea"
+											value="#{problemBean.problem.title}" required="true" />
+										<h:outputLabel for="title" value="Description" />
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="input-field col s6">
+										<h:inputText id="start_date" type="date" class="datepicker"
+											value="#{problemBean.problem.title}" required="true" />
+										<h:outputLabel for="title" value="Start Date" />
+									</div>
+
+									<div class="input-field col s6">
+										<h:inputText id="end_date" type="date" class="datepicker"
+											value="#{problemBean.problem.title}" required="true" />
+										<h:outputLabel for="title" value="End Date" />
+									</div>
+
+									<script>
+										$('.datepicker').pickadate({
+											selectMonths : true, // Creates a dropdown to control month
+											selectYears : 15
+										// Creates a dropdown of 15 years to control year
+										});
+									</script>
+								</div>
+							</h:form>
+						</div>
+					</div>
+
+					<div id="tab2" class="col s12">
+						<div class="section">
+							<div class="row">
+								<h:form>
+									<h:dataTable var="problem" value="#{listBean.problems}"
+										class="highlight bordered">
+
+										<h:column>
+											<f:facet name="header">
+												<h5>
+													<b>#ID</b>
+												</h5>
+											</f:facet>
+											<h6 class="center-align">#{problem.idProblem}</h6>
+										</h:column>
+
+										<h:column>
+											<f:facet name="header">
+												<h5>
+													<b>Problem</b>
+												</h5>
+											</f:facet>
+											<h:form>
+												<h6 class="center-align">
+													<h:outputLink id="linkProblem"
+														value="#{request.contextPath}/webapp/manager/problem.xhtml">
+														<f:param name="id" value="#{problem.idProblem}" />
+														<h:outputText value="#{problem.title}" />
+													</h:outputLink>
+												</h6>
+											</h:form>
+										</h:column>
+
+										<h:column>
+											<f:facet name="header">
+												<h5>
+													<b>Problemsetter</b>
+												</h5>
+											</f:facet>
+											<h6 class="center-align">#{problem.problemSetter.username}</h6>
+										</h:column>
+
+										<h:column>
+											<f:facet name="header">
+												<h5>
+													<b>Selected</b>
+												</h5>
+											</f:facet>
+											<h6 class="center-align">
+												<h:selectBooleanCheckbox value="#{bean.checked[item.id]}" />
+											</h6>
+										</h:column>
+
+									</h:dataTable>
+								</h:form>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</ui:define>
+
+</ui:composition>
+</html>
