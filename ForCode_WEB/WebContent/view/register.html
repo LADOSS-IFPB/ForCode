@@ -13,39 +13,52 @@
 						<div class="row">
 							<div class="input-field col s12 m6">
 								<input id="first_name" type="text" name="firstName" ng-model="user.firstName"
-								 ng-required="true" ng-maxlenght="255"/>
-								<label for="first_name">Nome</label>
+								 ng-required="true" ng-maxlenght="255" 
+								 ng-class="{'invalid': formRegister.firstName.$invalid && formRegister.firstName.$dirty}"/>
+								<label for="first_name" data-error="{{getDataErrorMessage(formRegister.firstName, '1-255 caracteres')}}">Nome</label>
 							</div>
 							<div class="input-field col s12 m6">
 								<input id="last_name" type="text" name="lastName" ng-model="user.lastName"
-								 ng-required="true" ng-maxlenght="255"/>
-								<label for="last_name">Sobrenome</label>
+								 ng-required="true" ng-maxlenght="255"
+								 ng-class="{'invalid': formRegister.lastName.$invalid && formRegister.lastName.$dirty}"/>
+								<label for="last_name" data-error="{{getDataErrorMessage(formRegister.lastName, '1-255 caracteres')}}">
+									Sobrenome
+								</label>
 							</div>
 						</div>
+
 						<div class="row">
 							<div class="input-field col s12 m6">
 								<input id="username" type="text" name="username" ng-model="user.username"
-								n g-required="true" ng-minlenght="6" ng-maxlenght="16"/>
-								<label for="username">Nome de usuário</label>
+								 ng-required="true" ng-minlength="6" ng-maxlength="15"
+								 ng-class="{'invalid': formRegister.username.$invalid && formRegister.username.$dirty}"/>
+								<label for="username" data-error="{{getDataErrorMessage(formRegister.username, '6-15 caracteres')}}">
+									Nome de usuário
+								</label>
 							</div>
 
 							<div class="input-field col s12 m6">
 								<input id="email" type="email" name="email" ng-model="user.email"
-								 ng-required="true"/>
-								<label for="email">Email</label>
+								 ng-required="true" ng-class="{'invalid': formRegister.email.$invalid && formRegister.email.$dirty}"/>
+								<label for="email" data-error="{{getDataErrorMessage(formRegister.email)}}">Email</label>
 							</div>
 						</div>
 
 						<div class="row">
 							<div class="input-field col s12 m6">
 								<input id="password" type="password" name="password" ng-model="user.password"
-								 ng-required="true" ng-minlength="4" ng-minlength="10"/>
-								<label for="password">Senha</label>
+								 ng-required="true" ng-minlength="4" ng-maxlength="10"
+								 ng-class="{'invalid': formRegister.password.$invalid && formRegister.password.$dirty}"/>
+								<label for="password" data-error="{{getDataErrorMessage(formRegister.password, '4-10 caracteres')}}">
+									Digite uma Senha
+								</label>
 							</div>
 							<div class="input-field col s12 m6">
-								<input id="repeat-password" type="password" name="repeat-password" ng-model="repeat_password"
-								 ng-required="true"/>
-								<label for="repeat-password">Repita a senha</label>
+								<input id="repeat-password" type="password" name="repeatpassword" ng-model="repeat_password" ng-required="true"
+								 ng-class="{'invalid': formRegister.repeatpassword.$dirty && !passwordVerify()}"/>
+								<label for="repeat-password" data-error="{{getDataErrorMessage(formRegister.repeatpassword, 'Incorreto')}}">
+									Repita a senha
+								</label>
 							</div>
 						</div>
 						

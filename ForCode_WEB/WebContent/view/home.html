@@ -11,25 +11,21 @@
 							<div class="row center-align">
 								<div class="input-field col s10 offset-s1">
 									<i class="material-icons prefix">account_circle</i>
-									<input id="intput-login" type="text" name="login"
-									ng-model="user.login" ng-class="{'invalid': loginForm.login.$invalid  && 
-									loginForm.login.$dirty &&
-									!loginForm.login.$error.required,
-									'valid': loginForm.login.$valid}"
-									ng-required="true" ng-minlength="6" ng-maxlength="15"/>
-									<label for="intput-login" data-success="Ok" data-error="Inválido">Nome de usuário</label>
+									
+									<input id="intput-login" type="text" name="login" ng-model="user.login" 
+									 ng-class="{'invalid': loginForm.login.$invalid  && loginForm.login.$dirty}" ng-required="true"/>
+									
+									<label for="intput-login">Nome de usuário</label>
 								</div>
 							</div>
 							<div class="row">
 								<div class="input-field col s10 offset-s1">
 									<i class="material-icons prefix">vpn_key</i>
-									<input id="input-password" type="password"  name="password"
-									ng-model="user.password" ng-class="{'invalid': loginForm.password.$invalid  && 
-									loginForm.password.$dirty &&
-									!loginForm.password.$error.required,
-									'valid': loginForm.password.$valid}"
-									ng-required="true" ng-minlength="6" ng-maxlength="15"/>
-									<label for="input-password" data-success="Ok" data-error="Inválido">Senha</label>
+									
+									<input id="input-password" type="password"  name="password" ng-model="user.password"
+									 ng-class="{'invalid': loginForm.password.$invalid  && loginForm.password.$dirty}" ng-required="true"/>
+									
+									<label for="input-password">Senha</label>
 								</div>
 							</div>
 

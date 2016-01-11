@@ -1,5 +1,10 @@
 angular.module("forCode").controller("registerCtrl", function($scope, $location, config, userService, institutions){
 
+	$scope.getDataErrorMessage = function(field, message){
+		if(!field.$error.required)
+			return typeof(message) === "undefined"? "Inválido" : message;
+	};
+
 	$scope.passwordVerify = function(){
 		if($scope.user.password != null && $scope.user.password === $scope.repeat_password)
 			return true;
