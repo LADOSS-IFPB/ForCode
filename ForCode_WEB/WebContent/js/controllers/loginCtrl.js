@@ -6,7 +6,7 @@ angular.module("forCode").controller("loginCtrl", function($scope, userService, 
 
 		userService.doLogin(_user).success(function (data, status) {
 
-			Materialize.toast(data.acessKey.key, 3000, 'rounded');
+			Materialize.toast("Sua chave de acesso é " + data.userKey.key, 3000, 'rounded');
 
 		}).error(function(data, status) {
 				

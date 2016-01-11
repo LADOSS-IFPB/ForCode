@@ -10,7 +10,7 @@ angular.module("forCode").factory("userService", function($http, config){
 
 	var _registerContestant = function(user){
 
-		var password = window.btoa(user.password);
+		user.password = window.btoa(user.password);
 		user.typeUser = "br.edu.commons.forcode.entities.Contestant";
 
 		return $http.post(config.baseUrl() + "/user/createcontestant", user)
