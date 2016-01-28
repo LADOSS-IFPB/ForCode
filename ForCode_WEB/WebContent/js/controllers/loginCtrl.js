@@ -1,12 +1,13 @@
-angular.module("forCode").controller("loginCtrl", function($scope, userService, config){
+angular.module("forCode").controller("loginCtrl", function($scope, userService, config, $cookies){
 
 	$scope.doLogin = function (user) {
 
 		var _user = angular.copy(user);
 
 		userService.doLogin(_user).success(function (data, status) {
-
-			Materialize.toast("Sua chave de acesso é " + data.userKey.key, 3000, 'rounded');
+			
+			$cookies.user = data;
+			window.location="webapp/admin/index.html";
 
 		}).error(function(data, status) {
 				

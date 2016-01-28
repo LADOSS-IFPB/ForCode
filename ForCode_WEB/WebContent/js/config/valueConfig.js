@@ -3,7 +3,7 @@ angular.module("forCode").value("config", {
 	baseUrl: function() {
 		
 		var _externalUrl = "http://179.181.44.56";
-		var _internalUrl = "http://192.168.1.101";
+		var _internalUrl = "http://127.0.0.1";
 		var _port = "8080";
 		var _context = "/ForCode_SERVICE"
 

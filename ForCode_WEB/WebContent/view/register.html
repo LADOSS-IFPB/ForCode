@@ -9,7 +9,7 @@
 						<h3 class="condensed light">Cadastro</h3>
 					</div>
 
-					<form name="formRegister" ng-submit="doRegister(user)" class="section">
+					<form name="formRegister" method="post" ng-submit="doRegister(user)" class="section">
 						<div class="row">
 							<div class="input-field col s12 m6">
 								<input id="first_name" type="text" name="firstName" ng-model="user.firstName"

@@ -1,4 +1,4 @@
-angular.module("forCode").factory("userService", function($http, config){
+angular.module("forCode").factory("userService", function($http, config, $cookies){
 
 	var _doLogin = function(user){
 		
@@ -15,10 +15,20 @@ angular.module("forCode").factory("userService", function($http, config){
 
 		return $http.post(config.baseUrl() + "/user/createcontestant", user)
 	}
+	
+	var _getUserCookie = function(){
+		return $cookie.user;
+	}
+	
+	var _deleteUserCookie = function(){
+		delete $cookie.user;
+	}
 
 	return {
 		doLogin: _doLogin,
-		registerContestant: _registerContestant
+		registerContestant: _registerContestant,
+		deleteUserCookie: _deleteUserCookie,
+		getUserCookie: _getUserCookie		
 	};
 
 });

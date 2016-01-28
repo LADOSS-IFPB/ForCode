@@ -1,13 +1,13 @@
 <link type="text/css" rel="stylesheet" href="style/homepage.css"  media="screen,projection"/>
 
 <main>
-	<div class="row" ng-controller="loginCtrl">	
+	<div class="row" ng-controller="loginCtrl">
 		<div class="col s12 m8 offset-m2 l6 offset-l6 center-align horizontal-center">
 			<div class="card-panel white col s12 m12 l8 offset-l3">
 				<span class="black-text">
 					<div class="section">
 						<h3 class="condensed light">Entrar</h3>
-						<form name="loginForm" ng-submit="doLogin(user)">
+						<form name="loginForm" method="post" ng-submit="doLogin(user)">
 							<div class="row center-align">
 								<div class="input-field col s10 offset-s1">
 									<i class="material-icons prefix">account_circle</i>
