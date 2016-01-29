@@ -6,8 +6,16 @@ angular.module("forCode").controller("loginCtrl", function($scope, userService, 
 
 		userService.doLogin(_user).success(function (data, status) {
 			
-			$cookies.user = data;
-			window.location="webapp/admin/index.html";
+			$cookies.putObject('user', data);
+			
+			if (data.typeUser === 'ADMIN')
+				window.location="webapp/admin/index.html";
+			
+			if (data.typeUser === 'MANAGER')
+				window.location="webapp/manager/index.html";
+
+			if (data.typeUser === 'CONTESTANT')
+				window.location="webapp/contestant/index.html";
 
 		}).error(function(data, status) {
 				

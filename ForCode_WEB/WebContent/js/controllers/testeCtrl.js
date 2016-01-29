@@ -1,5 +1,5 @@
-angular.module("forCodeAdmin").controller("testeCtrl", function($scope, config, userService){
+angular.module("forCodeAdmin").controller("testeCtrl", function($scope, config, userService, $cookies){
 
-	$scope.teste = userService.getUserCookie;
+	$scope.teste = $cookies.getObject('user');
 	
 });
