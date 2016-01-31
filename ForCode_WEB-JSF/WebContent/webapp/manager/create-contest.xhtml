@@ -45,14 +45,14 @@
 
 								<div class="row">
 									<div class="input-field col s6">
-										<h:inputText id="start_date" type="date" class="datepicker"
+										<h:inputText id="start_date"  converter = "calendarConverter" type="date" class="datepicker"
 											value="#{contestBean.contest.startDate}" required="true" />
 										<h:outputLabel for="title" value="Start Date" />
 									</div>
 
 									<div class="input-field col s6">
-										<h:inputText id="end_date" converterId = "calendarConverter" type="date" class="datepicker"
-											value="#{contestBean.contest.startDate}" required="true" />
+										<h:inputText id="end_date" converter = "calendarConverter" type="date" class="datepicker"
+											value="#{contestBean.contest.endDate}" required="true" />
 										<h:outputLabel for="title" value="End Date" />
 									</div>
 
@@ -66,7 +66,7 @@
 								</div>
 								
 								<div class="center">
-									<h:commandLink styleClass="waves-effect waves-light btn light-blue darken-1" actionListener="#{contestBean.next}" value="Create Contest"/>
+									<h:commandLink styleClass="waves-effect waves-light btn light-blue darken-1" actionListener="#{contestBean.next()}" value="Create Contest"/>
 								</div>
 								
 							</h:form>
