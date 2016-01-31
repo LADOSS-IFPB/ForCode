@@ -66,7 +66,7 @@ public class Contest {
 	@JoinTable(name = "tb_contest_problem", 
 		joinColumns = { @JoinColumn(name = "fk_id_contest", nullable = false, updatable = false) }, 
 		inverseJoinColumns = { @JoinColumn(name = "fk_id_problem", nullable = false, updatable = false) })
-	private List<Problem> problems;
+	private List<Problem> problems  = new ArrayList<Problem>();
 
 
 	@ElementCollection
