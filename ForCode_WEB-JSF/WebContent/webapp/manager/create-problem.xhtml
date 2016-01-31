@@ -7,33 +7,47 @@
 	xmlns:f="http://java.sun.com/jsf/core">
 
 <ui:composition template="/resources/templates/manager/page.xhtml">
-	
+
 	<ui:define name="content">
 		<div class="page content">
 			<div class="container">
 				<div class="row">
 					<div class="col s12">
 						<ul class="tabs">
-							<li class="tab col s2 #{problemBean.problem.creationProgress eq null? active : null}">
+							<li
+								class="tab col s2 #{problemBean.problem.creationProgress eq null? active : null}">
 								<a href="#tab1">General</a>
 							</li>
-							<li class="tab col s2 #{problemBean.problem.creationProgress eq null? disabled : null}">
-								<a class="#{problemBean.problem.creationProgress ge 20  or problemBean.problem.creationProgress ne null? active : disabled}" href="#tab2">Description</a>
+							<li
+								class="tab col s2 #{problemBean.problem.creationProgress eq null? disabled : null}">
+								<a
+								class="#{problemBean.problem.creationProgress ge 20  or problemBean.problem.creationProgress ne null? active : disabled}"
+								href="#tab2">Description</a>
 							</li>
-							<li class="tab col s2 #{problemBean.problem.creationProgress lt 40? disabled : null}">
-								<a class="#{problemBean.problem.creationProgress ge 40 or problemBean.problem.creationProgress ne null? active : disabled}" href="#tab3">Samples</a>
+							<li
+								class="tab col s2 #{problemBean.problem.creationProgress lt 40? disabled : null}">
+								<a
+								class="#{problemBean.problem.creationProgress ge 40 or problemBean.problem.creationProgress ne null? active : disabled}"
+								href="#tab3">Samples</a>
 							</li>
-							<li class="tab col s2 #{problemBean.problem.creationProgress lt 60? disabled : null}">
-								<a class="#{problemBean.problem.creationProgress ge 60 or problemBean.problem.creationProgress ne null? active : disabled}" href="#tab4">Test Cases</a>
+							<li
+								class="tab col s2 #{problemBean.problem.creationProgress lt 60? disabled : null}">
+								<a
+								class="#{problemBean.problem.creationProgress ge 60 or problemBean.problem.creationProgress ne null? active : disabled}"
+								href="#tab4">Test Cases</a>
 							</li>
-							<li class="tab col s2 #{problemBean.problem.creationProgress lt 80? disabled : null}">
-								<a class="#{problemBean.problem.creationProgress ge 80 or problemBean.problem.creationProgress ne null? active : null}" href="#tab5">Validation</a>
+							<li
+								class="tab col s2 #{problemBean.problem.creationProgress lt 80? disabled : null}">
+								<a
+								class="#{problemBean.problem.creationProgress ge 80 or problemBean.problem.creationProgress ne null? active : null}"
+								href="#tab5">Validation</a>
 							</li>
 						</ul>
 					</div>
-					
-					<br/><br/>
-					
+
+					<br />
+					<br />
+
 					<div id="tab1" class="col s12">
 						<div class="section">
 							<h:form class="col s12">
@@ -49,119 +63,144 @@
 										<h:outputLabel for="timeLimit" value="Timelimit (ms)" />
 									</div>
 								</div>
-								
+
 								<div class="row">
-									<div class="col s3 tooltipped" data-position="right" data-delay="50" data-tooltip="This problem will be public after being used in a contest">
-										<h:selectBooleanCheckbox id="filled-in-box" checked="checked" style="display:none;" value="problemBean.problem.isPrivate"/>
-										<h:outputLabel for="filled-in-box" value="Private problem"/>
+									<div class="col s3 tooltipped" data-position="right"
+										data-delay="50"
+										data-tooltip="This problem will be public after being used in a contest">
+										<h:selectBooleanCheckbox id="filled-in-box" checked="checked"
+											style="display:none;" value="problemBean.problem.isPrivate" />
+										<h:outputLabel for="filled-in-box" value="Private problem" />
 									</div>
 								</div>
-								
+
 								<div class="center">
-									<h:commandLink styleClass="waves-effect waves-light btn light-blue darken-1" actionListener="#{problemBean.next}" value="Next"/>
+									<h:commandLink
+										styleClass="waves-effect waves-light btn light-blue darken-1"
+										actionListener="#{problemBean.next}" value="Next" />
 								</div>
 							</h:form>
 						</div>
 					</div>
-					
+
 					<div id="tab2" class="col s12">
 						<div class="section">
 							<h:form id="form">
-					            <ul class="collapsible" data-collapsible="accordion">
+								<ul class="collapsible" data-collapsible="accordion">
 									<li>
-								    	<div class="collapsible-header"><i class="material-icons">subject</i>Main description</div>
-								     	<div class="collapsible-body">
-								     		<h:inputTextarea id="description" rows="10" cols="80" value = "#{problemBean.problem.description}"/>
-								            <script>
-								                CKEDITOR.replace( 'form:description' );
-								            </script>
-								     	</div>
-								    </li>
-								    <li>
-								      	<div class="collapsible-header"><i class="material-icons">call_made</i>Input description</div>
-								      	<div class="collapsible-body">
-								      		<h:inputTextarea id="inputDescription" rows="10" cols="80" value = "#{problemBean.problem.input}"/>
-								            <script>
-								                CKEDITOR.replace( 'form:inputDescription' );
-								            </script>
-								      	</div>
-								    </li>
-								    <li>
-								     	<div class="collapsible-header"><i class="material-icons">call_received</i>Output description</div>
-								      	<div class="collapsible-body">
-								      		<h:inputTextarea id="outputDescription" rows="10" cols="80" value = "#{problemBean.problem.output}"/>
-								            <script>
-								                CKEDITOR.replace( 'form:outputDescription' );
-								            </script>
-								      	</div>
-								    </li>
+										<div class="collapsible-header">
+											<i class="material-icons">subject</i>Main description
+										</div>
+										<div class="collapsible-body">
+											<h:inputTextarea id="description" rows="10" cols="80"
+												value="#{problemBean.problem.description}" />
+											<script>
+												CKEDITOR
+														.replace('form:description');
+											</script>
+										</div>
+									</li>
+									<li>
+										<div class="collapsible-header">
+											<i class="material-icons">call_made</i>Input description
+										</div>
+										<div class="collapsible-body">
+											<h:inputTextarea id="inputDescription" rows="10" cols="80"
+												value="#{problemBean.problem.input}" />
+											<script>
+												CKEDITOR
+														.replace('form:inputDescription');
+											</script>
+										</div>
+									</li>
+									<li>
+										<div class="collapsible-header">
+											<i class="material-icons">call_received</i>Output description
+										</div>
+										<div class="collapsible-body">
+											<h:inputTextarea id="outputDescription" rows="10" cols="80"
+												value="#{problemBean.problem.output}" />
+											<script>
+												CKEDITOR
+														.replace('form:outputDescription');
+											</script>
+										</div>
+									</li>
 								</ul>
-					            
-					            <div class="center">
-									<h:commandLink styleClass="waves-effect waves-light btn light-blue darken-1" actionListener="#{problemBean.next}" value="Next"/>
+
+								<div class="center">
+									<h:commandLink
+										styleClass="waves-effect waves-light btn light-blue darken-1"
+										actionListener="#{problemBean.next}" value="Next" />
 								</div>
-					        </h:form>
-				        </div>
+							</h:form>
+						</div>
 					</div>
-					
-					<div id="tab3" class="col s12">
-						Test 3
-					</div>
-					
+
+					<div id="tab3" class="col s12">Test 3</div>
+
 					<div id="tab4" class="col s12">
 						<div class="section">
 							<h:form enctype="multipart/form-data">
 								<div class="file-field input-field">
 									<div class="btn">
-								        <span>File</span>
-								        <h:inputFile id="file" value = "#{problemBean.testCasesFile}"/>
-								    </div>
+										<span>File</span>
+										<h:inputFile id="file" value="#{problemBean.testCasesFile}" />
+									</div>
 									<div class="file-path-wrapper">
-								        <h:inputText styleClass="file-path validate" value="Insert a zip file with testcases"/>
-								    </div>
+										<h:inputText styleClass="file-path validate"
+											value="Insert a zip file with testcases" />
+									</div>
 								</div>
 								<div class="section center">
-								    <h:commandLink styleClass="waves-effect waves-light btn light-blue darken-1" actionListener="#{problemBean.next()}" value="Next"/>
+									<h:commandLink
+										styleClass="waves-effect waves-light btn light-blue darken-1"
+										actionListener="#{problemBean.next()}" value="Next" />
 								</div>
 							</h:form>
 						</div>
 					</div>
-					
+
 					<div id="tab5" class="col s12">
 						<div class="section">
 							<h:form enctype="multipart/form-data">
 								<div class="file-field input-field">
 									<div class="btn">
-								        <span>File</span>
-								        <h:inputFile id="file"/>
-								    </div>
+										<span>File</span>
+										<h:inputFile id="file" />
+									</div>
 									<div class="file-path-wrapper">
-								        <h:inputText styleClass="file-path validate" value="Insert a code to receive Wrong Answer"/>
-								    </div>
+										<h:inputText styleClass="file-path validate"
+											value="Insert a code to receive Wrong Answer" />
+									</div>
 								</div>
-								
+
 								<div class="file-field input-field">
 									<div class="btn">
-								        <span>File</span>
-								        <h:inputFile id="file2"/>
-								    </div>
+										<span>File</span>
+										<h:inputFile id="file2" />
+									</div>
 									<div class="file-path-wrapper">
-								        <h:inputText styleClass="file-path validate" value="Insert a code to receive Time Limit Exceeded"/>
-								    </div>
+										<h:inputText styleClass="file-path validate"
+											value="Insert a code to receive Time Limit Exceeded" />
+									</div>
 								</div>
-								
+
 								<div class="file-field input-field">
 									<div class="btn">
-								        <span>File</span>
-								        <h:inputFile id="file3"/>
-								    </div>
+										<span>File</span>
+										<h:inputFile id="file3" />
+									</div>
 									<div class="file-path-wrapper">
-								        <h:inputText styleClass="file-path validate" value="Insert a code to receive Accepted"/>
-								    </div>
+										<h:inputText styleClass="file-path validate"
+											value="Insert a code to receive Accepted" />
+									</div>
 								</div>
-								
+
 								<div class="center">
-									<h:commandLink styleClass="waves-effect waves-light btn light-blue darken-1" actionListener="#{managerBean.createManager}" value="Finish"/>
+									<h:commandLink
+										styleClass="waves-effect waves-light btn light-blue darken-1"
+										actionListener="#{managerBean.createManager}" value="Finish" />
 								</div>
 							</h:form>
 						</div>
@@ -169,3 +208,6 @@
 				</div>
 			</div>
 		</div>
+	</ui:define>
+</ui:composition>
+</html>
