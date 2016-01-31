@@ -1,5 +1,6 @@
 package br.edu.commons.forcode.contests;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -26,6 +27,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.mapping.Array;
 
 import br.edu.commons.forcode.entities.Manager;
 
@@ -71,9 +73,11 @@ public class Contest {
 	@Fetch(FetchMode.JOIN)
 	@CollectionTable(name = "tb_user_contest", joinColumns = @JoinColumn(name = "fk_id_user_contest", nullable = false))
 	@Cascade({CascadeType.ALL})
-	private List<UserContest> contestants;
+	private List<UserContest> contestants = new ArrayList<UserContest>();
 
 	public Contest() {
+		contestants = new ArrayList<UserContest>();
+		problems = new ArrayList<Problem>();
 	}
 
 	public Contest(Integer idContest, String description, Calendar startDate,
