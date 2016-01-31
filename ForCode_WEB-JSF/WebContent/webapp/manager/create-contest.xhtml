@@ -29,7 +29,7 @@
 								<div class="row">
 									<div class="input-field col s12">
 										<h:inputText id="title" type="text" class="validate"
-											value="#{problemBean.problem.title}" required="true" />
+											value="#{contestBean.contest.name}" required="true" />
 										<h:outputLabel for="title" value="Title" />
 									</div>
 								</div>
@@ -38,7 +38,7 @@
 									<div class="input-field col s12">
 										<h:inputTextarea id="description" type="text"
 											class="validate materialize-textarea"
-											value="#{problemBean.problem.title}" required="true" />
+											value="#{contestBean.contest.description}" required="true" />
 										<h:outputLabel for="title" value="Description" />
 									</div>
 								</div>
@@ -46,13 +46,13 @@
 								<div class="row">
 									<div class="input-field col s6">
 										<h:inputText id="start_date" type="date" class="datepicker"
-											value="#{problemBean.problem.title}" required="true" />
+											value="#{contestBean.contest.startDate}" required="true" />
 										<h:outputLabel for="title" value="Start Date" />
 									</div>
 
 									<div class="input-field col s6">
-										<h:inputText id="end_date" type="date" class="datepicker"
-											value="#{problemBean.problem.title}" required="true" />
+										<h:inputText id="end_date" converterId = "calendarConverter" type="date" class="datepicker"
+											value="#{contestBean.contest.startDate}" required="true" />
 										<h:outputLabel for="title" value="End Date" />
 									</div>
 
@@ -64,6 +64,11 @@
 										});
 									</script>
 								</div>
+								
+								<div class="center">
+									<h:commandLink styleClass="waves-effect waves-light btn light-blue darken-1" actionListener="#{contestBean.next}" value="Create Contest"/>
+								</div>
+								
 							</h:form>
 						</div>
 					</div>
@@ -122,6 +127,11 @@
 										</h:column>
 
 									</h:dataTable>
+									
+									<div class="center">
+										<h:commandLink styleClass="waves-effect waves-light btn light-blue darken-1" actionListener="#{contestBean.next()}" value="Finish"/>
+									</div>
+								
 								</h:form>
 							</div>
 						</div>

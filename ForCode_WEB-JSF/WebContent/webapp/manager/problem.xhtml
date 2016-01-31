@@ -32,21 +32,21 @@
 							<div class="col s12">
 								<!-- Description -->
 								<p class = "justify-align">
-									#{problemBean.problem.description}
+								    <h:outputText value="#{problemBean.problem.description}" escape="false" />
 								</p>
 								<!-- Input -->
 								<h5 class="center-align">
 									<b>Input</b>
 								</h5>
 								<p class ="justify-align">
-									#{problemBean.problem.input}
+									<h:outputText value="#{problemBean.problem.input}" escape="false" />
 								</p>
 								<!-- Output -->
 								<h5 class="center-align">
 									<b>Output</b>
 								</h5>
 								<p class="justify-align">
-									#{problemBean.problem.output}
+									<h:outputText value="#{problemBean.problem.output}" escape="false" />
 								</p>
 							</div>
 							<div class = "row">
@@ -58,7 +58,9 @@
 													<b>Input Sample</b>
 												</h5>
 											</f:facet>
-						    				#{testCase.input}
+											
+											<h:outputText value="#{testCase.input}" escape="false" />
+											
 						    			</h:column>
 						    			<h:column>
 						    				<f:facet name="header">
@@ -66,7 +68,7 @@
 													<b>Output Sample</b>
 												</h5>
 						    			</f:facet>
-						    				#{testCase.output}
+						    				<h:outputText value="#{testCase.output}" escape="false" />
 						    			</h:column>
 									</h:dataTable>
 								</div>

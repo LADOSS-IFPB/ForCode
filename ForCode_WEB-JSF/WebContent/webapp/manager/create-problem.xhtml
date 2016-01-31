@@ -71,7 +71,7 @@
 									<li>
 								    	<div class="collapsible-header"><i class="material-icons">subject</i>Main description</div>
 								     	<div class="collapsible-body">
-								     		<h:inputTextarea id="description" rows="10" cols="80"/>
+								     		<h:inputTextarea id="description" rows="10" cols="80" value = "#{problemBean.problem.description}"/>
 								            <script>
 								                CKEDITOR.replace( 'form:description' );
 								            </script>
@@ -80,7 +80,7 @@
 								    <li>
 								      	<div class="collapsible-header"><i class="material-icons">call_made</i>Input description</div>
 								      	<div class="collapsible-body">
-								      		<h:inputTextarea id="inputDescription" rows="10" cols="80"/>
+								      		<h:inputTextarea id="inputDescription" rows="10" cols="80" value = "#{problemBean.problem.input}"/>
 								            <script>
 								                CKEDITOR.replace( 'form:inputDescription' );
 								            </script>
@@ -89,7 +89,7 @@
 								    <li>
 								     	<div class="collapsible-header"><i class="material-icons">call_received</i>Output description</div>
 								      	<div class="collapsible-body">
-								      		<h:inputTextarea id="outputDescription" rows="10" cols="80"/>
+								      		<h:inputTextarea id="outputDescription" rows="10" cols="80" value = "#{problemBean.problem.output}"/>
 								            <script>
 								                CKEDITOR.replace( 'form:outputDescription' );
 								            </script>
@@ -169,7 +169,3 @@
 				</div>
 			</div>
 		</div>
-	</ui:define>
-
-</ui:composition>
-</html>
