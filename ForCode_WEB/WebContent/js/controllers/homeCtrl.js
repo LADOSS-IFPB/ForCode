@@ -1,4 +1,4 @@
-angular.module("forCodeAdmin").controller("homeCtrl", function($scope, config, userService, $cookies){
+angular.module("forCodeApp").controller("homeCtrl", function($scope, config, $cookies){
 
 	$scope.user = $cookies.getObject('user');
 	
