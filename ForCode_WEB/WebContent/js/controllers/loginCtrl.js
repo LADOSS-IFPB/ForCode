@@ -8,14 +8,8 @@ angular.module("forCode").controller("loginCtrl", function($scope, userService, 
 			
 			$cookies.putObject('user', data);
 			
-			if (data.typeUser === 'ADMIN')
-				window.location="webapp/admin/index.html";
 			
-			if (data.typeUser === 'MANAGER')
-				window.location="webapp/manager/index.html";
-
-			if (data.typeUser === 'CONTESTANT')
-				window.location="webapp/contestant/index.html";
+			window.location="webapp/home.html";
 
 		}).error(function(data, status) {
 				
