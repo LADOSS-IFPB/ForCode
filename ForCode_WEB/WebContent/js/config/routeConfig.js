@@ -1,4 +1,4 @@
-angular.module("forCode").config(function($routeProvider){
+angular.module("forCode").config(function($routeProvider, $cookies){
 
 	$routeProvider.when("/home", {
 		templateUrl: "view/home.html"

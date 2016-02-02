@@ -29,111 +29,29 @@
 </head>
 <body>
 
-	<script type="text/javascript">
-		$(document).ready(function() {
-			$('.button-collapse').sideNav();
-		});
-	</script>
-
-	<nav>
-		<div class="nav-wrapper grey darken-4">
-			<a href="#" class="brand-logo"><img src="../style/img/forcode.png" width="190px"></a>
-			<a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-			<ul id="navbar" class="right hide-on-med-and-down">
-				<li><a class="tooltipped" data-position="bottom" data-delay="70" data-tooltip="Perfil" href="#"><i class="material-icons">person_pin</i></a></li>			
-				<li><a class="tooltipped" data-position="bottom" data-delay="70" data-tooltip="Configurações" href="#"><i class="material-icons">settings</i></a></li>
-				<li><a class="tooltipped" data-position="bottom" data-delay="70" data-tooltip="Sair"><i class="material-icons">power_settings_new</i></a></li>
-			</ul>
-
-			<ul class="side-nav" id="mobile-demo">
-				<li><a href="sass.html">Sass</a></li>
-				<li><a href="badges.html">Components</a></li>
-				<li><a href="collapsible.html">Javascript</a></li>
-				<li><a href="mobile.html">Mobile</a></li>
-			</ul>
-		</div>
-	</nav>
-	
 	<div ng-controller="homeCtrl">
-		
 		<div ng-if="isAdmin()">
-			<div ng-include="'view/templates/sidenavAdmin.html'"></div>
+			<div ng-include="'view/templates/admin/navbarAdmin.html'"></div>
+			<div ng-include="'view/templates/admin/sidenavAdmin.html'"></div>
 		</div>
 		
 		<div ng-if="isContestant()">
-			<div ng-include="'view/templates/sidenavContestant.html'"></div>
+			<div ng-include="'view/templates/contestant/navbarContestant.html'"></div>
+			<div ng-include="'view/templates/contestant/sidenavContestant.html'"></div>
 		</div>
 		
 		<div ng-if="isManager()">
-			<div ng-include="'view/templates/sidenavManager.html'"></div>
+			<div ng-include="'view/templates/manager/navbarvManager.html'"></div>
+			<div ng-include="'view/templates/manager/sidenavManager.html'"></div>
 		</div>
 	</div>
 
 	<main>
-
-	<div class="container center-align" ng-controller="homeCtrl">
-		<h3 class="condensed light">Bem vindo, {{user.firstName}}</h3>
-
-		<div class="section statistics">
-			<div class="row">
-				<div class="col s10 offset-s1">
-					<h5 class="condensed light left-align">Seu desempenho:</h5>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="row">
-					<div class="col s10 offset-s1">
-						<div class="col s12">
-							<div class="card-panel blue-grey lighten-1">
-								<span class="center-align white-text"><h3 class="bold">80</h3>
-									<h5 class="thin">Problemas</h5></span>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col s10 offset-s1">
-						<div class="col s12 m6">
-							<div class="card-panel blue-grey lighten-1">
-								<span class="center-align white-text"><h3 class="bold">200</h3>
-									<h5 class="thin">Competições</h5></span>
-							</div>
-						</div>
-						<div class="col s12 m6">
-							<div class="card-panel blue-grey lighten-1">
-								<span class="center-align white-text"><h3 class="bold">1000</h3>
-									<h5 class="thin">Submissões</h5></span>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col s10 offset-s1">
-						<div class="col s12">
-							<a class="col s6 offset-s6 waves-effect waves-light btn" href="#">Entre agora em uma competiçã</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		
+		<div ng-include="'view/templates/contestant/home.html'"></div>
 	</main>
 
 	<footer class="page-footer grey darken-1">
-		<div class="container">
-			<div class="row">
-				<div class="col l6 s12">
-					<p class="grey-text text-lighten-4">You can use rows and
-						columns here to organize your footer content.</p>
-				</div>
-				<div class="col l4 offset-l2 s12">
-					<ul>
-						<li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
-					</ul>
-				</div>
-			</div>
-		</div>
+		<div ng-include="'../view/templates/footer.html'"></div>
 	</footer>
 
 </body>
