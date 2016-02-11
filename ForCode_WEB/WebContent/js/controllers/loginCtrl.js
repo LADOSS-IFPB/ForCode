@@ -1,4 +1,4 @@
-angular.module("forCode").controller("loginCtrl", function($scope, userService, config, $cookies){
+angular.module("forCode").controller("loginCtrl", function($scope, userService, config, $cookies, typeUserUtilService){
 
 	$scope.doLogin = function (user) {
 
@@ -8,8 +8,17 @@ angular.module("forCode").controller("loginCtrl", function($scope, userService, 
 			
 			$cookies.putObject('user', data);
 			
-			
-			window.location="webapp/home.html";
+			if (typeUserUtilService.isManager()) {
+				window.location="webapp/manager/";
+			}
+
+			if (typeUserUtilService.isContestant()) {
+				window.location="webapp/contestant/";
+			}
+
+			if (typeUserUtilService.isAdmin()) {
+				window.location="webapp/admin/";
+			}
 
 		}).error(function(data, status) {
 				

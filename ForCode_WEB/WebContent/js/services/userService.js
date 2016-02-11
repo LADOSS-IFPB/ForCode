@@ -1,4 +1,4 @@
-angular.module("forCode").factory("userService", function($http, config){
+angular.module("forCodeConfig").factory("userService", function($http, config){
 
 	var _doLogin = function(user){
 		

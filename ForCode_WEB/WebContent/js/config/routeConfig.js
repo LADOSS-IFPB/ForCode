@@ -22,3 +22,14 @@ angular.module("forCode").config(function($routeProvider){
 		templateUrl: "view/home.html"
 	});
 });
+
+angular.module("forCodeContestant").config(function($routeProvider){
+
+	$routeProvider.when("/home", {
+		templateUrl: "../view/templates/contestant/home.html"
+	});
+
+	$routeProvider.otherwise("/home", {
+		templateUrl: "../view/templates/contestant/home.html"
+	});
+});

@@ -1,4 +1,4 @@
-angular.module("forCode").value("config", {
+angular.module("forCodeConfig").value("config", {
 	
 	baseUrl: function() {
 		
