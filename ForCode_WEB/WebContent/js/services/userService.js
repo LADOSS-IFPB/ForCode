@@ -8,6 +8,10 @@ angular.module("forCodeConfig").factory("userService", function($http, config){
 		return $http.post(config.baseUrl() + "/user/login?user=" + login, password)
 	}
 
+	var _doLogout = function(user){
+		return $http.post(config.baseUrl() + "/user/logout", user)
+	}
+
 	var _registerContestant = function(user){
 
 		user.password = window.btoa(user.password);
@@ -18,6 +22,7 @@ angular.module("forCodeConfig").factory("userService", function($http, config){
 
 	return {
 		doLogin: _doLogin,
+		doLogout: _doLogout,
 		registerContestant: _registerContestant		
 	};
 

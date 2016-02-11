@@ -1,3 +1,5 @@
+<script type="text/javascript" src="../../js/materialize.js"></script>
+
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('.button-collapse').sideNav();
@@ -5,7 +7,7 @@
 	});
 </script>
 
-<nav>
+<nav ng-controller="loginCtrl">
 	<div class="nav-wrapper grey darken-4">
 		
 		<a href="#" class="brand-logo"><img src="../../style/img/forcode.png" width="190px"></a>
@@ -23,7 +25,7 @@
 				</a>
 			</li>
 			<li>
-				<a class="tooltipped" data-position="bottom" data-delay="70" data-tooltip="Sair">
+				<a class="tooltipped" data-position="bottom" data-delay="70" data-tooltip="Sair" ng-click="doLogout()">
 					<i class="material-icons">power_settings_new</i>
 				</a>
 			</li>
@@ -92,7 +94,7 @@
 
 			<li class="no-padding">
 				<ul class="collapsible collapsible-accordion">
-					<li><a class="collapsible-header" href="#!">
+					<li><a class="collapsible-header" ng-click="doLogout()">
 						<strong>Sair</strong>
 						<i class="material-icons">power_settings_new</i>
 					</a></li>
