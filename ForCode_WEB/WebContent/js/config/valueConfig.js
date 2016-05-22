@@ -4,7 +4,7 @@ angular.module("forCodeConfig").value("config", {
 		
 		var _externalUrl = "http://187.59.123.244";
 		var _internalUrl = "http://127.0.0.1";
-		var _port = "8080";
+		var _port = "8081";
 		var _context = "/ForCode_SERVICE"
 
 		var url = location.href;

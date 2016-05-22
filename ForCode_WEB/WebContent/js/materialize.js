@@ -317,7 +317,7 @@ if ($) {
 
     options = $.extend(defaults, options);
 
-
+    //This method is modified for ForCode Team "!object.hasClass('no-active')"
     return this.each(function() {
 
       var $this = $(this);
@@ -338,7 +338,7 @@ if ($) {
       // Accordion Open
       function accordionOpen(object) {
         $panel_headers = $this.find('> li > .collapsible-header');
-        if (object.hasClass('active')) {
+        if (object.hasClass('active') && !object.hasClass('no-active')) {
             object.parent().addClass('active');
         }
         else {
@@ -366,7 +366,7 @@ if ($) {
 
       // Expandable Open
       function expandableOpen(object) {
-        if (object.hasClass('active')) {
+        if (object.hasClass('active') && !object.hasClass('no-active')) {
             object.parent().addClass('active');
         }
         else {

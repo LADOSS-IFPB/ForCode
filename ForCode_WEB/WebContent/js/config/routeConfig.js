@@ -28,7 +28,23 @@ angular.module("forCodeContestant").config(function($routeProvider){
 	$routeProvider.when("/home", {
 		templateUrl: "../view/templates/contestant/home.html"
 	});
-
+	
+	$routeProvider.when("/contact", {
+		templateUrl: "../view/templates/contestant/contact.html"
+	});
+	
+	$routeProvider.when("/help", {
+		templateUrl: "../view/templates/contestant/help.html"
+	});
+	
+	$routeProvider.when("/profile", {
+		templateUrl: "../view/templates/contestant/profile.html"
+	});
+	
+	$routeProvider.when("/config", {
+		templateUrl: "../view/templates/contestant/config.html"
+	});
+	
 	$routeProvider.otherwise("/home", {
 		templateUrl: "../view/templates/contestant/home.html"
 	});
